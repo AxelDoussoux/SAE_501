@@ -9,31 +9,30 @@ namespace TomAg
         [Header("Movement")]
 
         [SerializeField]
-        private float walkForce = 100;
+        private float walkSpeed = 5f;  // Vitesse de marche ajustée
         [SerializeField]
-        private float strafeForce = 80;
+        private float strafeSpeed = 5f;  // Vitesse de déplacement latéral
 
         [Header("Rotation")]
 
         [SerializeField]
-        private float rotationSensivity = 10;
+        private float rotationSensitivity = 10f;
 
         [Header("Jump")]
 
         [SerializeField]
-        private float jumpForce = 10;
+        private float jumpHeight = 2f;  // Hauteur du saut
 
-        private Rigidbody _rb;
         private PlayerController _controller;
 
         private Vector3 _localMoveAxis;
         private float _localOffsetAngleY;
         private float _rotationAngleY;
+        private bool _isGrounded;
+        private Vector3 _velocity;
 
         private void Awake()
         {
-            if (!TryGetComponent(out _rb))
-                Debug.LogError("Missing Rigidbody", this);
             if (!TryGetComponent(out _controller))
                 Debug.LogError("Missing PlayerController", this);
 
@@ -45,7 +44,7 @@ namespace TomAg
             _controller.onCrouchStop += OnCrouchStop;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             UpdateRotation();
             UpdateMove();
@@ -53,17 +52,20 @@ namespace TomAg
 
         private void OnMove(Vector2 axis)
         {
-            _localMoveAxis = new Vector3(axis.x * strafeForce, 0, axis.y * walkForce);
+            _localMoveAxis = new Vector3(axis.x * strafeSpeed, 0, axis.y * walkSpeed);
         }
 
-        private void OnAim (Vector2 axis)
+        private void OnAim(Vector2 axis)
         {
-            _localOffsetAngleY = axis.x * rotationSensivity;
+            _localOffsetAngleY = axis.x * rotationSensitivity;
         }
 
         private void OnJumpStart()
         {
-            _rb.AddRelativeForce(0, jumpForce, 0, ForceMode.Impulse);
+            if (_isGrounded)
+            {
+                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);  // Applique une impulsion verticale pour le saut
+            }
         }
 
         private void OnJumpStop() { }
@@ -74,18 +76,35 @@ namespace TomAg
 
         private void UpdateMove()
         {
-            if (_localMoveAxis == Vector3.zero)
-                return;
+            if (_localMoveAxis != Vector3.zero)
+            {
+                // Convertir les coordonnées locales en coordonnées mondiales
+                Vector3 moveDirection = transform.TransformDirection(_localMoveAxis);
 
-            _rb.AddRelativeForce(_localMoveAxis * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                // Déplacer le joueur en modifiant directement son transform
+                transform.position += moveDirection * Time.deltaTime;
+            }
+
+            // Appliquer la gravité
+            _velocity.y += Physics.gravity.y * Time.deltaTime;
+            transform.position += _velocity * Time.deltaTime;
+
+            // Gérer la détection au sol
+            if (transform.position.y <= 0.5f)  // Exemple de détection si le joueur touche le sol (à ajuster selon votre scène)
+            {
+                _isGrounded = true;
+                _velocity.y = 0;
+            }
+            else
+            {
+                _isGrounded = false;
+            }
         }
 
         private void UpdateRotation()
         {
-            _rotationAngleY += _localOffsetAngleY * Time.fixedDeltaTime;
-            var newRotation = Quaternion.Euler(0, _rotationAngleY, 0);
-
-            _rb.MoveRotation(newRotation);
+            _rotationAngleY += _localOffsetAngleY * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(0, _rotationAngleY, 0);  // Applique directement la rotation au transform
         }
     }
 }

@@ -559,67 +559,6 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""PlayerJoin"",
-            ""id"": ""f221d4c8-2efc-4ef5-a4c8-a9cc5b7a5690"",
-            ""actions"": [
-                {
-                    ""name"": ""Join"",
-                    ""type"": ""Button"",
-                    ""id"": ""19e98e4b-44b2-4961-9e2a-51e4cff99167"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""f55534f1-6950-4407-a802-a4cc4468b6a8"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard / Mouse"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""64fc9602-36f1-47f7-aea8-716f1b8b10a6"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard / Mouse"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7f01776c-8c75-45b2-9fad-cbd701c6b9ee"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d5f3c61b-4070-4543-b599-057873a7dc74"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": [
@@ -670,9 +609,6 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_App_Naviguate = m_App.FindAction("Naviguate", throwIfNotFound: true);
         m_App_Submit = m_App.FindAction("Submit", throwIfNotFound: true);
         m_App_Point = m_App.FindAction("Point", throwIfNotFound: true);
-        // PlayerJoin
-        m_PlayerJoin = asset.FindActionMap("PlayerJoin", throwIfNotFound: true);
-        m_PlayerJoin_Join = m_PlayerJoin.FindAction("Join", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -878,52 +814,6 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         }
     }
     public AppActions @App => new AppActions(this);
-
-    // PlayerJoin
-    private readonly InputActionMap m_PlayerJoin;
-    private List<IPlayerJoinActions> m_PlayerJoinActionsCallbackInterfaces = new List<IPlayerJoinActions>();
-    private readonly InputAction m_PlayerJoin_Join;
-    public struct PlayerJoinActions
-    {
-        private @GameInputs m_Wrapper;
-        public PlayerJoinActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Join => m_Wrapper.m_PlayerJoin_Join;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerJoin; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerJoinActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerJoinActions instance)
-        {
-            if (instance == null || m_Wrapper.m_PlayerJoinActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerJoinActionsCallbackInterfaces.Add(instance);
-            @Join.started += instance.OnJoin;
-            @Join.performed += instance.OnJoin;
-            @Join.canceled += instance.OnJoin;
-        }
-
-        private void UnregisterCallbacks(IPlayerJoinActions instance)
-        {
-            @Join.started -= instance.OnJoin;
-            @Join.performed -= instance.OnJoin;
-            @Join.canceled -= instance.OnJoin;
-        }
-
-        public void RemoveCallbacks(IPlayerJoinActions instance)
-        {
-            if (m_Wrapper.m_PlayerJoinActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IPlayerJoinActions instance)
-        {
-            foreach (var item in m_Wrapper.m_PlayerJoinActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerJoinActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public PlayerJoinActions @PlayerJoin => new PlayerJoinActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -956,9 +846,5 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         void OnNaviguate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
-    }
-    public interface IPlayerJoinActions
-    {
-        void OnJoin(InputAction.CallbackContext context);
     }
 }

@@ -537,67 +537,6 @@
                     "isPartOfComposite": false
                 }
             ]
-        },
-        {
-            "name": "PlayerJoin",
-            "id": "f221d4c8-2efc-4ef5-a4c8-a9cc5b7a5690",
-            "actions": [
-                {
-                    "name": "Join",
-                    "type": "Button",
-                    "id": "19e98e4b-44b2-4961-9e2a-51e4cff99167",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "f55534f1-6950-4407-a802-a4cc4468b6a8",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard / Mouse",
-                    "action": "Join",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "64fc9602-36f1-47f7-aea8-716f1b8b10a6",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard / Mouse",
-                    "action": "Join",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7f01776c-8c75-45b2-9fad-cbd701c6b9ee",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Join",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d5f3c61b-4070-4543-b599-057873a7dc74",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Join",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
         }
     ],
     "controlSchemes": [

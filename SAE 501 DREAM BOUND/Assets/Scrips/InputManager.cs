@@ -34,8 +34,8 @@ namespace TomAg
 
             _playerInput.onControlsChanged += OnControlsChanged;
 
-            _gameInputs.PlayerJoin.Enable();
-            _gameInputs.PlayerJoin.Join.performed += OnPlayerJoinPerformed;
+            // _gameInputs.PlayerJoin.Enable();
+            // _gameInputs.PlayerJoin.Join.performed += OnPlayerJoinPerformed;
 
 
             // Inputs
