@@ -19,6 +19,7 @@ namespace TomAg
         public event Action onJumpStop;
         public event Action onCrouchStart;
         public event Action onCrouchStop;
+        public event Action onInteract;
 
         private int _playerId;
         private PlayerInput _playerInput;
@@ -56,6 +57,12 @@ namespace TomAg
                 onCrouchStart?.Invoke();
             else if (ctx.canceled)
                 onCrouchStop?.Invoke();
+        }
+
+        public void OnInteract(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started)
+            onInteract?.Invoke();
         }
     }
 }
