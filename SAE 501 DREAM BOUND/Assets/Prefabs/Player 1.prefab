@@ -60,10 +60,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.0293722
-  m_Height: 6.0347614
+  m_Radius: 0.97608066
+  m_Height: 6.1226134
   m_Direction: 1
-  m_Center: {x: 0.019188166, y: 2.5032454, z: 0.34269857}
+  m_Center: {x: 0.019188166, y: 3.0712879, z: 0.028611422}
 --- !u!114 &5873295826793020458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +174,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 61211ff8-10cb-4f25-a833-bad4c4b08ec8
     m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 91a933d2-0eb7-42ef-af89-a2006faba147
+    m_ActionName: Player/Aim[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player
@@ -189,7 +193,7 @@ Animator:
   m_GameObject: {fileID: 4491340905819882418}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 20c10a6639456af4cbd2abc3039e29c3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5960b91cedf01e645b9661b5e397047a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -315,7 +319,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4724801960082205971}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11750043, y: 0, z: 0, w: 0.99307287}
+  m_LocalRotation: {x: 0.117500424, y: 0, z: 0, w: 0.99307287}
   m_LocalPosition: {x: 0, y: 10.18, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -475,12 +479,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ac8f760dde11d5e43bea256cd9791d48,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ac8f760dde11d5e43bea256cd9791d48,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ac8f760dde11d5e43bea256cd9791d48,
         type: 3}
@@ -522,6 +526,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Perso_sae_1
       objectReference: {fileID: 0}
+    - target: {fileID: 3039038998525630279, guid: ac8f760dde11d5e43bea256cd9791d48,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ac8f760dde11d5e43bea256cd9791d48,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 5960b91cedf01e645b9661b5e397047a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
