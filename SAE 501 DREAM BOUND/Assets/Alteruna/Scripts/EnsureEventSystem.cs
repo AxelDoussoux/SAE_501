@@ -33,7 +33,7 @@ namespace Alteruna
 			if (Object.FindObjectOfType<EventSystem>() == null)
 			{
 				// Create a new GameObject
-				GameObject eventSystem = new GameObject("EventSystem");
+				GameObject eventSystem = new GameObject("EventSystemMultiplayer");
 
 				// Add EventSystem component
 				eventSystem.AddComponent<EventSystem>();
