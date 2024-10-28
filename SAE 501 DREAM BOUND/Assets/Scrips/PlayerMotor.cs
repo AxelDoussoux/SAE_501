@@ -6,36 +6,44 @@ namespace TomAg
 {
     public class PlayerMotor : MonoBehaviour
     {
-        [Header("Movement")]
+        // PARAMS
+        [Header(header: "Movement")]
 
         [SerializeField]
-        private float walkSpeed = 5f;  // Vitesse de marche ajustée
+        private float walkForce = 100;
         [SerializeField]
-        private float strafeSpeed = 5f;  // Vitesse de déplacement latéral
+        private float strafeForce = 80;
 
-        [Header("Rotation")]
-
-        [SerializeField]
-        private float rotationSensitivity = 10f;
-
-        [Header("Jump")]
+        [Header(header: "Rotation")]
 
         [SerializeField]
-        private float jumpHeight = 2f;  // Hauteur du saut
+        private float rotationSensivity = 10;
 
+        [Header(header: "Jump")]
+
+        [SerializeField]
+        private float jumpForce = 10;
+
+        // PRIVATE
+
+        private Rigidbody _rb;
         private PlayerController _controller;
 
         private Vector3 _localMoveAxis;
-        private float _localOffsetAngleY;
+        private float _local0ffsetAngleY;
         private float _rotationAngleY;
-        private bool _isGrounded;
-        private Vector3 _velocity;
+
+
+        // UNITY
 
         private void Awake()
         {
+            if (!TryGetComponent(out _rb))
+                Debug.LogError(message: "Missing Rigidbody", this);
             if (!TryGetComponent(out _controller))
-                Debug.LogError("Missing PlayerController", this);
+                Debug.LogError(message: "Missing PlayerController", this);
 
+            // Add event hooks
             _controller.onMove += OnMove;
             _controller.onAim += OnAim;
             _controller.onJumpStart += OnJumpStart;
@@ -44,67 +52,60 @@ namespace TomAg
             _controller.onCrouchStop += OnCrouchStop;
         }
 
-        private void Update()
-        {
+        private void FixedUpdate()
+        { 
             UpdateRotation();
             UpdateMove();
         }
 
+
+        // HOOKS
+
+
         private void OnMove(Vector2 axis)
         {
-            _localMoveAxis = new Vector3(axis.x * strafeSpeed, 0, axis.y * walkSpeed);
-        }
 
+            _localMoveAxis = new Vector3(axis.x * strafeForce, y: 0, axis.y * walkForce);
+        }
         private void OnAim(Vector2 axis)
         {
-            _localOffsetAngleY = axis.x * rotationSensitivity;
+            _local0ffsetAngleY = axis.x * rotationSensivity;
         }
-
         private void OnJumpStart()
         {
-            if (_isGrounded)
-            {
-                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);  // Applique une impulsion verticale pour le saut
-            }
+            _rb.AddRelativeForce(x: 0, jumpForce, z: 0, ForceMode.Impulse);
         }
-
+                
         private void OnJumpStop() { }
+        
 
         private void OnCrouchStart() { }
 
+               
         private void OnCrouchStop() { }
+
+        // INTERNAL
+
 
         private void UpdateMove()
         {
-            if (_localMoveAxis != Vector3.zero)
-            {
-                // Convertir les coordonnées locales en coordonnées mondiales
-                Vector3 moveDirection = transform.TransformDirection(_localMoveAxis);
+            if (_localMoveAxis == Vector3.zero)
+                return;
 
-                // Déplacer le joueur en modifiant directement son transform
-                transform.position += moveDirection * Time.deltaTime;
-            }
-
-            // Appliquer la gravité
-            _velocity.y += Physics.gravity.y * Time.deltaTime;
-            transform.position += _velocity * Time.deltaTime;
-
-            // Gérer la détection au sol
-            if (transform.position.y <= 0.5f)  // Exemple de détection si le joueur touche le sol (à ajuster selon votre scène)
-            {
-                _isGrounded = true;
-                _velocity.y = 0;
-            }
-            else
-            {
-                _isGrounded = false;
-            }
+            _rb.AddRelativeForce(_localMoveAxis * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
 
         private void UpdateRotation()
         {
-            _rotationAngleY += _localOffsetAngleY * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(0, _rotationAngleY, 0);  // Applique directement la rotation au transform
+            _rotationAngleY += _local0ffsetAngleY * Time.fixedDeltaTime;
+            var newRotation = Quaternion.Euler(x: 0, _rotationAngleY, z: 0);
+
+            _rb.MoveRotation(newRotation);
         }
+
+
+
     }
+
+
 }
