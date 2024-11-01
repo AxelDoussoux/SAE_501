@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace TomAg
@@ -30,6 +31,7 @@ namespace TomAg
         private float _rotationAngleY;
         private bool _isGrounded;
         private Vector3 _velocity;
+
 
         private void Awake()
         {
