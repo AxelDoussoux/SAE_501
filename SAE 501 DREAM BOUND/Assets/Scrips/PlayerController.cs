@@ -24,8 +24,11 @@ namespace TomAg
         private int _playerId;
         private PlayerInput _playerInput;
 
+
         private void Start()
         {
+
+
             TryGetComponent(out PlayerInput playerInput);
             _playerId = playerInput.playerIndex;
         }

@@ -97,7 +97,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""WASD"",
+                    ""name"": ""Arrow"",
                     ""id"": ""05acad7c-ec5d-4cfd-8258-4a2881142dd8"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -152,7 +152,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Arrow"",
+                    ""name"": ""WASD"",
                     ""id"": ""29c9e429-cc02-4b6c-859a-02bae8e3a803"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
