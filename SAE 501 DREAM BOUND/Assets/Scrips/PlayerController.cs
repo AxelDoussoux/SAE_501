@@ -24,13 +24,10 @@ namespace TomAg
         private int _playerId;
         private PlayerInput _playerInput;
 
-        private Alteruna.Avatar _avatar;
 
         private void Start()
         {
-            _avatar = GetComponent<Alteruna.Avatar>();
 
-            if (!_avatar.IsMe) { return; }
 
             TryGetComponent(out PlayerInput playerInput);
             _playerId = playerInput.playerIndex;
@@ -69,11 +66,6 @@ namespace TomAg
         {
             if (ctx.started)
             onInteract?.Invoke();
-        }
-
-        public void Update()
-        {
-            if (!_avatar.IsMe) { return; }
         }
     }
 }

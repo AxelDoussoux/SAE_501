@@ -1,47 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TomAg
 {
     public class PlayerMotor : MonoBehaviour
     {
-        // PARAMS
-        [Header(header: "Movement")]
+        [Header("Movement")]
+        [SerializeField] private float walkForce = 100;
+        [SerializeField] private float strafeForce = 80;
 
-        [SerializeField]
-        private float walkForce = 100;
-        [SerializeField]
-        private float strafeForce = 80;
+        [Header("Rotation")]
+        [SerializeField] private float rotationSensivity = 10;
+        [SerializeField] private Transform cameraTransform; // Référence à la caméra
 
-        [Header(header: "Rotation")]
-
-        [SerializeField]
-        private float rotationSensivity = 10;
-
-        [Header(header: "Jump")]
-
-        [SerializeField]
-        private float jumpForce = 10;
-
-        // PRIVATE
+        [Header("Jump")]
+        [SerializeField] private float jumpForce = 10;
 
         private Rigidbody _rb;
         private PlayerController _controller;
-
-        private Vector3 _localMoveAxis;
-        private float _local0ffsetAngleY;
+        private Vector3 _moveInput;
+        private float _localOffsetAngleY;
         private float _rotationAngleY;
-
-
-        // UNITY
 
         private void Awake()
         {
             if (!TryGetComponent(out _rb))
-                Debug.LogError(message: "Missing Rigidbody", this);
+                Debug.LogError("Missing Rigidbody", this);
             if (!TryGetComponent(out _controller))
-                Debug.LogError(message: "Missing PlayerController", this);
+                Debug.LogError("Missing PlayerController", this);
+
+            // Vérifie que la caméra est assignée
+            if (cameraTransform == null)
+                cameraTransform = Camera.main.transform;
 
             // Add event hooks
             _controller.onMove += OnMove;
@@ -53,59 +42,57 @@ namespace TomAg
         }
 
         private void FixedUpdate()
-        { 
-            UpdateRotation();
+        {
             UpdateMove();
         }
 
-
-        // HOOKS
-
-
         private void OnMove(Vector2 axis)
         {
-
-            _localMoveAxis = new Vector3(axis.x * strafeForce, y: 0, axis.y * walkForce);
+            _moveInput = new Vector2(axis.x, axis.y);
         }
+
         private void OnAim(Vector2 axis)
         {
-            _local0ffsetAngleY = axis.x * rotationSensivity;
+            _localOffsetAngleY = axis.x * rotationSensivity;
         }
+
         private void OnJumpStart()
         {
-            _rb.AddRelativeForce(x: 0, jumpForce, z: 0, ForceMode.Impulse);
+            _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-                
+
         private void OnJumpStop() { }
-        
-
         private void OnCrouchStart() { }
-
-               
         private void OnCrouchStop() { }
-
-        // INTERNAL
-
 
         private void UpdateMove()
         {
-            if (_localMoveAxis == Vector3.zero)
+            if (_moveInput == Vector3.zero)
                 return;
 
-            _rb.AddRelativeForce(_localMoveAxis * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            // Obtient la rotation de la caméra (en ignorant la rotation X/inclinaison)
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            // Projette les vecteurs sur le plan horizontal
+            cameraForward.y = 0;
+            cameraRight.y = 0;
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Calcule la direction du mouvement basée sur la rotation de la caméra
+            Vector3 moveDirection = (cameraForward * _moveInput.y * walkForce) +
+                                  (cameraRight * _moveInput.x * strafeForce);
+
+            // Applique le mouvement
+            _rb.AddForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
+
+            // Fait pivoter le personnage vers la direction du mouvement
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSensivity));
+            }
         }
-
-        private void UpdateRotation()
-        {
-            _rotationAngleY += _local0ffsetAngleY * Time.fixedDeltaTime;
-            var newRotation = Quaternion.Euler(x: 0, _rotationAngleY, z: 0);
-
-            _rb.MoveRotation(newRotation);
-        }
-
-
-
     }
-
-
 }
