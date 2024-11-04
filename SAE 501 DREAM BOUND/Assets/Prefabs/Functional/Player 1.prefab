@@ -432,10 +432,8 @@ GameObject:
   - component: {fileID: 2964088618495964173}
   - component: {fileID: 6437460910562038721}
   - component: {fileID: 8100745632815430055}
-  - component: {fileID: 2979869497006017589}
   - component: {fileID: 6043769906900913384}
-  - component: {fileID: 8709193616789360441}
-  - component: {fileID: 3306669029987831214}
+  - component: {fileID: 2979869497006017589}
   m_Layer: 6
   m_Name: Player 1
   m_TagString: Untagged
@@ -662,7 +660,20 @@ MonoBehaviour:
   walkForce: 100
   strafeForce: 80
   rotationSensivity: 10
+  cameraTransform: {fileID: 0}
   jumpForce: 10
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundMaxDistance: 0.05
+  groundMaxDistanceAfterJump: 0.05
+  dragOnGround: 8
+  movementAttenuationInAir: 0.1
+  rideSpringStrength: 1
+  rideSpringDamper: 1
+  rideSpringMaxDistance: 0.2
+  rideSpringHeight: 1
+  rideSpringJumpTime: 0.3
 --- !u!114 &8100745632815430055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,6 +690,26 @@ MonoBehaviour:
   aimSpeed: 10
   angleMin: -89
   angleMax: 73
+  cameraDistance: 5
+  cameraOffset: {x: 0, y: 2, z: 0}
+  smoothSpeed: 10
+  collisionOffset: 0.2
+--- !u!114 &6043769906900913384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326108518698016509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458c3fd7e02678c41a27f4b360a353b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 25
+  ignoreLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &2979869497006017589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -706,78 +737,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &6043769906900913384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326108518698016509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 458c3fd7e02678c41a27f4b360a353b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionRange: 25
-  ignoreLayers:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &8709193616789360441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326108518698016509}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1312809854, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Multiplayer: {fileID: 0}
-  _uidString: a5d9ffb6-87d8-4574-bbb5-708eb3bbd3c6
-  BucketBehaviors:
-  - Name: Min
-    NetLOD: 0
-    Frequency: -1
-  - Name: Low
-    NetLOD: 1
-    Frequency: 0
-  - Name: Mid
-    NetLOD: 2
-    Frequency: 0
-  - Name: High
-    NetLOD: 3
-    Frequency: 0
-  - Name: Max
-    NetLOD: 4
-    Frequency: 120
-  Reliability: 2
-  UseGlobalPosition: 0
-  OnlySyncFromRoomOwner: 0
-  refreshRate: 30
-  SyncedAxes: -1
---- !u!114 &3306669029987831214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326108518698016509}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -2141718255, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Multiplayer: {fileID: 0}
-  IsPossessor: 0
-  IsPossessed: 0
-  OnPossessed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnUnpossessed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2473358397656746146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,7 +1285,7 @@ Transform:
   m_GameObject: {fileID: 3965635413925623125}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.70710677, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -3.8056233, y: 4.50354, z: 0.035343852}
+  m_LocalPosition: {x: -3.8056233, y: 4.51, z: 0.035343852}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1032,12 +1032,17 @@ PrefabInstance:
     - target: {fileID: 2979869497006017589, guid: e8f916b9967505d47815e45a1f898513,
         type: 3}
       propertyPath: m_Drag
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2979869497006017589, guid: e8f916b9967505d47815e45a1f898513,
         type: 3}
       propertyPath: m_Mass
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2979869497006017589, guid: e8f916b9967505d47815e45a1f898513,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5133907659730810113, guid: e8f916b9967505d47815e45a1f898513,
         type: 3}
@@ -1069,6 +1074,31 @@ PrefabInstance:
         type: 3}
       propertyPath: strafeForce
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437460910562038721, guid: e8f916b9967505d47815e45a1f898513,
+        type: 3}
+      propertyPath: rideSpringDamper
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437460910562038721, guid: e8f916b9967505d47815e45a1f898513,
+        type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437460910562038721, guid: e8f916b9967505d47815e45a1f898513,
+        type: 3}
+      propertyPath: groundMaxDistance
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437460910562038721, guid: e8f916b9967505d47815e45a1f898513,
+        type: 3}
+      propertyPath: rideSpringStrength
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437460910562038721, guid: e8f916b9967505d47815e45a1f898513,
+        type: 3}
+      propertyPath: rideSpringMaxDistance
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8100745632815430055, guid: e8f916b9967505d47815e45a1f898513,
         type: 3}
