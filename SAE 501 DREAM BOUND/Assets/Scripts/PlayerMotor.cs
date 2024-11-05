@@ -117,7 +117,7 @@ namespace TomAg
             _lastJumpTime = Time.timeSinceLevelLoad;
             _isJumping = true;
             // Event
-            onJump?.Invoke();
+          //  onJump?.Invoke();
         }
 
         private void OnJumpStop() { }
@@ -170,14 +170,14 @@ namespace TomAg
             {
                 // Event
                 if (! _isGrounded)
-                    onGroundChanged?.Invoke(true);
+                    //onGroundChanged?.Invoke(true);
                 // State
                 _isGrounded = true;
                 // Has landed after jump
                 if (!PlayerHasStartedJumping())
                     _isJumping = false;
                 // Grounded time
-                _lastGroundedTime = Time.timeSinceLevelLoad;
+               // _lastGroundedTime = Time.timeSinceLevelLoad;
                 // Debug
                 Debug.DrawLine(origin, origin + direction * distance, Color.green);
             }
@@ -236,6 +236,11 @@ namespace TomAg
         private bool PlayerHasStartedJumping()
         {
             return Time.timeSinceLevelLoad < _lastJumpTime + rideSpringJumpTime;
+        }
+
+        private bool PlayerIsGrounded()
+        {
+            return _isGrounded;
         }
     }
 }

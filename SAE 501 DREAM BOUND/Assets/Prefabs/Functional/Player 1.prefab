@@ -429,14 +429,15 @@ GameObject:
   - component: {fileID: 5609909710992453336}
   - component: {fileID: 5555037606095520503}
   - component: {fileID: 5133907659730810113}
-  - component: {fileID: 2964088618495964173}
-  - component: {fileID: 6437460910562038721}
-  - component: {fileID: 8100745632815430055}
-  - component: {fileID: 6043769906900913384}
+  - component: {fileID: 3344011000787444578}
+  - component: {fileID: 5883633666555960407}
+  - component: {fileID: 8583365513544066247}
+  - component: {fileID: 6561002568437876801}
+  - component: {fileID: 7520041543299245902}
   - component: {fileID: 2979869497006017589}
   m_Layer: 6
   m_Name: Player 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -465,7 +466,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2326108518698016509}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 058ef44d2c156f448923666a05c90698, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -509,7 +510,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2964088618495964173}
+      - m_Target: {fileID: 3344011000787444578}
         m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -525,7 +526,7 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2964088618495964173}
+      - m_Target: {fileID: 3344011000787444578}
         m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -541,7 +542,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2964088618495964173}
+      - m_Target: {fileID: 3344011000787444578}
         m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
         m_MethodName: OnCrouch
         m_Mode: 0
@@ -577,7 +578,7 @@ MonoBehaviour:
     m_ActionName: App/Point[/Mouse/position]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2964088618495964173}
+      - m_Target: {fileID: 3344011000787444578}
         m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
@@ -593,7 +594,7 @@ MonoBehaviour:
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2964088618495964173}
+      - m_Target: {fileID: 3344011000787444578}
         m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
         m_MethodName: OnAim
         m_Mode: 0
@@ -633,7 +634,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2964088618495964173
+--- !u!114 &3344011000787444578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -645,7 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23679521c7a757547809458d94577aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6437460910562038721
+--- !u!114 &5883633666555960407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -657,24 +658,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkForce: 100
-  strafeForce: 80
+  walkForce: 60
+  strafeForce: 50
   rotationSensivity: 10
-  cameraTransform: {fileID: 0}
-  jumpForce: 10
+  cameraTransform: {fileID: 424077202033763970}
+  jumpForce: 310
+  movementAttenuationOnJump: 0.3
+  coyoteTime: 0.2
   groundMask:
     serializedVersion: 2
-    m_Bits: 0
-  groundMaxDistance: 0.05
+    m_Bits: 1
+  groundMaxDistance: 0.3
   groundMaxDistanceAfterJump: 0.05
   dragOnGround: 8
   movementAttenuationInAir: 0.1
-  rideSpringStrength: 1
-  rideSpringDamper: 1
-  rideSpringMaxDistance: 0.2
-  rideSpringHeight: 1
+  rideSpringStrength: 360
+  rideSpringDamper: 4
+  rideSpringMaxDistance: 0.4
+  rideSpringHeight: 1.05
   rideSpringJumpTime: 0.3
---- !u!114 &8100745632815430055
+--- !u!114 &8583365513544066247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326108518698016509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8680ed61348f5154798e918acadf0d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animMoveX: MoveX
+  animMoveZ: MoveZ
+--- !u!114 &6561002568437876801
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -688,13 +705,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 6010827972039956646}
   aimSpeed: 10
-  angleMin: -89
-  angleMax: 73
-  cameraDistance: 5
-  cameraOffset: {x: 0, y: 2, z: 0}
-  smoothSpeed: 10
+  angleMin: -30
+  angleMax: 60
+  cameraDistance: 12
+  cameraOffset: {x: 0, y: 5, z: 0}
+  smoothSpeed: 0
   collisionOffset: 0.2
---- !u!114 &6043769906900913384
+--- !u!114 &7520041543299245902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -706,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458c3fd7e02678c41a27f4b360a353b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRange: 25
+  interactionRange: 10
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -718,8 +735,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2326108518698016509}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 50
+  m_Drag: 8
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -749,7 +766,6 @@ GameObject:
   - component: {fileID: 6010827972039956646}
   - component: {fileID: 1071981623545668275}
   - component: {fileID: 6935980411643576489}
-  - component: {fileID: 1185737775749956798}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -766,7 +782,7 @@ Transform:
   m_GameObject: {fileID: 2473358397656746146}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11750043, y: 0, z: 0, w: 0.99307287}
-  m_LocalPosition: {x: 0, y: 10.18, z: -18}
+  m_LocalPosition: {x: 0, y: 11.570001, z: -14.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -875,40 +891,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &1185737775749956798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2473358397656746146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2491744850663613183
 GameObject:
   m_ObjectHideFlags: 0
