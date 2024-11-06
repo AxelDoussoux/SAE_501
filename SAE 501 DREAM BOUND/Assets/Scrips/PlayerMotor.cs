@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,35 +9,73 @@ namespace TomAg
     public class PlayerMotor : MonoBehaviour
     {
         [Header("Movement")]
-
         [SerializeField]
-        private float walkSpeed = 5f;  // Vitesse de marche ajustée
+        private float walkForce = 510;
         [SerializeField]
-        private float strafeSpeed = 5f;  // Vitesse de déplacement latéral
+        private float strafeForce = 450;
 
         [Header("Rotation")]
-
         [SerializeField]
-        private float rotationSensitivity = 10f;
+        private float rotationSensitivity = 10;
 
         [Header("Jump")]
-
         [SerializeField]
-        private float jumpHeight = 2f;  // Hauteur du saut
+        private float jumpForce = 10;
+        [SerializeField]
+        private float movementAttenuationOnJump = 0.5f;
+        [SerializeField]
+        private float coyoteTime = 0.2f;
 
+        [Header("Ground")]
+        [SerializeField]
+        private LayerMask groundMask;
+        [SerializeField]
+        private float groundMaxDistance = 0.3f;
+        [SerializeField]
+        private float groundMaxDistanceAfterJump = 0.05f;
+        [SerializeField]
+        private float dragOnGround = 8f;
+        [SerializeField]
+        private float movementAttenuationInAir = 0.1f;
+
+        [Header("Spring")]
+        [SerializeField]
+        private float rideSpringStrength = 1f;
+        [SerializeField]
+        private float rideSpringDampener = 1f;
+        [SerializeField]
+        private float rideSpringMaxDistance = 0.2f;
+        [SerializeField]
+        private float rideSpringHeight = 1f;
+        [SerializeField]
+        private float rideSpringJumpTime = 0.3f;
+
+        private Rigidbody _rb;
         private PlayerController _controller;
 
         private Vector3 _localMoveAxis;
         private float _localOffsetAngleY;
         private float _rotationAngleY;
         private bool _isGrounded;
-        private Vector3 _velocity;
+        private bool _isJumping;
+        private float _lastJumpTime;  
+        private float _lastGroundedTime;  
 
+        public bool isGrounded => _isGrounded;
+
+        public delegate void GroundChangeHandler(bool isGrounded);
+        public event GroundChangeHandler onGroundChanged; 
+
+        public delegate void JumpHandler();
+        public event JumpHandler onJump;  
 
         private void Awake()
         {
             if (!TryGetComponent(out _controller))
                 Debug.LogError("Missing PlayerController", this);
+
+            if (!TryGetComponent(out _rb))
+                Debug.LogError("Missing Rigidbody", this);
 
             _controller.onMove += OnMove;
             _controller.onAim += OnAim;
@@ -46,15 +85,123 @@ namespace TomAg
             _controller.onCrouchStop += OnCrouchStop;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
+            UpdateGrounded();
+            UpdateSpring();
+            UpdateDrag();
             UpdateRotation();
             UpdateMove();
+
+        }
+
+        private void UpdateGrounded()
+        {
+            // Skip calculation 50% of the time (1 frame every 2 frames)
+            if (Time.frameCount % 2 == 0)
+                return;
+
+            var origin = transform.position + transform.up;
+            var direction = -transform.up;
+            float distance = 1 + groundMaxDistance;
+
+            if (PlayerHasStartedJumping())
+                distance = 1 + groundMaxDistanceAfterJump;
+
+            bool wasGrounded = _isGrounded; // Sauvegarde l'état précédent
+
+            if (Physics.Raycast(origin, direction, distance, groundMask, QueryTriggerInteraction.Ignore))
+            {
+                _isGrounded = true;
+
+                if (!wasGrounded)
+                {
+                    onGroundChanged?.Invoke(true);
+                    _isJumping = false; // Si au sol, alors il ne saute plus
+                    _rb.drag = 8f; // Assurez-vous de définir le drag immédiatement lors de l'atterrissage
+                }
+
+                _lastGroundedTime = Time.timeSinceLevelLoad;
+                Debug.DrawLine(origin, origin + direction * distance, Color.green);
+            }
+            else
+            {
+                _isGrounded = false;
+
+                if (wasGrounded)
+                {
+                    onGroundChanged?.Invoke(false);
+                    _rb.drag = 1f; // Définir le drag à 1 quand il quitte le sol
+                }
+            }
+        }
+
+        /* Ancien UpdateGrounded
+         * 
+         * private void UpdateGrounded()
+        {
+            // Skip calculation 50% of the time (1 frame every 2 frames)
+            if (Time.frameCount % 2 == 0)
+                return;
+
+            var origin = transform.position + transform.up;
+            var direction = -transform.up;
+            float distance = 1 + groundMaxDistance;
+
+            if (PlayerHasStartedJumping())
+                distance = 1 + groundMaxDistanceAfterJump;
+
+            if (Physics.Raycast(origin, direction, distance, groundMask, QueryTriggerInteraction.Ignore))
+            {
+                // Event
+                if (!_isGrounded)
+                    onGroundChanged?.Invoke(true);
+
+                // State
+                _isGrounded = true;
+
+                // Has landed after jump
+                if (!PlayerHasStartedJumping())
+                    _isJumping = false;
+
+                // Grounded time
+                _lastGroundedTime = Time.timeSinceLevelLoad;
+
+                // Debug
+                Debug.DrawLine(origin, origin + direction * distance, Color.green);
+            }
+        }*/
+
+        private bool PlayerHasStartedJumping() 
+        {
+            return Time.timeSinceLevelLoad < _lastJumpTime + rideSpringJumpTime;
+        }
+
+        private void UpdateDrag()
+        {
+
+            if (_isGrounded)
+            {
+                _rb.drag = dragOnGround;
+            }
+            else
+            {
+                _rb.drag = 0;
+                ApplyAirAttenuation();
+            }
+        }
+
+        private void ApplyAirAttenuation()
+        {
+            // Apply attenuation when in the air to simulate reduced control
+            Vector3 horizontalVelocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
+            Vector3 attenuatedVelocity = horizontalVelocity * movementAttenuationInAir;
+            _rb.velocity = new Vector3(attenuatedVelocity.x, _rb.velocity.y, attenuatedVelocity.z);
         }
 
         private void OnMove(Vector2 axis)
         {
-            _localMoveAxis = new Vector3(axis.x * strafeSpeed, 0, axis.y * walkSpeed);
+            _localMoveAxis = new Vector3(axis.x * strafeForce, 0, axis.y * walkForce);
         }
 
         private void OnAim(Vector2 axis)
@@ -64,13 +211,25 @@ namespace TomAg
 
         private void OnJumpStart()
         {
-            if (_isGrounded)
-            {
-                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);  // Applique une impulsion verticale pour le saut
-            }
+            if (_isJumping) 
+                return;
+
+            if (!PlayerIsGrounded()) 
+                return;
+
+            _rb.velocity *= movementAttenuationOnJump;
+            _rb.AddRelativeForce(0, jumpForce, 0, ForceMode.Impulse);
+            _lastJumpTime = Time.timeSinceLevelLoad;
+            _isJumping = true;
+            _rb.drag = 1f;
+
+            onJump?.Invoke(); 
         }
 
-        private void OnJumpStop() { }
+        private void OnJumpStop()
+        {
+            _isJumping = false;
+        }
 
         private void OnCrouchStart() { }
 
@@ -78,35 +237,64 @@ namespace TomAg
 
         private void UpdateMove()
         {
-            if (_localMoveAxis != Vector3.zero)
-            {
-                // Convertir les coordonnées locales en coordonnées mondiales
-                Vector3 moveDirection = transform.TransformDirection(_localMoveAxis);
+            if (_localMoveAxis == Vector3.zero)
+                return;
 
-                // Déplacer le joueur en modifiant directement son transform
-                transform.position += moveDirection * Time.deltaTime;
-            }
+            _rb.AddRelativeForce(_localMoveAxis * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        }
 
-            // Appliquer la gravité
-            _velocity.y += Physics.gravity.y * Time.deltaTime;
-            transform.position += _velocity * Time.deltaTime;
+        private bool PlayerIsGrounded()
+        {
+            var origin = transform.position + transform.up;
+            var direction = -transform.up;
+            float distance = 1 + groundMaxDistance;
 
-            // Gérer la détection au sol
-            if (transform.position.y <= 0.5f)  // Exemple de détection si le joueur touche le sol (à ajuster selon votre scène)
+            if (PlayerHasStartedJumping())
+                distance = 1 + groundMaxDistanceAfterJump;
+
+            return Physics.Raycast(origin, direction, distance, groundMask, QueryTriggerInteraction.Ignore);
+        }
+
+
+        private void UpdateSpring()
+        {
+            if (_isJumping)
+                return;
+
+            var origin = transform.position + transform.up;
+            var direction = -transform.up;
+            float distance = 1 + rideSpringMaxDistance;
+
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, distance, groundMask, QueryTriggerInteraction.Ignore))
             {
-                _isGrounded = true;
-                _velocity.y = 0;
-            }
-            else
-            {
-                _isGrounded = false;
+                // Calculate velocities on direction
+                float playerVelocityOnDirection = Vector3.Dot(direction, _rb.velocity);
+                float hitBodyVelocityOnDirection = hit.rigidbody != null ? Vector3.Dot(direction, hit.rigidbody.velocity) : 0;
+
+                // Resulting velocity
+                float relativeVelocity = playerVelocityOnDirection - hitBodyVelocityOnDirection;
+
+                // Distance inside hit object
+                float x = hit.distance - rideSpringHeight;
+
+                // Calculate the Force to apply
+                float springForce = (x * rideSpringStrength) - (relativeVelocity * rideSpringDampener);
+
+                // Apply force to Player
+                _rb.AddForce(direction * springForce);
+
+                // Apply force to hit body
+                if (hit.rigidbody != null)
+                    hit.rigidbody.AddForceAtPosition(-direction * springForce, hit.point);
             }
         }
 
         private void UpdateRotation()
         {
-            _rotationAngleY += _localOffsetAngleY * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(0, _rotationAngleY, 0);  // Applique directement la rotation au transform
+            // Mettre à jour l'angle de rotation en fonction de l'axe de visée
+            _rotationAngleY += _localOffsetAngleY * Time.fixedDeltaTime;
+            Quaternion newRotation = Quaternion.Euler(0, _rotationAngleY, 0);
+            _rb.MoveRotation(newRotation);
         }
     }
 }

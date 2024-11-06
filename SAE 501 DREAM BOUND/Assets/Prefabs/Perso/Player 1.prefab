@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3547808324350522754}
   - component: {fileID: 2716703132457968475}
   - component: {fileID: 8705423668448049899}
-  - component: {fileID: 5924169440119055702}
   - component: {fileID: 6685862832312735042}
+  - component: {fileID: -5159617032436960979}
   - component: {fileID: 5020012417044039812}
   - component: {fileID: 3350894230092403419}
   - component: {fileID: -1312967541865532725}
@@ -52,7 +52,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4491340905819882418}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b6da2fc8f0c74494892876865f3c0f89, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -241,22 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23679521c7a757547809458d94577aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5924169440119055702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491340905819882418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 15
-  strafeSpeed: 12
-  rotationSensitivity: 10
-  jumpHeight: 100
 --- !u!114 &6685862832312735042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +257,36 @@ MonoBehaviour:
   aimSpeed: 10
   angleMin: -89
   angleMax: 73
+--- !u!114 &-5159617032436960979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4491340905819882418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkForce: 510
+  strafeForce: 450
+  rotationSensitivity: 10
+  jumpForce: 10
+  movementAttenuationOnJump: 0.5
+  coyoteTime: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  groundMaxDistance: 0.3
+  groundMaxDistanceAfterJump: 0.05
+  dragOnGround: 8
+  movementAttenuationInAir: 0.1
+  rideSpringStrength: 1
+  rideSpringDampener: 1
+  rideSpringMaxDistance: 0.2
+  rideSpringHeight: 1
+  rideSpringJumpTime: 0.3
 --- !u!54 &5020012417044039812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -360,7 +374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 8705423668448049899}
-  playerCam: {fileID: 0}
 --- !u!114 &-4353910897233025161
 MonoBehaviour:
   m_ObjectHideFlags: 0
