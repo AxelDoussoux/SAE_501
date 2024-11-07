@@ -1,0 +1,60 @@
+/* Style de base pour tous les boutons */
+button {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Effet de survol (hover) */
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 8px rgba(0, 86, 179, 0.4);
+}
+
+/* Effet de clic (active) */
+button:active {
+    background-color: #00408a;
+    transform: translateY(0);
+    box-shadow: 0px 3px 4px rgba(0, 64, 138, 0.3);
+}
+
+/* Style pour un bouton principal (createhost) */
+#createhost {
+    background-color: #28a745;
+    box-shadow: 0px 4px 6px rgba(40, 167, 69, 0.3);
+}
+
+#createhost:hover {
+    background-color: #218838;
+    box-shadow: 0px 6px 8px rgba(33, 136, 56, 0.4);
+}
+
+#createhost:active {
+    background-color: #1e7e34;
+    box-shadow: 0px 3px 4px rgba(30, 126, 52, 0.3);
+}
+
+/* Style pour un bouton secondaire (joinsession) */
+#joinsession {
+    background-color: #17a2b8;
+    box-shadow: 0px 4px 6px rgba(23, 162, 184, 0.3);
+}
+
+#joinsession:hover {
+    background-color: #138496;
+    box-shadow: 0px 6px 8px rgba(19, 132, 150, 0.4);
+}
+
+#joinsession:active {
+    background-color: #117a8b;
+    box-shadow: 0px 3px 4px rgba(17, 122, 139, 0.3);
+}
