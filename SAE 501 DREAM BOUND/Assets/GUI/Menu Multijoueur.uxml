@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Wrapper" style="flex-grow: 1;">
+        <ui:VisualElement name="codepartie" style="flex-grow: 1; height: 0; width: 162px;">
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="code" />
+        </ui:VisualElement>
+        <ui:VisualElement name="menu" style="flex-grow: 1; height: 1080px; width: 345px; position: relative; justify-content: center; align-self: center;">
+            <ui:Button text="Créer une Partie" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createhost" style="margin-bottom: 25px;" />
+            <ui:Button text="Rejoindre une partie" parse-escape-sequences="true" display-tooltip-when-elided="true" name="joinsession" />
+            <ui:TextField picking-mode="Ignore" value="Entrer le code de la partie" name="inputfield" focusable="false" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
