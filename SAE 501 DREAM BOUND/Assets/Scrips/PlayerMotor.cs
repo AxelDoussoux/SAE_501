@@ -20,7 +20,7 @@ namespace TomAg
 
         [Header("Jump")]
         [SerializeField]
-        private float jumpForce = 10;
+        public float jumpForce = 10;
         [SerializeField]
         private float movementAttenuationOnJump = 0.5f;
         [SerializeField]
