@@ -14,6 +14,7 @@ public class MenuUI : MonoBehaviour
 
         Button createhost = root.Q<Button>("createhost");
         Button joinsession = root.Q<Button>("joinsession");
+        Button quitButton = root.Q<Button>("quit");
         Label codeLabel = root.Q<Label>("code");  
         TextField inputField = root.Q<TextField>("inputfield");  
         VisualElement menu = root.Q<VisualElement>("menu");  
@@ -41,5 +42,8 @@ public class MenuUI : MonoBehaviour
                 menu.style.display = DisplayStyle.None;
 
         };
+
+        quitButton.clicked += () => Application.Quit();
+
     }
 }

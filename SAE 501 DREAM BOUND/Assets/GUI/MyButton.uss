@@ -22,3 +22,15 @@
 .CSSBOUTTON:hover {
     background-color: rgb(41, 128, 185);
 }
+
+.JOIN:hover {
+    background-color: rgb(255, 119, 255);
+}
+
+.QUIT {
+
+}
+
+.QUIT:hover {
+    background-color: rgb(255, 180, 0);
+}
