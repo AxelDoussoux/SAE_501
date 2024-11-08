@@ -1,0 +1,35 @@
+.CSSBOUTTON {
+    margin-bottom: 25px;
+    border-bottom-color: rgb(41, 126, 149);
+    border-bottom-width: 5px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    margin-top: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(52, 152, 219);
+    text-shadow: 0 -2px 0 rgb(41, 126, 149);
+    color: rgb(255, 255, 255);
+}
+
+.CSSBOUTTON:hover {
+    background-color: rgb(41, 128, 185);
+}
+
+.JOIN:hover {
+    background-color: rgb(255, 119, 255);
+}
+
+.QUIT {
+}
+
+.QUIT:hover {
+    background-color: rgb(255, 180, 0);
+}

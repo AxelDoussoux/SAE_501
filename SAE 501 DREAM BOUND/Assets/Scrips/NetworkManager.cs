@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
@@ -9,11 +8,11 @@ using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.UIElements;
 
 public class NetworkManager : MonoBehaviour
 {
     public UnityTransport transport;
-    public TMP_InputField joinCodeInputField;
 
     async void Awake()
     {
@@ -33,7 +32,7 @@ public class NetworkManager : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    public async void CreateMultiplayerRelay()
+    public async void CreateMultiplayerRelay(Label codeLabel)
     {
         try
         {
@@ -45,17 +44,17 @@ public class NetworkManager : MonoBehaviour
 
             Allocation a = await RelayService.Instance.CreateAllocationAsync(2);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
-            if (joinCodeInputField != null)
+
+            if (codeLabel != null)
             {
-                joinCodeInputField.text = joinCode;
+                codeLabel.text = joinCode;  
             }
             else
             {
-                Debug.LogError("Join code input field is not assigned.");
+                Debug.LogError("Label for join code is not assigned.");
             }
 
             transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
-
             Unity.Netcode.NetworkManager.Singleton.StartHost();
         }
         catch (System.Exception e)
@@ -64,25 +63,27 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public void StartHost()
+    public async void JoinSession(string joinCode)
     {
-        if (Unity.Netcode.NetworkManager.Singleton != null)
+        try
         {
-            Unity.Netcode.NetworkManager.Singleton.StartHost();
-        }
-        else
-        {
-            Debug.LogError("NetworkManager Singleton not initialized.");
-        }
-    }
+            if (string.IsNullOrEmpty(joinCode))
+            {
+                Debug.LogError("Join code is empty. Please enter a valid code.");
+                return;
+            }
 
-    public async void JoinSession()
-    {
-        JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(joinCodeInputField.text);
-        transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
-        Unity.Netcode.NetworkManager.Singleton.StartClient();
+            JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
+            Unity.Netcode.NetworkManager.Singleton.StartClient();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error joining session: {e.Message}");
+        }
     }
 }
+
 
 
 /*Code du dessus modifié avec ChatGPT car non fonctionnel ci dessous le code initial
