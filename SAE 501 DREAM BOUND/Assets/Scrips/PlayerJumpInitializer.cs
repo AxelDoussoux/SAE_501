@@ -3,27 +3,27 @@ using UnityEngine;
 
 namespace TomAg
 {
-    [RequireComponent(typeof(PlayerMotor))]
+    //[RequireComponent(typeof(PlayerMotor))]
     public class PlayerJumpInitializer : NetworkBehaviour
     {
         [SerializeField]
-        private float hostJumpForce = 100f;
+        private float hostMass = 10f;
         [SerializeField]
-        private float clientJumpForce = 15f;
+        private float clientMass = 5f;
 
-        private PlayerMotor _playerMotor;
+        private Rigidbody _rigidbody;
 
         private void Awake()
         {
-            _playerMotor = GetComponent<PlayerMotor>();
+            _rigidbody = GetComponent<Rigidbody>();
 
             if (Unity.Netcode.NetworkManager.Singleton.IsHost)
             {
-                _playerMotor.jumpForce = hostJumpForce;
+                _rigidbody.mass = hostMass;
             }
             else if (Unity.Netcode.NetworkManager.Singleton.IsClient)
             {
-                _playerMotor.jumpForce = clientJumpForce;
+                _rigidbody.mass = clientMass;
             }
         }
     }

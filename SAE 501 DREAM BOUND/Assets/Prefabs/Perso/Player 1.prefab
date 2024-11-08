@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 3547808324350522754}
   - component: {fileID: 8705423668448049899}
   - component: {fileID: 6685862832312735042}
-  - component: {fileID: -7370845124126875998}
-  - component: {fileID: -1983922719285093014}
   - component: {fileID: 5020012417044039812}
+  - component: {fileID: 5573489415537976595}
+  - component: {fileID: 537739631839804501}
   - component: {fileID: 3350894230092403419}
   - component: {fileID: -1312967541865532725}
   - component: {fileID: 6508947226845994383}
@@ -258,50 +258,6 @@ MonoBehaviour:
   aimSpeed: 10
   angleMin: -89
   angleMax: 73
---- !u!114 &-7370845124126875998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491340905819882418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e337257236e79624991044e96e404f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hostJumpForce: 100
-  clientJumpForce: 15
---- !u!114 &-1983922719285093014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491340905819882418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkForce: 510
-  strafeForce: 450
-  rotationSensitivity: 10
-  jumpForce: 10
-  movementAttenuationOnJump: 0.5
-  coyoteTime: 0.2
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 1
-  groundMaxDistance: 0.3
-  groundMaxDistanceAfterJump: 0.05
-  dragOnGround: 8
-  movementAttenuationInAir: 0.1
-  rideSpringStrength: 1
-  rideSpringDampener: 1
-  rideSpringMaxDistance: 0.2
-  rideSpringHeight: 1
-  rideSpringJumpTime: 0.3
 --- !u!54 &5020012417044039812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -329,6 +285,50 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5573489415537976595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4491340905819882418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkForce: 510
+  strafeForce: 450
+  rotationSensitivity: 10
+  jumpForce: 100
+  movementAttenuationOnJump: 0.5
+  coyoteTime: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  groundMaxDistance: 0.3
+  groundMaxDistanceAfterJump: 0.05
+  dragOnGround: 8
+  movementAttenuationInAir: 0.1
+  rideSpringStrength: 1
+  rideSpringDampener: 1
+  rideSpringMaxDistance: 0.2
+  rideSpringHeight: 1
+  rideSpringJumpTime: 0.3
+--- !u!114 &537739631839804501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4491340905819882418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e337257236e79624991044e96e404f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostMass: 10
+  clientMass: 5
 --- !u!114 &3350894230092403419
 MonoBehaviour:
   m_ObjectHideFlags: 0
