@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/GUI/MyButton.uss?fileID=7433441132597879392&amp;guid=9998aaf3d116fc44a987fdda99370b5a&amp;type=3#MyButton" />
-    <ui:VisualElement name="Wrapper" style="flex-grow: 1;">
+    <ui:VisualElement name="Wrapper" style="flex-grow: 1; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
         <ui:VisualElement name="codepartie" style="flex-grow: 1; height: 0; width: 162px;">
             <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="code" style="height: 25px; width: 151px;" />
         </ui:VisualElement>
-        <ui:VisualElement name="menu" style="flex-grow: 1; height: 1080px; width: 345px; position: relative; justify-content: center; align-self: center;">
-            <ui:Button text="Créer une Partie" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createhost" style="margin-bottom: 25px;" />
+        <ui:VisualElement name="menu" style="flex-grow: 1; height: 1080px; width: 251px; position: relative; justify-content: center; align-self: center;">
+            <ui:Button text="Créer une Partie" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createhost" class="CSSBOUTTON" />
             <ui:Button text="Rejoindre une partie" parse-escape-sequences="true" display-tooltip-when-elided="true" name="joinsession" />
             <ui:TextField picking-mode="Ignore" label="Code de partie:" value="Code" name="inputfield" />
         </ui:VisualElement>
