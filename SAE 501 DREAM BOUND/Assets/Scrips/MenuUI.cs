@@ -17,13 +17,15 @@ public class MenuUI : MonoBehaviour
         Button quitButton = root.Q<Button>("quit");
         Label codeLabel = root.Q<Label>("code");  
         TextField inputField = root.Q<TextField>("inputfield");  
-        VisualElement menu = root.Q<VisualElement>("menu");  
+        VisualElement menu = root.Q<VisualElement>("menu");
+        VisualElement Wrapper = root.Q<VisualElement>("Wrapper");
 
         createhost.clicked += () =>
         {
             multi.CreateMultiplayerRelay(codeLabel); 
             createhost.style.display = DisplayStyle.None;
                 menu.style.display = DisplayStyle.None;
+            Wrapper.style.display = DisplayStyle.None;
             
         };
 
@@ -40,6 +42,7 @@ public class MenuUI : MonoBehaviour
 
 
                 menu.style.display = DisplayStyle.None;
+            Wrapper.style.display = DisplayStyle.None;
 
         };
 
