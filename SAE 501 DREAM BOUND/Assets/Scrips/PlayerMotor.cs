@@ -25,8 +25,8 @@ namespace TomAg
         public float jumpForce = 100f;
         [SerializeField]
         private float movementAttenuationOnJump = 0.5f;
-        [SerializeField]
-        private float coyoteTime = 0.2f;
+        // [SerializeField]
+        // private float coyoteTime = 0.2f;
 
         [Header("Ground")]
         [SerializeField]
