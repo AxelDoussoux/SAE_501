@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4236804698
+  GlobalObjectIdHash: 1447664735
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -201,14 +201,26 @@ MonoBehaviour:
     m_ActionId: 61211ff8-10cb-4f25-a833-bad4c4b08ec8
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8705423668448049899}
+        m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
+        m_MethodName: OnAim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 91a933d2-0eb7-42ef-af89-a2006faba147
     m_ActionName: Player/Aim[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 583574932627295786}
 --- !u!95 &3547808324350522754
 Animator:
   serializedVersion: 5
@@ -218,7 +230,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4491340905819882418}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: ac8f760dde11d5e43bea256cd9791d48, type: 3}
   m_Controller: {fileID: 9100000, guid: 5960b91cedf01e645b9661b5e397047a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -258,6 +270,10 @@ MonoBehaviour:
   aimSpeed: 10
   angleMin: -89
   angleMax: 73
+  cameraDistance: 12
+  cameraOffset: {x: 0, y: 5, z: 0}
+  smoothSpeed: 10
+  collisionOffset: 0.2
 --- !u!54 &5020012417044039812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -283,7 +299,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &5573489415537976595
 MonoBehaviour:
@@ -300,6 +316,7 @@ MonoBehaviour:
   walkForce: 510
   strafeForce: 450
   rotationSensitivity: 10
+  cameraTransform: {fileID: 9035077609489513462}
   jumpForce: 100
   movementAttenuationOnJump: 0.5
   coyoteTime: 0.2
@@ -413,7 +430,6 @@ GameObject:
   - component: {fileID: 583574932627295786}
   - component: {fileID: 5353938060218854008}
   - component: {fileID: 7395169593418336944}
-  - component: {fileID: 9152858370086323075}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -429,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4724801960082205971}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.117500424, y: 0, z: 0, w: 0.99307287}
+  m_LocalRotation: {x: 0.11750043, y: 0, z: 0, w: 0.99307287}
   m_LocalPosition: {x: 0, y: 10.18, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -539,40 +555,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &9152858370086323075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4724801960082205971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &8460371401308352289
 PrefabInstance:
   m_ObjectHideFlags: 0

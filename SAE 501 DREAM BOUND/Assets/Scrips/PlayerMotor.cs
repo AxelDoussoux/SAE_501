@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
@@ -15,16 +15,18 @@ namespace TomAg
         private float strafeForce = 450;
 
         [Header("Rotation")]
-        [SerializeField]
+        [SerializeField] 
         private float rotationSensitivity = 10;
+        [SerializeField] 
+        private Transform cameraTransform; 
 
         [Header("Jump")]
         [SerializeField]
         public float jumpForce = 100f;
         [SerializeField]
         private float movementAttenuationOnJump = 0.5f;
-        [SerializeField]
-        private float coyoteTime = 0.2f;
+        // [SerializeField]
+        // private float coyoteTime = 0.2f;
 
         [Header("Ground")]
         [SerializeField]
@@ -53,7 +55,7 @@ namespace TomAg
         private Rigidbody _rb;
         private PlayerController _controller;
 
-        private Vector3 _localMoveAxis;
+        private Vector3 _moveInput;
         private float _localOffsetAngleY;
         private float _rotationAngleY;
         private bool _isGrounded;
@@ -77,6 +79,9 @@ namespace TomAg
             if (!TryGetComponent(out _rb))
                 Debug.LogError("Missing Rigidbody", this);
 
+            if (cameraTransform == null)
+                cameraTransform = Camera.main.transform;
+
             _controller.onMove += OnMove;
             _controller.onAim += OnAim;
             _controller.onJumpStart += OnJumpStart;
@@ -90,7 +95,7 @@ namespace TomAg
             UpdateGrounded();
             UpdateSpring();
             UpdateDrag();
-            UpdateRotation();
+            //UpdateRotation();
             UpdateMove();
 
         }
@@ -108,7 +113,7 @@ namespace TomAg
             if (PlayerHasStartedJumping())
                 distance = 1 + groundMaxDistanceAfterJump;
 
-            bool wasGrounded = _isGrounded; // Sauvegarde l'état précédent
+            bool wasGrounded = _isGrounded; // Sauvegarde l'Ã©tat prÃ©cÃ©dent
 
             if (Physics.Raycast(origin, direction, distance, groundMask, QueryTriggerInteraction.Ignore))
             {
@@ -118,7 +123,7 @@ namespace TomAg
                 {
                     onGroundChanged?.Invoke(true);
                     _isJumping = false; // Si au sol, alors il ne saute plus
-                    _rb.drag = 8f; // Assurez-vous de définir le drag immédiatement lors de l'atterrissage
+                    _rb.drag = 8f; // Assurez-vous de dÃ©finir le drag immÃ©diatement lors de l'atterrissage
                 }
 
                 _lastGroundedTime = Time.timeSinceLevelLoad;
@@ -131,7 +136,7 @@ namespace TomAg
                 if (wasGrounded)
                 {
                     onGroundChanged?.Invoke(false);
-                    _rb.drag = 1f; // Définir le drag à 1 quand il quitte le sol
+                    _rb.drag = 1f; // DÃ©finir le drag Ã  1 quand il quitte le sol
                 }
             }
         }
@@ -201,7 +206,7 @@ namespace TomAg
 
         private void OnMove(Vector2 axis)
         {
-            _localMoveAxis = new Vector3(axis.x * strafeForce, 0, axis.y * walkForce);
+            _moveInput = new Vector2(axis.x, axis.y);
         }
 
         private void OnAim(Vector2 axis)
@@ -237,10 +242,23 @@ namespace TomAg
 
         private void UpdateMove()
         {
-            if (_localMoveAxis == Vector3.zero)
+            if (_moveInput == Vector3.zero)
                 return;
 
-            _rb.AddRelativeForce(_localMoveAxis * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            // Projette les vecteurs sur le plan horizontal
+            cameraForward.y = 0;
+            cameraRight.y = 0;
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Calcule la direction du mouvement basï¿½e sur la rotation de la camï¿½ra
+            Vector3 moveDirection = (cameraForward * _moveInput.y * walkForce) +
+                                  (cameraRight * _moveInput.x * strafeForce);
+
+            _rb.AddRelativeForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
 
         private bool PlayerIsGrounded()
@@ -291,7 +309,7 @@ namespace TomAg
 
         private void UpdateRotation()
         {
-            // Mettre à jour l'angle de rotation en fonction de l'axe de visée
+            // Mettre Ã  jour l'angle de rotation en fonction de l'axe de visÃ©e
             _rotationAngleY += _localOffsetAngleY * Time.fixedDeltaTime;
             Quaternion newRotation = Quaternion.Euler(0, _rotationAngleY, 0);
             _rb.MoveRotation(newRotation);
