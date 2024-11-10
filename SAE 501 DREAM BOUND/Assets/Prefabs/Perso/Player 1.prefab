@@ -272,7 +272,7 @@ MonoBehaviour:
   angleMax: 73
   cameraDistance: 12
   cameraOffset: {x: 0, y: 5, z: 0}
-  smoothSpeed: 10
+  smoothSpeed: 0
   collisionOffset: 0.2
 --- !u!54 &5020012417044039812
 Rigidbody:
@@ -319,7 +319,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 9035077609489513462}
   jumpForce: 100
   movementAttenuationOnJump: 0.5
-  coyoteTime: 0.2
   groundMask:
     serializedVersion: 2
     m_Bits: 1

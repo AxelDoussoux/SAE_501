@@ -245,6 +245,7 @@ namespace TomAg
             if (_moveInput == Vector3.zero)
                 return;
 
+            // Obtient la rotation de la cam�ra (en ignorant la rotation X/inclinaison)
             Vector3 cameraForward = cameraTransform.forward;
             Vector3 cameraRight = cameraTransform.right;
 
@@ -258,7 +259,15 @@ namespace TomAg
             Vector3 moveDirection = (cameraForward * _moveInput.y * walkForce) +
                                   (cameraRight * _moveInput.x * strafeForce);
 
-            _rb.AddRelativeForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            // Applique le mouvement
+            _rb.AddForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
+
+            // Fait pivoter le personnage vers la direction du mouvement
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSensitivity));
+            }
         }
 
         private bool PlayerIsGrounded()

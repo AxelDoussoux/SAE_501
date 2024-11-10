@@ -8,9 +8,9 @@ namespace TomAg
         [SerializeField] private float aimSpeed = 10f;
         [SerializeField] private float angleMin = -30f;
         [SerializeField] private float angleMax = 60f;
-        [SerializeField] private float cameraDistance = 5f;
-        [SerializeField] private Vector3 cameraOffset = new Vector3(0f, 2f, 0f);
-        [SerializeField] private float smoothSpeed = 10f;
+        [SerializeField] private float cameraDistance = 12f;
+        [SerializeField] private Vector3 cameraOffset = new Vector3(0f, 5f, 0f);
+        [SerializeField] private float smoothSpeed = 0f;
         [SerializeField] private float collisionOffset = 0.2f;
 
         private PlayerController _controller;
