@@ -258,7 +258,7 @@ namespace TomAg
             Vector3 moveDirection = (cameraForward * _moveInput.y * walkForce) +
                                   (cameraRight * _moveInput.x * strafeForce);
 
-            _rb.AddRelativeForce(_moveInput * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            _rb.AddRelativeForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
 
         private bool PlayerIsGrounded()
