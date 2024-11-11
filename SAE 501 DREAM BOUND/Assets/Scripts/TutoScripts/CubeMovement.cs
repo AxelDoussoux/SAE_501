@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CubeMovement : MonoBehaviour, IMovable
 {
-    [SerializeField] private MovementSettings settings;
+    [SerializeField] 
+    private MovementSettings settings;
     private Vector3 initialPosition;
     private Vector3 finalPosition;
     private Coroutine currentMovementCoroutine;
@@ -27,7 +28,7 @@ public class CubeMovement : MonoBehaviour, IMovable
             StopCoroutine(currentMovementCoroutine);
         }
         Vector3 startPos = transform.position;
-        Vector3 endPos = moveUp ? finalPosition : initialPosition;
+        Vector3 endPos = moveUp ?finalPosition : initialPosition;
         currentMovementCoroutine = StartCoroutine(MoveObject(startPos, endPos));
     }
 
