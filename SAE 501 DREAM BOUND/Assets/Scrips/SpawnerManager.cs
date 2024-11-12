@@ -1,70 +1,94 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class SpawnerManager : NetworkBehaviour
+namespace TomAg
 {
-    [SerializeField] private GameObject player1Prefab;
-    [SerializeField] private GameObject player2Prefab;
-    [SerializeField] private Transform spawn1Position;
-    [SerializeField] private Transform spawn2Position;
-
-    // ClientRpc pour informer les clients de leur joueur assigné
-    [ClientRpc]
-    private void AssignPlayerClientRpc(ulong clientId, NetworkObjectReference playerRef)
+    public class SpawnerManager : NetworkBehaviour
     {
-        if (NetworkManager.Singleton.LocalClientId == clientId)
+        [SerializeField] private GameObject player1Prefab;
+        [SerializeField] private GameObject player2Prefab;
+        [SerializeField] private Transform spawn1Position;
+        [SerializeField] private Transform spawn2Position;
+
+        [ClientRpc]
+        private void AssignPlayerClientRpc(ulong clientId, NetworkObjectReference playerRef)
         {
-            if (playerRef.TryGet(out NetworkObject playerObject))
+            if (Unity.Netcode.NetworkManager.Singleton.LocalClientId == clientId)
             {
-                Debug.Log($"Client {clientId} assigned to player {playerObject.gameObject.name}");
+                if (playerRef.TryGet(out NetworkObject playerObject))
+                {
+                    // Activer la caméra du joueur local uniquement
+                    Camera playerCamera = playerObject.GetComponentInChildren<Camera>();
+                    if (playerCamera != null)
+                    {
+                        // Désactiver la caméra principale si elle existe
+                        Camera.main?.gameObject.SetActive(false);
+
+                        // Activer la caméra du joueur
+                        playerCamera.gameObject.SetActive(true);
+                    }
+
+                    Debug.Log($"Client {clientId} assigned to player {playerObject.gameObject.name} with camera activated");
+                }
+            }
+            else
+            {
+                // Désactiver la caméra des autres joueurs
+                if (playerRef.TryGet(out NetworkObject playerObject))
+                {
+                    Camera playerCamera = playerObject.GetComponentInChildren<Camera>();
+                    if (playerCamera != null)
+                    {
+                        playerCamera.gameObject.SetActive(false);
+                    }
+                }
             }
         }
-    }
 
-    public override void OnNetworkSpawn()
-    {
-        if (!IsServer) return;
-
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-    }
-
-    private void OnClientConnected(ulong clientId)
-    {
-        if (!IsServer) return;
-
-        // Premier joueur connecté
-        if (clientId == NetworkManager.Singleton.ServerClientId)
+        public override void OnNetworkSpawn()
         {
-            SpawnPlayerForClient(clientId, player1Prefab, spawn1Position);
+            if (!IsServer) return;
+            Unity.Netcode.NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         }
-        // Deuxième joueur connecté
-        else
+
+        private void OnClientConnected(ulong clientId)
         {
-            SpawnPlayerForClient(clientId, player2Prefab, spawn2Position);
+            if (!IsServer) return;
+
+            if (clientId == GetServerClientId())
+            {
+                SpawnPlayerForClient(clientId, player1Prefab, spawn1Position);
+            }
+            else
+            {
+                SpawnPlayerForClient(clientId, player2Prefab, spawn2Position);
+            }
         }
-    }
 
-    private void SpawnPlayerForClient(ulong clientId, GameObject playerPrefab, Transform spawnPoint)
-    {
-        GameObject playerInstance = Instantiate(
-            playerPrefab,
-            spawnPoint.position,
-            spawnPoint.rotation
-        );
-
-        NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
-        netObj.SpawnWithOwnership(clientId);
-
-        AssignPlayerClientRpc(clientId, netObj);
-
-        Debug.Log($"Spawned player for client {clientId}");
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        if (IsServer)
+        private static ulong GetServerClientId()
         {
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            return Unity.Netcode.NetworkManager.ServerClientId;
+        }
+
+        private void SpawnPlayerForClient(ulong clientId, GameObject playerPrefab, Transform spawnPoint)
+        {
+            GameObject playerInstance = Instantiate(
+                playerPrefab,
+                spawnPoint.position,
+                spawnPoint.rotation
+            );
+            NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+            netObj.SpawnWithOwnership(clientId);
+            AssignPlayerClientRpc(clientId, netObj);
+            Debug.Log($"Spawned player for client {clientId}");
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            if (IsServer)
+            {
+                Unity.Netcode.NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            }
         }
     }
 }

@@ -185,35 +185,11 @@ MonoBehaviour:
     m_ActionId: bb9cd624-ef4a-4713-a292-eeb532603d0f
     m_ActionName: App/Point[/Mouse/position]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8705423668448049899}
-        m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
-        m_MethodName: OnInteract
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 61211ff8-10cb-4f25-a833-bad4c4b08ec8
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8705423668448049899}
-        m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
-        m_MethodName: OnAim
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 91a933d2-0eb7-42ef-af89-a2006faba147
     m_ActionName: Player/Aim[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 1

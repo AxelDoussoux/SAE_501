@@ -1263,8 +1263,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1237924328}
-    PlayerPrefab: {fileID: 4491340905819882418, guid: df834ceba66c57b43830f2f35cb58d37,
-      type: 3}
+    PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 442583ca12c5f5848af0b1215b189bdf, type: 2}
@@ -2288,11 +2287,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f01d5972e079c1c43b986f3cfba14938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4491340905819882418, guid: df834ceba66c57b43830f2f35cb58d37,
+  player1Prefab: {fileID: 4491340905819882418, guid: df834ceba66c57b43830f2f35cb58d37,
     type: 3}
-  spawnPoints:
-  - {fileID: 117392706}
-  - {fileID: 0}
+  player2Prefab: {fileID: 4491340905819882418, guid: 0a345bbc74a7c0e49aaef812e0bbbe4e,
+    type: 3}
+  spawn1Position: {fileID: 117392706}
+  spawn2Position: {fileID: 573093204}
 --- !u!114 &2003482572
 MonoBehaviour:
   m_ObjectHideFlags: 0
