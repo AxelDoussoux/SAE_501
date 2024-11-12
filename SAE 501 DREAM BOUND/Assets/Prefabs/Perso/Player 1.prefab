@@ -318,19 +318,19 @@ MonoBehaviour:
   rotationSensitivity: 10
   cameraTransform: {fileID: 9035077609489513462}
   jumpForce: 100
-  movementAttenuationOnJump: 0.5
+  movementAttenuationOnJump: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 1
   groundMaxDistance: 0.3
-  groundMaxDistanceAfterJump: 0.05
+  groundMaxDistanceAfterJump: 1
   dragOnGround: 8
-  movementAttenuationInAir: 0.1
+  movementAttenuationInAir: 0
   rideSpringStrength: 1
   rideSpringDampener: 1
   rideSpringMaxDistance: 0.2
   rideSpringHeight: 1
-  rideSpringJumpTime: 0.3
+  rideSpringJumpTime: 1
 --- !u!114 &537739631839804501
 MonoBehaviour:
   m_ObjectHideFlags: 0
