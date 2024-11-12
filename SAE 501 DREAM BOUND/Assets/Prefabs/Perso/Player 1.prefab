@@ -429,7 +429,7 @@ MonoBehaviour:
   groundMaxDistanceAfterJump: 0.05
   dragOnGround: 8
   movementAttenuationInAir: 0.1
-  rideSpringStrength: 1
+  rideSpringStrength: 0.1
   rideSpringDampener: 1
   rideSpringMaxDistance: 0.2
   rideSpringHeight: 1
