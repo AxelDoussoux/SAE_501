@@ -216,7 +216,7 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 91a933d2-0eb7-42ef-af89-a2006faba147
     m_ActionName: Player/Aim[/Mouse/delta]
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -298,7 +298,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &5573489415537976595
