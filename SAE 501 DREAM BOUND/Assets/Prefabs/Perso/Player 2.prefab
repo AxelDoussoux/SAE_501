@@ -42,7 +42,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5684941503764668917}
-  - {fileID: 7698243311303904642}
+  - {fileID: 7594147776523700439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2572759711293886903
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2334019507
+  GlobalObjectIdHash: 1690639042
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 91a933d2-0eb7-42ef-af89-a2006faba147
     m_ActionName: Player/Aim[/Mouse/delta]
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -566,6 +566,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 495015903470521594, guid: 6b132f5e336598546bd45dfe4ff8589d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 495015903470521594, guid: 6b132f5e336598546bd45dfe4ff8589d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 495015903470521594, guid: 6b132f5e336598546bd45dfe4ff8589d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3865216440611087926, guid: 6b132f5e336598546bd45dfe4ff8589d,
         type: 3}
       propertyPath: m_Name
@@ -576,9 +591,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b132f5e336598546bd45dfe4ff8589d, type: 3}
---- !u!4 &7698243311303904642 stripped
+--- !u!4 &7594147776523700439 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 389795548976695727, guid: 6b132f5e336598546bd45dfe4ff8589d,
+  m_CorrespondingSourceObject: {fileID: 495015903470521594, guid: 6b132f5e336598546bd45dfe4ff8589d,
     type: 3}
   m_PrefabInstance: {fileID: 8051718692251305005}
   m_PrefabAsset: {fileID: 0}
