@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.InputSystem;
-using UnityEngine;
 using System;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TomAg
 {
-    public class PlayerController : MonoBehaviour, GameInputs.IPlayerActions
+    public class PlayerController : NetworkBehaviour, GameInputs.IPlayerActions
     {
-      
-
-        public int playerId => _playerId;
-        public PlayerInput playerInput => _playerInput;
+        public int PlayerId => _playerId;
 
         public event Action<Vector2> onAim;
         public event Action<Vector2> onMove;
@@ -22,27 +18,54 @@ namespace TomAg
         public event Action onInteract;
 
         private int _playerId;
-        private PlayerInput _playerInput;
-
+        private GameInputs _gameInputs; // Utilisation de GameInputs pour les actions
 
         private void Start()
         {
+            if (IsOwner) // Vérifie si le joueur est le propriétaire en réseau
+            {
+                _gameInputs = new GameInputs(); // Instancie les actions de jeu
+                _gameInputs.Player.SetCallbacks(this); // Associe ce script comme récepteur des actions
+                _gameInputs.Player.Enable(); // Active les contrôles de l'action Map 'Player'
 
+                if (TryGetComponent(out PlayerInput playerInput))
+                {
+                    _playerId = playerInput.playerIndex;
+                    Debug.Log($"Player ID assigned: {_playerId}");
+                }
+                else
+                {
+                    Debug.LogError("PlayerInput component missing on this GameObject.");
+                }
+            }
+        }
 
-            TryGetComponent(out PlayerInput playerInput);
-            _playerId = playerInput.playerIndex;
+        private void OnEnable()
+        {
+            if (_gameInputs != null && IsOwner)
+            {
+                _gameInputs.Player.Enable();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_gameInputs != null)
+            {
+                _gameInputs.Player.Disable();
+            }
         }
 
         public void OnMove(InputAction.CallbackContext ctx)
         {
-            var axis = ctx.ReadValue<Vector2>();
+            Vector2 axis = ctx.ReadValue<Vector2>();
             Debug.Log("Move called with: " + axis);
             onMove?.Invoke(axis);
         }
 
         public void OnAim(InputAction.CallbackContext ctx)
         {
-            var axis = ctx.ReadValue<Vector2>();
+            Vector2 axis = ctx.ReadValue<Vector2>();
             onAim?.Invoke(axis);
         }
 
@@ -65,7 +88,7 @@ namespace TomAg
         public void OnInteract(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
-            onInteract?.Invoke();
+                onInteract?.Invoke();
         }
     }
 }

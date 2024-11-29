@@ -43,8 +43,8 @@ namespace TomAg
             _gameInputs.App.Enable();
 
             // Curseur
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
         }
 
         private void OnControlsChanged(PlayerInput playerInput)
