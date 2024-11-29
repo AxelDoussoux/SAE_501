@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: c507e91511f03794cb1b2caf38f99989,
+  m_Actions: {fileID: -944628639613478452, guid: 13f6100d679bbf14da8def4a14907c29,
     type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
@@ -366,17 +366,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 7816914834668261742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1610184318e4bba4498b93fbfcb6705d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e417c4e1de0c6948a1cb38b3cd36836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 4451604567676287399}
-  aimSpeed: 10
-  angleMin: -80
-  angleMax: 73
-  cameraDistance: 12
-  cameraOffset: {x: 0, y: 5, z: 0}
-  smoothSpeed: 0
-  collisionOffset: 0.2
+  walkForce: 510
+  strafeForce: 450
+  rotationSensitivity: 10
+  cameraTransform: {fileID: 9085838872107970471}
+  jumpForce: 100
+  movementAttenuationOnJump: 0.5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundMaxDistance: 0.3
+  groundMaxDistanceAfterJump: 0.05
+  dragOnGround: 8
+  movementAttenuationInAir: 0.1
+  rideSpringStrength: 1
+  rideSpringDampener: 1
+  rideSpringMaxDistance: 0.2
+  rideSpringHeight: 1
+  rideSpringJumpTime: 0.3
 --- !u!54 &3278050281737314994
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -413,27 +423,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7816914834668261742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ec4b93bcf1478244b67b98d69af4fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkForce: 510
-  strafeForce: 450
-  rotationSensitivity: 10
-  cameraTransform: {fileID: 9085838872107970471}
-  jumpForce: 100
-  movementAttenuationOnJump: 0.5
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 1
-  groundMaxDistance: 0.3
-  groundMaxDistanceAfterJump: 0.05
-  dragOnGround: 8
-  movementAttenuationInAir: 0.1
-  rideSpringStrength: 0.1
-  rideSpringDampener: 1
-  rideSpringMaxDistance: 0.2
-  rideSpringHeight: 1
-  rideSpringJumpTime: 0.3
+  _camera: {fileID: 4451604567676287399}
+  aimSpeed: 10
+  angleMin: -30
+  angleMax: 60
+  cameraDistance: 12
+  cameraOffset: {x: 0, y: 5, z: 0}
+  smoothSpeed: 0
+  collisionOffset: 0.2
 --- !u!114 &941599815446501609
 MonoBehaviour:
   m_ObjectHideFlags: 0
