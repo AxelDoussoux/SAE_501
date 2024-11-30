@@ -9,10 +9,14 @@ public class CubeMovement : MonoBehaviour, IMovable
     private Vector3 initialPosition;
     private Vector3 finalPosition;
     private Coroutine currentMovementCoroutine;
+    private Rigidbody rbPlatform;
 
     private void Start()
     {
         InitializePositions();
+
+        Rigidbody rbPlaform = GetComponent<Rigidbody>();
+      
     }
 
     private void InitializePositions()
@@ -37,6 +41,8 @@ public class CubeMovement : MonoBehaviour, IMovable
         float totalDistance = Vector3.Distance(startPosition, endPosition);
         float startTime = Time.time;
 
+       
+
         while (Vector3.Distance(transform.position, endPosition) > 0.01f)
         {
             float distanceCovered = (Time.time - startTime) * settings.moveSpeed;
@@ -46,6 +52,8 @@ public class CubeMovement : MonoBehaviour, IMovable
         }
 
         transform.position = endPosition;
+
+      
         currentMovementCoroutine = null;
     }
 }
