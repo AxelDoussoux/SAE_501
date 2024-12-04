@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 4259100737079150503}
   - component: {fileID: 3278050281737314994}
   - component: {fileID: 7441275669828633531}
-  - component: {fileID: 941599815446501609}
   - component: {fileID: 6522190596832088186}
   - component: {fileID: 3847291411701469490}
   - component: {fileID: 8425359063612780426}
@@ -385,8 +384,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7816914834668261742}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 70
+  m_Drag: 8
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -416,38 +415,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkForce: 510
-  strafeForce: 450
-  rotationSensitivity: 10
-  cameraTransform: {fileID: 9085838872107970471}
-  jumpForce: 100
-  movementAttenuationOnJump: 0.5
+  walkForce: 400
+  strafeForce: 400
+  maxVelocity: 30
+  maxVerticalVelocity: 50
+  slopeForce: 20
+  jumpForce: 20
+  jumpDrag: 2
+  fallingDrag: 2
+  jumpApexThreshold: 2
   groundMask:
     serializedVersion: 2
     m_Bits: 1
-  groundMaxDistance: 0.3
-  groundMaxDistanceAfterJump: 0.05
-  dragOnGround: 8
-  movementAttenuationInAir: 0.1
-  rideSpringStrength: 0.1
-  rideSpringDampener: 1
-  rideSpringMaxDistance: 0.2
-  rideSpringHeight: 1
-  rideSpringJumpTime: 0.3
---- !u!114 &941599815446501609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7816914834668261742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e337257236e79624991044e96e404f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hostMass: 10
-  clientMass: 5
+  groundCheckDistance: 0.5
+  maxSlopeAngle: 45
+  airControlFactor: 1
+  gravityMultiplier: 4
+  cameraTransform: {fileID: 9085838872107970471}
 --- !u!114 &6522190596832088186
 MonoBehaviour:
   m_ObjectHideFlags: 0

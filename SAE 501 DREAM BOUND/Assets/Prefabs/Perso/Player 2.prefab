@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1690639042
+  GlobalObjectIdHash: 2334019507
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -257,7 +257,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4522360775394759168}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 70
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -292,17 +292,18 @@ MonoBehaviour:
   strafeForce: 450
   rotationSensitivity: 10
   cameraTransform: {fileID: 5684941503764668917}
-  jumpForce: 100
-  movementAttenuationOnJump: 0.5
   groundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   groundMaxDistance: 0.3
   groundMaxDistanceAfterJump: 0.05
   dragOnGround: 8
   movementAttenuationInAir: 0.1
-  rideSpringStrength: 1
-  rideSpringDampener: 1
+  jumpForce: 500
+  movementAttenuationOnJump: 0.5
+  coyoteTime: 0.2
+  rideSpringStrength: 500
+  rideSpringDampener: 25
   rideSpringMaxDistance: 0.2
   rideSpringHeight: 1
   rideSpringJumpTime: 0.3
