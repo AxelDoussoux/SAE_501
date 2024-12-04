@@ -427,7 +427,7 @@ MonoBehaviour:
     m_Bits: 1
   groundCheckDistance: 0.5
   maxSlopeAngle: 45
-  slopeForce: 20
+  slopeForce: 10
   airControlFactor: 1
   gravityMultiplier: 4
   cameraTransform: {fileID: 9085838872107970471}

@@ -6,28 +6,28 @@ namespace TomAg
     {
         [Header("Movement")]
         [SerializeField] private float walkForce = 400f;
-        [SerializeField] private float strafeForce = 350f;
+        [SerializeField] private float strafeForce = 400f;
         [SerializeField] private float maxVelocity = 30f;
         [SerializeField] private float maxVerticalVelocity = 50f;
 
         [Header("Jumping")]
-        [SerializeField] private float jumpForce = 8f;
+        [SerializeField] private float jumpForce = 20f;
         [SerializeField] private float jumpHorizontalDrag = 2f; // Drag horizontal pendant le saut
-        [SerializeField] private float jumpVerticalDrag = 0.1f; // Drag vertical pendant le saut
+        [SerializeField] private float jumpVerticalDrag = 0f; // Drag vertical pendant le saut
 
         [Header("Ground Check")]
         [SerializeField] private LayerMask groundMask;
-        [SerializeField] private float groundCheckDistance = 0.1f;
+        [SerializeField] private float groundCheckDistance = 0.5f;
 
         [Header("Slope Handling")]
         [SerializeField] private float maxSlopeAngle = 45f;
-        [SerializeField] private float slopeForce = 5f;
+        [SerializeField] private float slopeForce = 10f;
         private RaycastHit slopeHit;
         private bool exitingSlope;
 
         [Header("Air Control")]
-        [SerializeField] private float airControlFactor = 0.5f;
-        [SerializeField] private float gravityMultiplier = 2f;
+        [SerializeField] private float airControlFactor = 1f;
+        [SerializeField] private float gravityMultiplier = 4f;
 
         [Header("Camera Settings")]
         [SerializeField] private Transform cameraTransform;
