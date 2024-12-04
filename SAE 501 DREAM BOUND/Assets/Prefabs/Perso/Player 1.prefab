@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 182968102
+  GlobalObjectIdHash: 740251029
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -419,16 +419,15 @@ MonoBehaviour:
   strafeForce: 400
   maxVelocity: 30
   maxVerticalVelocity: 50
-  slopeForce: 20
   jumpForce: 20
-  jumpDrag: 2
-  fallingDrag: 2
-  jumpApexThreshold: 2
+  jumpHorizontalDrag: 2
+  jumpVerticalDrag: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 1
   groundCheckDistance: 0.5
   maxSlopeAngle: 45
+  slopeForce: 20
   airControlFactor: 1
   gravityMultiplier: 4
   cameraTransform: {fileID: 9085838872107970471}
