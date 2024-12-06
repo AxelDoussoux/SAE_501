@@ -333,6 +333,15 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""2f4b609b-56aa-44db-b6d8-46e846bbcdc6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -577,6 +586,28 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3093352d-3594-4ce4-9fdc-b3efce6cac5d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard / Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14c16527-e9b1-400c-a06c-d3c99242ec58"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -630,6 +661,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_App_Naviguate = m_App.FindAction("Naviguate", throwIfNotFound: true);
         m_App_Submit = m_App.FindAction("Submit", throwIfNotFound: true);
         m_App_Point = m_App.FindAction("Point", throwIfNotFound: true);
+        m_App_Pause = m_App.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -774,6 +806,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_App_Naviguate;
     private readonly InputAction m_App_Submit;
     private readonly InputAction m_App_Point;
+    private readonly InputAction m_App_Pause;
     public struct AppActions
     {
         private @GameInputs m_Wrapper;
@@ -783,6 +816,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         public InputAction @Naviguate => m_Wrapper.m_App_Naviguate;
         public InputAction @Submit => m_Wrapper.m_App_Submit;
         public InputAction @Point => m_Wrapper.m_App_Point;
+        public InputAction @Pause => m_Wrapper.m_App_Pause;
         public InputActionMap Get() { return m_Wrapper.m_App; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -807,6 +841,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Point.started += instance.OnPoint;
             @Point.performed += instance.OnPoint;
             @Point.canceled += instance.OnPoint;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IAppActions instance)
@@ -826,6 +863,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Point.started -= instance.OnPoint;
             @Point.performed -= instance.OnPoint;
             @Point.canceled -= instance.OnPoint;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IAppActions instance)
@@ -876,5 +916,6 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         void OnNaviguate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

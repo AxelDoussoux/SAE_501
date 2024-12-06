@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 
 namespace TomAg
 {
-    public class PlayerController : NetworkBehaviour, GameInputs.IPlayerActions
+    public class PlayerController : NetworkBehaviour, GameInputs.IPlayerActions, GameInputs.IAppActions
     {
         public int PlayerId => _playerId;
+        public bool IsPaused => _isPaused;
 
         public event Action<Vector2> onAim;
         public event Action<Vector2> onMove;
@@ -16,17 +17,21 @@ namespace TomAg
         public event Action onCrouchStart;
         public event Action onCrouchStop;
         public event Action onInteract;
+        public event Action onPauseToggle;
 
         private int _playerId;
-        private GameInputs _gameInputs; // Utilisation de GameInputs pour les actions
+        private GameInputs _gameInputs;
+        private bool _isPaused;
 
         private void Start()
         {
-            if (IsOwner) // Vérifie si le joueur est le propriétaire en réseau
+            if (IsOwner)
             {
-                _gameInputs = new GameInputs(); // Instancie les actions de jeu
-                _gameInputs.Player.SetCallbacks(this); // Associe ce script comme récepteur des actions
-                _gameInputs.Player.Enable(); // Active les contrôles de l'action Map 'Player'
+                _gameInputs = new GameInputs();
+                _gameInputs.Player.SetCallbacks(this);
+                _gameInputs.App.SetCallbacks(this); // Ajouter les callbacks pour App
+                _gameInputs.Player.Enable();
+                _gameInputs.App.Enable(); // Activer l'Action Map App
 
                 if (TryGetComponent(out PlayerInput playerInput))
                 {
@@ -45,6 +50,7 @@ namespace TomAg
             if (_gameInputs != null && IsOwner)
             {
                 _gameInputs.Player.Enable();
+                _gameInputs.App.Enable(); // Activer App
             }
         }
 
@@ -53,24 +59,41 @@ namespace TomAg
             if (_gameInputs != null)
             {
                 _gameInputs.Player.Disable();
+                _gameInputs.App.Disable(); // Désactiver App
             }
         }
 
         public void OnMove(InputAction.CallbackContext ctx)
         {
+            if (_isPaused)
+            {
+                Debug.Log("Move ignored - game is paused");
+                return;
+            }
+
             Vector2 axis = ctx.ReadValue<Vector2>();
-            Debug.Log("Move called with: " + axis);
+            Debug.Log($"Move called with: {axis}");
             onMove?.Invoke(axis);
         }
 
         public void OnAim(InputAction.CallbackContext ctx)
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             Vector2 axis = ctx.ReadValue<Vector2>();
             onAim?.Invoke(axis);
         }
 
         public void OnJump(InputAction.CallbackContext ctx)
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (ctx.started)
                 onJumpStart?.Invoke();
             else if (ctx.canceled)
@@ -79,6 +102,11 @@ namespace TomAg
 
         public void OnCrouch(InputAction.CallbackContext ctx)
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (ctx.started)
                 onCrouchStart?.Invoke();
             else if (ctx.canceled)
@@ -87,8 +115,51 @@ namespace TomAg
 
         public void OnInteract(InputAction.CallbackContext ctx)
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (ctx.started)
                 onInteract?.Invoke();
         }
+
+
+        public void OnPause(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started)
+            {
+                _isPaused = !_isPaused;
+                Debug.Log($"Pause state toggled - IsPaused: {_isPaused}");
+                onPauseToggle?.Invoke(); // Assurez-vous que l'événement est bien invoqué
+            }
+        }
+
+
+        public void OnBack(InputAction.CallbackContext context)
+        {
+            // Laisser vide si vous ne voulez pas gérer cette action pour le moment
+        }
+
+        public void OnClick(InputAction.CallbackContext context)
+        {
+            // Laisser vide
+        }
+
+        public void OnNaviguate(InputAction.CallbackContext context)
+        {
+            // Laisser vide
+        }
+
+        public void OnSubmit(InputAction.CallbackContext context)
+        {
+            // Laisser vide
+        }
+
+        public void OnPoint(InputAction.CallbackContext context)
+        {
+            // Laisser vide
+        }
+
     }
 }
