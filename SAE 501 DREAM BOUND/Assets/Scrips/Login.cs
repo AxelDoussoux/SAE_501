@@ -1,87 +1,128 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.Networking;
-using System.Text;
-using UnityEngine.UI;
+using UnityEngine.UI; // Pour le bouton Unity classique
+using TMPro; // Pour TextMeshPro
 
 public class Login : MonoBehaviour
 {
-    public TMP_InputField login;  // Champ de saisie pour le login
-    public TMP_InputField password;  // Champ de saisie pour le mot de passe
-    public TextMeshProUGUI statusText;  // Text pour afficher le statut de la connexion
+    [Header("UI Elements")]
+    public TMP_InputField loginInputField;  // Champ pour le login (TextMeshPro)
+    public TMP_InputField passwordInputField;  // Champ pour le mot de passe (TextMeshPro)
+    public TMP_Text feedbackText;  // Texte pour afficher les erreurs ou succès (TextMeshPro)
+    public Button validateButton;  // Bouton classique (UnityEngine.UI)
 
-    private const string apiUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/login";  // URL de l'API pour la connexion
+    [Header("API Configuration")]
+    public string apiLoginUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/login";
 
-    // Fonction de connexion
-    public void Connect()
+    private bool isRequestInProgress = false; // Pour éviter des requêtes multiples
+
+    void Start()
     {
-        // Récupère le login et le mot de passe de l'utilisateur
-        string userLogin = login.text;
-        string userPassword = password.text;
-
-        // Appel de la fonction qui gère la requête d'authentification
-        StartCoroutine(LoginUser(userLogin, userPassword));
+        // Associer le bouton au gestionnaire d'événements
+        validateButton.onClick.AddListener(OnValidateButtonClick);
     }
 
-    // Coroutine pour envoyer la requête d'authentification
-    IEnumerator LoginUser(string userLogin, string userPassword)
+    public void OnValidateButtonClick()
     {
-        // Prépare les données pour la requête JSON
-        var loginData = new
+        if (isRequestInProgress)
         {
-            login = userLogin,
-            password = userPassword
-        };
+            feedbackText.text = "Requête en cours, veuillez patienter...";
+            return;
+        }
 
-        string json = JsonUtility.ToJson(loginData);
+        string login = loginInputField.text;
+        string password = passwordInputField.text;
 
-        // Crée la requête HTTP POST
-        UnityWebRequest request = new UnityWebRequest(apiUrl, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+        {
+            feedbackText.text = "Le login ou le mot de passe est vide.";
+            return;
+        }
+
+        // Lancer la requête API
+        StartCoroutine(SendLoginRequest(login, password));
+    }
+
+    IEnumerator SendLoginRequest(string login, string password)
+    {
+        isRequestInProgress = true;
+        validateButton.interactable = false; // Désactiver le bouton pendant la requête
+        feedbackText.text = "Connexion en cours...";
+
+        // Création des données JSON pour la requête
+        string jsonData = JsonUtility.ToJson(new LoginData(login, password));
+
+        // Création de la requête HTTP POST
+        UnityWebRequest request = new UnityWebRequest(apiLoginUrl, "POST");
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonData);
+        request.uploadHandler = new UploadHandlerRaw(jsonToSend);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
 
-        // Envoie la requête et attend la réponse
+        // Envoyer la requête et attendre la réponse
         yield return request.SendWebRequest();
 
-        // Vérifie les erreurs
-        if (request.result != UnityWebRequest.Result.Success)
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            statusText.text = "Error: " + request.error;
+            Debug.Log("Connexion réussie : " + request.downloadHandler.text);
+            feedbackText.text = "Connexion réussie.";
+            HandleLoginResponse(request.downloadHandler.text);
         }
         else
         {
-            // Si la requête réussit, affiche la réponse (par exemple, un token)
-            string response = request.downloadHandler.text;
+            Debug.LogError("Erreur lors de la connexion : " + request.error);
+            feedbackText.text = "Erreur : " + request.error;
+        }
 
-            // Ici, tu devras probablement extraire le token de la réponse
-            // Supposons que la réponse contient un champ "token"
-            // Exemple de réponse : { "token": "jwt_token_value" }
+        // Réinitialiser l'état du bouton
+        validateButton.interactable = true;
+        isRequestInProgress = false;
+    }
 
-            // Tu peux désérialiser la réponse pour extraire le token (ceci est un exemple simple)
-            var responseData = JsonUtility.FromJson<ResponseData>(response);
+    void HandleLoginResponse(string jsonResponse)
+    {
+        // Traiter la réponse de l'API
+        LoginResponse response = JsonUtility.FromJson<LoginResponse>(jsonResponse);
 
-            if (responseData != null && !string.IsNullOrEmpty(responseData.token))
-            {
-                statusText.text = "Connexion réussie ! Token: " + responseData.token;
-                // Sauvegarder le token pour l'utiliser dans les futures requêtes
-                PlayerPrefs.SetString("auth_token", responseData.token);
-                PlayerPrefs.Save();
-            }
-            else
-            {
-                statusText.text = "Échec de la connexion. Vérifie tes identifiants.";
-            }
+        if (!string.IsNullOrEmpty(response.token))
+        {
+            Debug.Log("Token reçu : " + response.token);
+            feedbackText.text = "Connexion réussie. Token : " + response.token;
+
+            // TODO: Stocker le token ou rediriger vers une autre scène
+
+            PlayerPrefs.SetString("authToken", response.token);
+            PlayerPrefs.Save();
+            Debug.Log("Token sauvegardé : " + PlayerPrefs.GetString("authToken"));
+        }
+        else
+        {
+            Debug.LogError("Erreur : " + response.error);
+            feedbackText.text = "Erreur : " + response.error;
         }
     }
 
-    // Structure pour la désérialisation de la réponse JSON
+    // Classe pour les données de connexion
     [System.Serializable]
-    public class ResponseData
+    public class LoginData
+    {
+        public string login;
+        public string password;
+
+        public LoginData(string login, string password)
+        {
+            this.login = login;
+            this.password = password;
+        }
+    }
+
+    // Classe pour la réponse de l'API
+    [System.Serializable]
+    public class LoginResponse
     {
         public string token;
+        public string expires_at;
+        public string error;
     }
 }
