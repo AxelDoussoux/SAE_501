@@ -6871,17 +6871,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 577916497}
-  - component: {fileID: 577916496}
   - component: {fileID: 577916500}
+  - component: {fileID: 577916496}
   - component: {fileID: 577916498}
-  - component: {fileID: 577916499}
   m_Layer: 5
   m_Name: Pause Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &577916496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6889,7 +6888,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577916495}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
@@ -6927,19 +6926,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuDocument: {fileID: 577916496}
---- !u!114 &577916499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577916495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed0844e7194b5c84686b7aee91c92bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transport: {fileID: 1358858401}
 --- !u!114 &577916500
 MonoBehaviour:
   m_ObjectHideFlags: 0
