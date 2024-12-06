@@ -25,13 +25,15 @@ namespace TomAg
 
         private void Start()
         {
+            Debug.Log($"PlayerController - Start called for {gameObject.name}, IsOwner: {IsOwner}");
+
             if (IsOwner)
             {
                 _gameInputs = new GameInputs();
                 _gameInputs.Player.SetCallbacks(this);
-                _gameInputs.App.SetCallbacks(this); // Ajouter les callbacks pour App
+                _gameInputs.App.SetCallbacks(this);
                 _gameInputs.Player.Enable();
-                _gameInputs.App.Enable(); // Activer l'Action Map App
+                _gameInputs.App.Enable();
 
                 if (TryGetComponent(out PlayerInput playerInput))
                 {
@@ -44,6 +46,17 @@ namespace TomAg
                 }
             }
         }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn(); // Appel de la méthode de base
+            if (IsOwner)
+            {
+                Debug.Log($"PlayerController - Network object spawned: {gameObject.name}");
+                PauseMenuController.Instance.RegisterLocalPlayer(this);
+            }
+        }
+
 
         private void OnEnable()
         {
