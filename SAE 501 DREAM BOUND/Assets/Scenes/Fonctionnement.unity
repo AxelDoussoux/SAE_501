@@ -6925,8 +6925,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840aa046132fae44dadc88eb3c3d8fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuDocument: {fileID: 577916496}
-  mainMenuDocument: {fileID: 1645936826}
+  _pauseMenuDocument: {fileID: 577916496}
+  _mainMenuDocument: {fileID: 1645936826}
 --- !u!114 &577916500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6941,12 +6941,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 717531584
   InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 1
+  AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  ActiveSceneSynchronization: 1
+  ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
-  DontDestroyWithOwner: 1
+  DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &581146180
 GameObject:
