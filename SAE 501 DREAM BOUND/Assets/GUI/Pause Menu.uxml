@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/GUI/MyButton.uss?fileID=7433441132597879392&amp;guid=9998aaf3d116fc44a987fdda99370b5a&amp;type=3#MyButton" />
-    <ui:VisualElement style="flex-grow: 1; justify-content: center; align-items: center; align-self: center; width: 33%; max-height: 50%; overflow: visible; background-color: rgba(18, 0, 67, 0.39); margin-top: auto; margin-right: auto; margin-bottom: auto; margin-left: auto; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;">
-        <ui:Button name="Continue" text="Continuer" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PAUSEBUTTON" />
-        <ui:Button name="Option" text="Option" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PAUSEBUTTON" />
-        <ui:Button name="Quit" text="Quitter" parse-escape-sequences="true" display-tooltip-when-elided="true" class="QUIT PAUSEBUTTON" />
+    <ui:VisualElement style="flex-grow: 1; justify-content: center; align-items: center; align-self: center; width: 33%; max-height: 50%; overflow: visible; background-color: rgba(18, 0, 67, 0.39); margin: auto; padding: 2%; border-radius: 15px;">
+        <ui:Button name="continue" text="Continuer" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="true" tooltip="Continue" class="PAUSEBUTTON" />
+        <ui:Button name="option" text="Option" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="true" tooltip="Option" class="PAUSEBUTTON" />
+        <ui:Button name="quit" text="Quitter" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="true" tooltip="Quit" class="QUIT PAUSEBUTTON" />
     </ui:VisualElement>
 </ui:UXML>

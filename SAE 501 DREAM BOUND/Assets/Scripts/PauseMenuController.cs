@@ -1,300 +1,196 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using Unity.Netcode;
-using System.Collections;
-using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 namespace TomAg
 {
     public class PauseMenuController : NetworkBehaviour
     {
-        [SerializeField] private UIDocument pauseMenuDocument;
-        private PlayerController localPlayerController;
-        private VisualElement rootElement;
-        private bool isMenuOpen = false;
-
-        private Button continueButton;
-        private Button quitButton;
-
-        private bool isMenuInitialized = false;
-
         public static PauseMenuController Instance { get; private set; }
+
+        [SerializeField] private UIDocument _pauseMenuDocument;
+        [SerializeField] private UIDocument _mainMenuDocument;
+        private VisualElement _pauseMenuRoot;
+        private VisualElement _mainMenuRoot;
+        private Button _continueButton;
+        private Button _quitButton;
+        private PlayerController _localPlayer;
+        private bool _isMenuVisible = false;
+        private bool _isInitialized = false;
 
         private void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
-                Debug.LogError("PauseMenuController - Multiple instances detected!");
-                Destroy(this);
+                Destroy(gameObject);
+            }
+        }
+
+        private void OnEnable()
+        {
+            // S'assurer que l'UI est initialisée quand le document est activé
+            if (!_isInitialized)
+            {
+                InitializeUI();
             }
         }
 
         private void Start()
         {
-            StartCoroutine(WaitForLocalPlayerController());
-
-            if (pauseMenuDocument == null)
+            Debug.Log("PauseMenuController Start called");
+            if (!_isInitialized)
             {
-                Debug.LogError("PauseMenuController - Pause Menu UI Document is not assigned!");
+                InitializeUI();
+            }
+        }
+
+        private void InitializeUI()
+        {
+            Debug.Log("Initializing UI...");
+
+            if (_pauseMenuDocument == null)
+            {
+                Debug.LogError("Pause Menu UIDocument reference is missing!");
                 return;
             }
 
-            pauseMenuDocument.enabled = false;
-        }
+            // Attendre une frame pour s'assurer que le UIDocument est prêt
+            // C'est important car le rootVisualElement peut ne pas être immédiatement disponible
+            _pauseMenuDocument.rootVisualElement.schedule.Execute(() => {
+                Debug.Log("Setting up pause menu elements...");
 
-
-        // Wait for the client and the network to be setup
-
-
-        public void RegisterLocalPlayer(PlayerController playerController)
-        {
-            if (playerController == null)
-            {
-                Debug.LogError("PauseMenuController - Tried to register a null PlayerController");
-                return;
-            }
-
-            if (playerController.IsOwner)
-            {
-                localPlayerController = playerController;
-                localPlayerController.onPauseToggle += TogglePauseMenu;
-                Debug.Log("PauseMenuController - Local PlayerController registered");
-            }
-        }
-
-        private void OnClientStarted()
-        {
-            Debug.Log("PauseMenuController - OnClientStarted called");
-        }
-
-        private IEnumerator WaitForLocalPlayerController()
-        {
-            while (localPlayerController == null)
-            {
-                PlayerController[] allControllers = FindObjectsOfType<PlayerController>();
-                foreach (var controller in allControllers)
+                // Récupérer la racine du menu pause
+                _pauseMenuRoot = _pauseMenuDocument.rootVisualElement;
+                if (_pauseMenuRoot == null)
                 {
-                    if (controller.IsOwner)
-                    {
-                        localPlayerController = controller;
-                        localPlayerController.onPauseToggle += TogglePauseMenu;
-                        Debug.Log("PauseMenuController - Local PlayerController found");
-                        yield break;
-                    }
-                }
-
-                Debug.Log("PauseMenuController - Retrying to find PlayerController...");
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
-
-        private void OnNetworkObjectSpawned(NetworkObject networkObject)
-        {
-            PlayerController controller = networkObject.GetComponent<PlayerController>();
-
-            if (controller != null && controller.IsOwner)
-            {
-                Debug.Log($"PauseMenuController - Found spawned PlayerController: {controller.gameObject.name}");
-                localPlayerController = controller;
-                localPlayerController.onPauseToggle += TogglePauseMenu;
-            }
-        }
-
-        private void OnSceneLoadComplete(ulong clientId, string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
-        {
-            Debug.Log($"PauseMenuController - Scene {sceneName} loaded. Searching for PlayerControllers...");
-            FindLocalPlayerController();
-        }
-
-        private void FindLocalPlayerController()
-        {
-            PlayerController[] allControllers = FindObjectsOfType<PlayerController>();
-            Debug.Log($"PauseMenuController - Found {allControllers.Length} PlayerControllers");
-
-            foreach (PlayerController controller in allControllers)
-            {
-                Debug.Log($"PauseMenuController - Checking PlayerController {controller.gameObject.name}, IsOwner: {controller.IsOwner}");
-
-                if (controller.IsOwner)
-                {
-                    localPlayerController = controller;
-                    localPlayerController.onPauseToggle += TogglePauseMenu;
-                    Debug.Log("PauseMenuController - Local PlayerController found and connected");
+                    Debug.LogError("Pause menu root is null after initialization!");
                     return;
                 }
-            }
 
-            Debug.LogError("PauseMenuController - No local PlayerController found!");
+                // Récupérer les boutons
+                _continueButton = _pauseMenuRoot.Q<Button>("continue");
+                _quitButton = _pauseMenuRoot.Q<Button>("quit");
+
+                if (_continueButton == null || _quitButton == null)
+                {
+                    Debug.LogError($"Buttons not found! Continue: {_continueButton != null}, Quit: {_quitButton != null}");
+                    return;
+                }
+
+                // Configurer les événements des boutons
+                _continueButton.clicked += OnContinueClicked;
+                _quitButton.clicked += OnQuitClicked;
+
+                // Initialiser le menu principal si présent
+                if (_mainMenuDocument != null)
+                {
+                    _mainMenuRoot = _mainMenuDocument.rootVisualElement;
+                    _mainMenuRoot.style.display = DisplayStyle.Flex;
+                }
+
+                // Cacher le menu de pause au début
+                _pauseMenuRoot.style.display = DisplayStyle.None;
+                _isMenuVisible = false;
+
+                _isInitialized = true;
+                Debug.Log("UI Initialization completed successfully");
+            });
         }
 
-
-        //  Gestion du menu
-
-        private void OnEnable()
+        public void RegisterLocalPlayer(PlayerController player)
         {
-            // Initialiser le menu mais différer la recherche des boutons
-            StartCoroutine(InitializeMenuWithDelay());
-        }
-
-        private IEnumerator InitializeMenuWithDelay()
-        {
-            // Attendre une frame pour être sûr que tout est initialisé
-            yield return null;
-
-            InitializeMenu();
-        }
-
-
-
-        private void InitializeMenu()
-        {
-            if (pauseMenuDocument == null)
+            if (player == null)
             {
-                Debug.LogError("PauseMenuController - UIDocument is not assigned!");
+                Debug.LogError("Attempting to register null player!");
                 return;
             }
 
-            // Activer le document pour s'assurer que tout est prêt
-            if (!pauseMenuDocument.enabled)
-            {
-                pauseMenuDocument.enabled = true;
-            }
-
-            // Récupérer le rootVisualElement
-            rootElement = pauseMenuDocument.rootVisualElement;
-
-            if (rootElement == null)
-            {
-                Debug.LogError("PauseMenuController - RootVisualElement is null!");
-                return;
-            }
-
-            // Recherche des boutons
-            continueButton = rootElement.Q<Button>("Continue");
-            quitButton = rootElement.Q<Button>("Quit");
-
-            if (continueButton == null)
-            {
-                Debug.LogError("PauseMenuController - 'Continue' button not found in UIDocument.");
-            }
-            else
-            {
-                continueButton.clicked += () =>
-                {
-                    Debug.Log("Continue button clicked!");
-                    OnContinueClicked();
-                };
-            }
-
-            if (quitButton == null)
-            {
-                Debug.LogError("PauseMenuController - 'Quit' button not found in UIDocument.");
-            }
-            else
-            {
-                quitButton.clicked += () =>
-                {
-                    Debug.Log("Quit button clicked!");
-                    OnQuitClicked();
-                };
-            }
-
-            Debug.Log("PauseMenuController - Menu initialized successfully.");
-        }
-
-
-
-
-        private void OnContinueClicked()
-        {
-            if (!isMenuInitialized) return;
-
-            pauseMenuDocument.enabled = false;
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            UnityEngine.Cursor.visible = false;
-
-            Debug.Log("PauseMenuController - Resuming game.");
-        }
-
-        private void OnQuitClicked()
-        {
-            if (!isMenuInitialized) return;
-
-            if (IsHost())
-            {
-                Unity.Netcode.NetworkManager.Singleton.Shutdown();
-            }
-
-            // Charger le menu principal
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
-
-            Debug.Log("PauseMenuController - Quitting to main menu.");
-        }
-
-        private void StopGame()
-        {
-            if (Unity.Netcode.NetworkManager.Singleton != null)
-            {
-                Unity.Netcode.NetworkManager.Singleton.Shutdown(); // Arrête le serveur
-                ReturnToMainMenu();
-            }
-        }
-
-        private void ReturnToMainMenu()
-        {
-            SceneManager.LoadScene("MainMenu"); // Charge la scène du menu principal
-        }
-
-        private bool IsHost()
-        {
-            return Unity.Netcode.NetworkManager.Singleton != null && Unity.Netcode.NetworkManager.Singleton.IsHost;
+            _localPlayer = player;
+            _localPlayer.onPauseToggle += TogglePauseMenu;
+            Debug.Log($"Local player registered with ID: {player.PlayerId}");
         }
 
         private void TogglePauseMenu()
         {
-            isMenuOpen = !isMenuOpen;
-            pauseMenuDocument.enabled = isMenuOpen;
+            Debug.Log($"TogglePauseMenu called, current visibility: {_isMenuVisible}");
 
-            if (isMenuOpen)
+            if (_pauseMenuRoot == null)
             {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-                UnityEngine.Cursor.visible = true;
-                Debug.Log("Cursor unlocked and visible.");
+                Debug.LogError("Menu not initialized properly. Attempting to reinitialize...");
+                InitializeUI();
+                return;
             }
-            else
+
+            _isMenuVisible = !_isMenuVisible;
+            _pauseMenuRoot.style.display = _isMenuVisible ? DisplayStyle.Flex : DisplayStyle.None;
+
+            if (_localPlayer != null)
             {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                UnityEngine.Cursor.visible = false;
-                Debug.Log("Cursor locked and hidden.");
+                _localPlayer.SetPauseState(_isMenuVisible);
+                Debug.Log($"Player pause state set to: {_isMenuVisible}");
             }
         }
 
-
-        public override void OnDestroy()
+        private void OnContinueClicked()
         {
-            if (localPlayerController != null)
+            Debug.Log("Continue button clicked");
+            if (_localPlayer != null)
             {
-                localPlayerController.onPauseToggle -= TogglePauseMenu;
+                _isMenuVisible = false;
+                _pauseMenuRoot.style.display = DisplayStyle.None;
+                _localPlayer.SetPauseState(false);
+                _localPlayer.ResumeMovement();
             }
-
-            if (Unity.Netcode.NetworkManager.Singleton != null)
-            {
-                Unity.Netcode.NetworkManager.Singleton.OnClientStarted -= OnClientStarted;
-                Unity.Netcode.NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoadComplete;
-            }
-
-            if (continueButton != null)
-                continueButton.clicked -= OnContinueClicked;
-
-            if (quitButton != null)
-                quitButton.clicked -= OnQuitClicked;
-
-            base.OnDestroy();
         }
 
+        private void OnQuitClicked()
+        {
+            Debug.Log("Quit button clicked");
+            if (_localPlayer != null)
+            {
+                if (Unity.Netcode.NetworkManager.Singleton.IsHost)
+                {
+                    Unity.Netcode.NetworkManager.Singleton.Shutdown();
+                    Debug.Log("Host: Shutting down server");
+                }
+                else if (Unity.Netcode.NetworkManager.Singleton.IsClient)
+                {
+                    Unity.Netcode.NetworkManager.Singleton.Shutdown();
+                    Debug.Log("Client: Disconnecting from server");
+                }
+
+                _pauseMenuRoot.style.display = DisplayStyle.None;
+                if (_mainMenuRoot != null)
+                {
+                    _mainMenuRoot.style.display = DisplayStyle.Flex;
+                    Debug.Log("Main menu displayed");
+                }
+            }
+        }
+
+        /*private void OnDestroy()
+        {
+            if (_localPlayer != null)
+            {
+                _localPlayer.onPauseToggle -= TogglePauseMenu;
+            }
+
+            if (_continueButton != null)
+            {
+                _continueButton.clicked -= OnContinueClicked;
+            }
+
+            if (_quitButton != null)
+            {
+                _quitButton.clicked -= OnQuitClicked;
+            }
+        }
+        */
     }
 }

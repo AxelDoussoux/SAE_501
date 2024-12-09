@@ -44,12 +44,22 @@ namespace TomAg
                 {
                     Debug.LogError("PlayerInput component missing on this GameObject.");
                 }
+
+                if (PauseMenuController.Instance != null)
+                {
+                    PauseMenuController.Instance.RegisterLocalPlayer(this);
+                }
+
+                if (IsHost)
+                {
+                    Debug.Log("This player is the host!");
+                }
             }
         }
 
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn(); // Appel de la méthode de base
+            base.OnNetworkSpawn();
             if (IsOwner)
             {
                 Debug.Log($"PlayerController - Network object spawned: {gameObject.name}");
@@ -57,13 +67,12 @@ namespace TomAg
             }
         }
 
-
         private void OnEnable()
         {
             if (_gameInputs != null && IsOwner)
             {
                 _gameInputs.Player.Enable();
-                _gameInputs.App.Enable(); // Activer App
+                _gameInputs.App.Enable();
             }
         }
 
@@ -72,9 +81,16 @@ namespace TomAg
             if (_gameInputs != null)
             {
                 _gameInputs.Player.Disable();
-                _gameInputs.App.Disable(); // Désactiver App
+                _gameInputs.App.Disable();
             }
         }
+
+        public void ResumeMovement()
+        {
+            _isPaused = false;  // Désactive l'état de pause
+            Debug.Log("PlayerController - Movement resumed.");
+        }
+
 
         public void OnMove(InputAction.CallbackContext ctx)
         {
@@ -85,7 +101,6 @@ namespace TomAg
             }
 
             Vector2 axis = ctx.ReadValue<Vector2>();
-            Debug.Log($"Move called with: {axis}");
             onMove?.Invoke(axis);
         }
 
@@ -137,42 +152,46 @@ namespace TomAg
                 onInteract?.Invoke();
         }
 
-
         public void OnPause(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
                 _isPaused = !_isPaused;
                 Debug.Log($"Pause state toggled - IsPaused: {_isPaused}");
-                onPauseToggle?.Invoke(); // Assurez-vous que l'événement est bien invoqué
+                onPauseToggle?.Invoke();
             }
         }
 
+        public void SetPauseState(bool state)
+        {
+            _isPaused = state;
+        }
 
         public void OnBack(InputAction.CallbackContext context)
         {
-            // Laisser vide si vous ne voulez pas gérer cette action pour le moment
+            // Empty
         }
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            // Laisser vide
+            // Empty
         }
 
         public void OnNaviguate(InputAction.CallbackContext context)
         {
-            // Laisser vide
+            // Laisser vide si vous ne voulez pas gérer cette action pour le moment
         }
+
+
 
         public void OnSubmit(InputAction.CallbackContext context)
         {
-            // Laisser vide
+            // Empty
         }
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            // Laisser vide
+            // Empty
         }
-
     }
 }
