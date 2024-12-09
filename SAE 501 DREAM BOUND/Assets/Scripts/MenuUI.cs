@@ -105,13 +105,15 @@ public class MenuUI : MonoBehaviour
     public void UIVisibility()
     {
         if (!isHide) {
-            root.style.display = DisplayStyle.None;
+            menu.style.display = DisplayStyle.None;
+            wrapper.style.display = DisplayStyle.None;
             isHide = true;
             return;
         }
         else
         {
-            root.style.display = DisplayStyle.Flex;
+            menu.style.display = DisplayStyle.Flex;
+            wrapper.style.display = DisplayStyle.Flex;
             isHide = false;
             return;
         }
