@@ -35,6 +35,8 @@ namespace TomAg
                 _gameInputs.Player.Enable();
                 _gameInputs.App.Enable();
 
+                UnityEngine.Cursor.visible = false;
+
                 if (TryGetComponent(out PlayerInput playerInput))
                 {
                     _playerId = playerInput.playerIndex;
@@ -43,11 +45,6 @@ namespace TomAg
                 else
                 {
                     Debug.LogError("PlayerInput component missing on this GameObject.");
-                }
-
-                if (PauseMenuController.Instance != null)
-                {
-                    PauseMenuController.Instance.RegisterLocalPlayer(this);
                 }
 
                 if (IsHost)
@@ -165,6 +162,7 @@ namespace TomAg
         public void SetPauseState(bool state)
         {
             _isPaused = state;
+            Debug.Log($"_isPaused = {state}");
         }
 
         public void OnBack(InputAction.CallbackContext context)
