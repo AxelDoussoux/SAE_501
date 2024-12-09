@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3930163893688879746}
-  - component: {fileID: 2572759711293886903}
   - component: {fileID: 8037769053518005111}
+  - component: {fileID: 2572759711293886903}
+  - component: {fileID: -1207372711064605968}
   - component: {fileID: 4944629450489347332}
   - component: {fileID: 2793237295698818833}
   - component: {fileID: 6773101827807985820}
@@ -44,6 +45,27 @@ Transform:
   - {fileID: 7594147776523700439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8037769053518005111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522360775394759168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2334019507
+  InScenePlacedSourceGlobalObjectIdHash: 4236804698
+  AlwaysReplicateAsRoot: 1
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 1
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 1
+  AutoObjectParentSync: 1
 --- !u!136 &2572759711293886903
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51,7 +73,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4522360775394759168}
-  m_Material: {fileID: 13400000, guid: b6da2fc8f0c74494892876865f3c0f89, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -67,7 +89,7 @@ CapsuleCollider:
   m_Height: 6.1226134
   m_Direction: 1
   m_Center: {x: 0.019188166, y: 3.0712879, z: 0.028611422}
---- !u!114 &8037769053518005111
+--- !u!114 &-1207372711064605968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,18 +98,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4522360775394759168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 1eecda28855904d448a1500f5176370c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2334019507
-  InScenePlacedSourceGlobalObjectIdHash: 4236804698
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+  spawnPoints:
+  - {fileID: 8708377524666991442, guid: f6c264efe1f9dd14f99fc6fa2453b077, type: 3}
 --- !u!114 &4944629450489347332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +205,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 91a933d2-0eb7-42ef-af89-a2006faba147
     m_ActionName: Player/Aim[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2f4b609b-56aa-44db-b6d8-46e846bbcdc6
+    m_ActionName: App/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player

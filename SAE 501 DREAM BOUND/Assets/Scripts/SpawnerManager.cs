@@ -7,8 +7,9 @@ namespace TomAg
     {
         [SerializeField] private GameObject player1Prefab;
         [SerializeField] private GameObject player2Prefab;
-        [SerializeField] private Transform spawn1Position;
-        [SerializeField] private Transform spawn2Position;
+
+        private PlayerInfo playerInfo1;
+        private PlayerInfo playerInfo2;
 
         [ClientRpc]
         private void AssignPlayerClientRpc(ulong clientId, NetworkObjectReference playerRef)
@@ -57,11 +58,13 @@ namespace TomAg
 
             if (clientId == GetServerClientId())
             {
-                SpawnPlayerForClient(clientId, player1Prefab, spawn1Position);
+                playerInfo1 = player1Prefab.GetComponent<PlayerInfo>();
+                SpawnPlayerForClient(clientId, player1Prefab, playerInfo1.SpawnPoint);
             }
             else
             {
-                SpawnPlayerForClient(clientId, player2Prefab, spawn2Position);
+                playerInfo2 = player2Prefab.GetComponent<PlayerInfo>();
+                SpawnPlayerForClient(clientId, player2Prefab, playerInfo2.SpawnPoint);
             }
         }
 
