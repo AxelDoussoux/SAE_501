@@ -9,10 +9,12 @@ using Unity.Services.Relay;
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.UIElements;
+using System;
 
 public class NetworkManager : MonoBehaviour
 {
     public UnityTransport transport;
+    [SerializeField] private MenuUI mainMenuUI;
 
     async void Awake()
     {
@@ -24,6 +26,10 @@ public class NetworkManager : MonoBehaviour
         }
 
         await Authenticate();
+
+        // Abonner les fonctions pour gérer les déconnexions et l'arrêt du serveur
+        Unity.Netcode.NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        Unity.Netcode.NetworkManager.Singleton.OnServerStopped += OnServerStopped;
     }
 
     private static async Task Authenticate()
@@ -47,7 +53,7 @@ public class NetworkManager : MonoBehaviour
 
             if (codeLabel != null)
             {
-                codeLabel.text = joinCode;  
+                codeLabel.text = joinCode;
             }
             else
             {
@@ -82,7 +88,53 @@ public class NetworkManager : MonoBehaviour
             Debug.LogError($"Error joining session: {e.Message}");
         }
     }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        // Vérifier si le client local est déconnecté
+        if (Unity.Netcode.NetworkManager.Singleton.IsClient && clientId == Unity.Netcode.NetworkManager.Singleton.LocalClientId)
+        {
+            Debug.Log("Client disconnected from the host. Displaying main menu.");
+
+            if (mainMenuUI != null)
+            {
+                mainMenuUI.UIVisibility(); // Afficher le menu principal
+            }
+            else
+            {
+                Debug.LogError("MainMenuUIDocument is not assigned.");
+            }
+        }
+    }
+
+    private void OnServerStopped(bool obj)
+    {
+        // Si le serveur est arrêté, afficher le menu principal
+        Debug.Log("Server has stopped. Redirecting to the main menu.");
+
+        if (mainMenuUI != null)
+        {
+            mainMenuUI.UIVisibility(); // Afficher le menu principal
+        }
+        else
+        {
+            Debug.LogError("MainMenuUIDocument is not assigned.");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Désabonner les événements pour éviter les erreurs
+        if (Unity.Netcode.NetworkManager.Singleton != null)
+        {
+            Unity.Netcode.NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+            Unity.Netcode.NetworkManager.Singleton.OnServerStopped -= OnServerStopped;
+        }
+    }
 }
+
+
+
 
 
 
