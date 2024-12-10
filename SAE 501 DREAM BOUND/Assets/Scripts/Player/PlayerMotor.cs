@@ -37,6 +37,7 @@ namespace TomAg
         private Vector3 _moveInput;
         private bool _isGrounded;
         private bool _isJumping;
+        private PlayerInfo _playerInfo;
 
         public delegate void GroundChangeHandler(bool isGrounded);
         public event GroundChangeHandler onGroundChanged;
@@ -60,6 +61,14 @@ namespace TomAg
             _controller.onMove += OnMove;
             _controller.onJumpStart += OnJumpStart;
             _controller.onJumpStop += OnJumpStop;
+
+            _playerInfo = GetComponent<PlayerInfo>();
+
+            if (_playerInfo.HaveSpeedShoes)
+            {
+                walkForce *= 2;
+                strafeForce *= 2;
+            }
         }
 
         private void InitializeRigidbody()
@@ -90,6 +99,8 @@ namespace TomAg
             cameraRight.y = 0;
             cameraForward.Normalize();
             cameraRight.Normalize();
+
+            
 
             Vector3 moveDirection = (cameraForward * _moveInput.z * walkForce) +
                                     (cameraRight * _moveInput.x * strafeForce);
