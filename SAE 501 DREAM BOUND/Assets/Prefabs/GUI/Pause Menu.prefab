@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1379076752
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 364066229
+  InScenePlacedSourceGlobalObjectIdHash: 1379076752
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -85,5 +85,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenuDocument: {fileID: 1681968954511903939}
-  _mainMenuDocument: {fileID: 4502006045423457511, guid: 8f87227ea88b38743a2359ec82c8c145,
-    type: 3}
+  _mainMenuDocument: {fileID: 0}

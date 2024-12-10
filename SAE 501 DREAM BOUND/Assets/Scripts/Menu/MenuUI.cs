@@ -71,7 +71,7 @@ public class MenuUI : MonoBehaviour
         if (multi != null)
         {
             multi.CreateMultiplayerRelay(codeLabel);
-            
+
         }
         else
         {
@@ -104,7 +104,8 @@ public class MenuUI : MonoBehaviour
 
     public void UIVisibility()
     {
-        if (!isHide) {
+        if (!isHide)
+        {
             menu.style.display = DisplayStyle.None;
             wrapper.style.display = DisplayStyle.None;
             isHide = true;
@@ -119,3 +120,4 @@ public class MenuUI : MonoBehaviour
         }
     }
 }
+

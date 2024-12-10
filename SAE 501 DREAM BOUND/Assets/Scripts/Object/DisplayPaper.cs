@@ -4,8 +4,9 @@ using UnityEngine.UIElements;
 using System;
 using TomAg;
 
-public class DisplayPaper : MonoBehaviour, ITrigger
+public class DisplayPaper : MonoBehaviour //, ITrigger
 {
+    /*
     public UIDocument uiDocument;  // Reference to UIDocument
     public string playerTag = "Player";  // Tag to identify player objects
     public PlayerController playerController;  // Reference to the PlayerController
@@ -107,4 +108,5 @@ public class DisplayPaper : MonoBehaviour, ITrigger
             playerController.onInteract -= HandleInteractInput;
         }
     }
+    */
 }
