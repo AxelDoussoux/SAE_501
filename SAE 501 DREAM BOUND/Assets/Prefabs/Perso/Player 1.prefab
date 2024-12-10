@@ -233,6 +233,9 @@ MonoBehaviour:
   - {fileID: 1868498791887986406, guid: 023753f958df411439305374243063c1, type: 3}
   havehammer: 0
   haveSpeedShoes: 0
+  _hammer: {fileID: 7824721428776631939}
+  _speedShoes1: {fileID: 0}
+  _speedShoes2: {fileID: 0}
 --- !u!114 &3187470210664822573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +479,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458c3fd7e02678c41a27f4b360a353b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactRange: 2
   interactableLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -607,6 +609,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f0cdcf16f8c1044da6bad957c8e90ed, type: 3}
+--- !u!1 &7824721428776631939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5981379263101453640, guid: 9f0cdcf16f8c1044da6bad957c8e90ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 4581530887292910539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7928706955381839106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5880771917222702793, guid: 9f0cdcf16f8c1044da6bad957c8e90ed,
