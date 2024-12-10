@@ -16,6 +16,7 @@ namespace TomAg
         public event Action onCrouchStart;
         public event Action onCrouchStop;
         public event Action onInteract;
+        private bool _canMove = true;
 
         private int _playerId;
         private GameInputs _gameInputs; // Utilisation de GameInputs pour les actions
@@ -56,11 +57,21 @@ namespace TomAg
             }
         }
 
+         public void SetMovementEnabled(bool enabled)
+        {
+            _canMove = enabled;
+        }
+
+
         public void OnMove(InputAction.CallbackContext ctx)
         {
-            Vector2 axis = ctx.ReadValue<Vector2>();
-            Debug.Log("Move called with: " + axis);
-            onMove?.Invoke(axis);
+            // Only allow movement if _canMove is true
+            if (_canMove)
+            {
+                Vector2 axis = ctx.ReadValue<Vector2>();
+                Debug.Log("Move called with: " + axis);
+                onMove?.Invoke(axis);
+            }
         }
 
         public void OnAim(InputAction.CallbackContext ctx)

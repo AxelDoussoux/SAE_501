@@ -1,42 +1,48 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using System;
+using TomAg;
 
 public class DisplayPaper : MonoBehaviour, ITrigger
 {
     public UIDocument uiDocument;  // Reference to UIDocument
     public string playerTag = "Player";  // Tag to identify player objects
+    public PlayerController playerController;  // Reference to the PlayerController
 
     private bool isDisplayed = false;  // Tracks if the note is open
     private bool isNearPaper = false;  // Tracks if the player is near the paper
     private VisualElement backgroundOverlay;
     private VisualElement paperDisplay;
-    private VisualElement textElement;
 
     private void Start()
     {
-        // Get UI elements from the UIDocument
+        // Get UI elements from UIDocument
         var root = uiDocument.rootVisualElement;
         backgroundOverlay = root.Q<VisualElement>("BackgroundOverlay");
         paperDisplay = root.Q<VisualElement>("PaperDisplay");
-        textElement = root.Q<VisualElement>("TextElement");  // Your Text UI element
 
-        // Hide UI elements initially
+        // Hide UI elements at start
         backgroundOverlay.style.display = DisplayStyle.None;
         paperDisplay.style.display = DisplayStyle.None;
-        textElement.style.display = DisplayStyle.None;
-    }
 
-    private void Update()
-    {
-        // Check for input to toggle the note display (e.g., "E" key)
-        if (isNearPaper && Keyboard.current.eKey.wasPressedThisFrame)
+        // Find the PlayerController if not assigned in inspector
+        if (playerController == null)
         {
-            ToggleNote();
+            playerController = FindObjectOfType<PlayerController>();
         }
 
-        // Allow closing the note with "Escape"
-        if (isDisplayed && Keyboard.current.escapeKey.wasPressedThisFrame)
+        // Subscribe to the interact event
+        if (playerController != null)
+        {
+            playerController.onInteract += HandleInteractInput;
+        }
+    }
+
+    private void HandleInteractInput()
+    {
+        // Only toggle if player is near the paper
+        if (isNearPaper)
         {
             ToggleNote();
         }
@@ -46,30 +52,38 @@ public class DisplayPaper : MonoBehaviour, ITrigger
     {
         isDisplayed = !isDisplayed;
 
-        // Show or hide the note UI
+        // Show or hide paper UI
         backgroundOverlay.style.display = isDisplayed ? DisplayStyle.Flex : DisplayStyle.None;
         paperDisplay.style.display = isDisplayed ? DisplayStyle.Flex : DisplayStyle.None;
 
-        // Disable or enable player input (optional for multiplayer)
-        // Add logic here to stop specific player actions if needed.
+        // Restrict or allow player movement
+        if (playerController != null)
+        {
+            // Use a method in PlayerController to restrict movement
+            playerController.SetMovementEnabled(!isDisplayed);
+        }
     }
 
-    // Implementation of ITrigger
+    // Implement ITrigger interface
     public void OnTriggerActivated()
     {
         isNearPaper = true;
-        textElement.style.display = DisplayStyle.Flex;  // Show "Press E to Read" text
     }
 
     public void OnTriggerDesactivated()
     {
         isNearPaper = false;
-        textElement.style.display = DisplayStyle.None;  // Hide "Press E to Read" text
+
+        // If paper is displayed when moving away, hide it and re-enable movement
+        if (isDisplayed)
+        {
+            ToggleNote();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object entering the trigger has the player tag
+        // Check if entering object has player tag
         if (other.CompareTag(playerTag))
         {
             OnTriggerActivated();
@@ -78,10 +92,19 @@ public class DisplayPaper : MonoBehaviour, ITrigger
 
     private void OnTriggerExit(Collider other)
     {
-        // Check if the object exiting the trigger has the player tag
+        // Check if exiting object has player tag
         if (other.CompareTag(playerTag))
         {
             OnTriggerDesactivated();
+        }
+    }
+
+    // Clean up event subscription
+    private void OnDestroy()
+    {
+        if (playerController != null)
+        {
+            playerController.onInteract -= HandleInteractInput;
         }
     }
 }
