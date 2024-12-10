@@ -1,42 +1,50 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements; // UI Toolkit
+using UnityEngine.SceneManagement; // Pour la redirection
 using UnityEngine.Networking;
-using UnityEngine.UI; // Pour le bouton Unity classique
-using TMPro; // Pour TextMeshPro
 
 public class Login : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TMP_InputField loginInputField;  // Champ pour le login (TextMeshPro)
-    public TMP_InputField passwordInputField;  // Champ pour le mot de passe (TextMeshPro)
-    public TMP_Text feedbackText;  // Texte pour afficher les erreurs ou succès (TextMeshPro)
-    public Button validateButton;  // Bouton classique (UnityEngine.UI)
+    [Header("UI Toolkit Elements")]
+    public UIDocument uiDocument; // Document contenant le canvas UI Toolkit
+
+    private TextField loginInputField; // Champ de texte pour le login
+    private TextField passwordInputField; // Champ de texte pour le mot de passe
+    private Button boutonConnexion; // Bouton pour valider
 
     [Header("API Configuration")]
     public string apiLoginUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/login";
 
-    private bool isRequestInProgress = false; // Pour éviter des requêtes multiples
+    private bool isRequestInProgress = false; // Évite les multiples requêtes
 
     void Start()
     {
-        // Associer le bouton au gestionnaire d'événements
-        validateButton.onClick.AddListener(OnValidateButtonClick);
+        // Récupérer les éléments UI depuis le document
+        var root = uiDocument.rootVisualElement;
+
+        loginInputField = root.Q<TextField>("loginInput");
+        passwordInputField = root.Q<TextField>("passwordInput");
+        boutonConnexion = root.Q<Button>("boutonconnexion");
+
+        // Associer le clic du bouton à l'action de validation
+        boutonConnexion.clicked += OnValidateButtonClick;
     }
 
     public void OnValidateButtonClick()
     {
         if (isRequestInProgress)
         {
-            feedbackText.text = "Requête en cours, veuillez patienter...";
+            Debug.Log("Requête en cours, veuillez patienter...");
             return;
         }
 
-        string login = loginInputField.text;
-        string password = passwordInputField.text;
+        string login = loginInputField.value;
+        string password = passwordInputField.value;
 
         if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
         {
-            feedbackText.text = "Le login ou le mot de passe est vide.";
+            Debug.LogError("Le login ou le mot de passe est vide.");
             return;
         }
 
@@ -47,8 +55,8 @@ public class Login : MonoBehaviour
     IEnumerator SendLoginRequest(string login, string password)
     {
         isRequestInProgress = true;
-        validateButton.interactable = false; // Désactiver le bouton pendant la requête
-        feedbackText.text = "Connexion en cours...";
+        boutonConnexion.SetEnabled(false); // Désactiver le bouton pendant la requête
+        Debug.Log("Connexion en cours...");
 
         // Création des données JSON pour la requête
         string jsonData = JsonUtility.ToJson(new LoginData(login, password));
@@ -66,17 +74,15 @@ public class Login : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("Connexion réussie : " + request.downloadHandler.text);
-            feedbackText.text = "Connexion réussie.";
             HandleLoginResponse(request.downloadHandler.text);
         }
         else
         {
             Debug.LogError("Erreur lors de la connexion : " + request.error);
-            feedbackText.text = "Erreur : " + request.error;
         }
 
         // Réinitialiser l'état du bouton
-        validateButton.interactable = true;
+        boutonConnexion.SetEnabled(true);
         isRequestInProgress = false;
     }
 
@@ -88,18 +94,19 @@ public class Login : MonoBehaviour
         if (!string.IsNullOrEmpty(response.token))
         {
             Debug.Log("Token reçu : " + response.token);
-            feedbackText.text = "Connexion réussie. Token : " + response.token;
 
-            // TODO: Stocker le token ou rediriger vers une autre scène
-
+            // Sauvegarder le token localement
             PlayerPrefs.SetString("authToken", response.token);
             PlayerPrefs.Save();
-            Debug.Log("Token sauvegardé : " + PlayerPrefs.GetString("authToken"));
+
+            Debug.Log("Token sauvegardé avec succès.");
+
+            // Redirection vers la scène "Fonctionnement"
+            SceneManager.LoadScene("Fonctionnement");
         }
         else
         {
             Debug.LogError("Erreur : " + response.error);
-            feedbackText.text = "Erreur : " + response.error;
         }
     }
 

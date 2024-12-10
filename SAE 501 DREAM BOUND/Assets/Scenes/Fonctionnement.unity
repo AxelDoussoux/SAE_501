@@ -8033,7 +8033,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &593363225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23404,7 +23404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1645936826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31034,7 +31034,6 @@ GameObject:
   - component: {fileID: 2108638620}
   - component: {fileID: 2108638619}
   - component: {fileID: 2108638618}
-  - component: {fileID: 2108638617}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -31062,23 +31061,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -71.98}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2108638617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108638615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cce06494b3efd774c8a2b3df1bc5b400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loginInputField: {fileID: 1527838225}
-  passwordInputField: {fileID: 3414622}
-  feedbackText: {fileID: 1405325443}
-  validateButton: {fileID: 2108638618}
-  apiLoginUrl: https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/login
 --- !u!114 &2108638618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31123,7 +31105,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2108638617}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: Connect
         m_Mode: 1
