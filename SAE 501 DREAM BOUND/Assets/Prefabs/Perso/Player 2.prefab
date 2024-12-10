@@ -103,6 +103,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoints:
   - {fileID: 8708377524666991442, guid: f6c264efe1f9dd14f99fc6fa2453b077, type: 3}
+  havehammer: 0
+  haveSpeedShoes: 0
+  canTakeHammer: 0
+  canTakeSpeedShoes: 1
+  _hammer: {fileID: 0}
+  _speedShoes1: {fileID: 8439844170238822844}
+  _speedShoes2: {fileID: 1713760732584586319}
 --- !u!114 &4944629450489347332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,10 +341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458c3fd7e02678c41a27f4b360a353b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRange: 25
-  ignoreLayers:
+  interactableLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!114 &6046285534442973919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,9 +599,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b132f5e336598546bd45dfe4ff8589d, type: 3}
+--- !u!1 &1713760732584586319 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8680111260629772386, guid: 6b132f5e336598546bd45dfe4ff8589d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8051718692251305005}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7594147776523700439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 495015903470521594, guid: 6b132f5e336598546bd45dfe4ff8589d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8051718692251305005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8439844170238822844 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1917736243215437201, guid: 6b132f5e336598546bd45dfe4ff8589d,
     type: 3}
   m_PrefabInstance: {fileID: 8051718692251305005}
   m_PrefabAsset: {fileID: 0}
