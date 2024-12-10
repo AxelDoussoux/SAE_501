@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8907426604508200933}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 972036547
+  GlobalObjectIdHash: 3736084638
   InScenePlacedSourceGlobalObjectIdHash: 3058297106
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -71,10 +71,6 @@ MonoBehaviour:
   player1Prefab: {fileID: 7816914834668261742, guid: df834ceba66c57b43830f2f35cb58d37,
     type: 3}
   player2Prefab: {fileID: 4522360775394759168, guid: ae12ab0a6249604488bf423c39ec86e4,
-    type: 3}
-  spawn1Position: {fileID: 6918450825828453226, guid: 023753f958df411439305374243063c1,
-    type: 3}
-  spawn2Position: {fileID: 5884467314370335927, guid: f6c264efe1f9dd14f99fc6fa2453b077,
     type: 3}
 --- !u!114 &3419327202915026559
 MonoBehaviour:
