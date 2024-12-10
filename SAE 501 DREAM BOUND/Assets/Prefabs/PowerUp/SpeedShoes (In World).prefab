@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2844953852316407813}
   - component: {fileID: 8616569100216767588}
   - component: {fileID: 5544745734513848245}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shoe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: de637efef1f16d648a8d6c834f49ed74, type: 2}
+  - {fileID: 2100000, guid: bf6a1d8d198b41d428ee96c761fd3124, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1981307699508239239}
   - component: {fileID: 8218514090561120123}
   - component: {fileID: 8559857296793986790}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpeedShoes (In World)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 877685755
+  GlobalObjectIdHash: 2759436710
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 5382991871382102768}
   - component: {fileID: 7499779206275167428}
   - component: {fileID: 3490155177260629371}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Feathers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
