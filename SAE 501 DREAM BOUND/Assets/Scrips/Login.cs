@@ -24,23 +24,27 @@ public class Login : MonoBehaviour
 
     void Start()
     {
-        // Récupérer les éléments UI depuis le document
         var root = uiDocument.rootVisualElement;
 
         loginInputField = root.Q<TextField>("loginInput");
         passwordInputField = root.Q<TextField>("passwordInput");
+
+        // Masquer le texte d'orientation "Password"
+        passwordInputField.label = "";
+
+        // Activer le masquage du mot de passe lors de la saisie
+        passwordInputField.RegisterCallback<InputEvent>(evt => {
+            passwordInputField.isPasswordField = true;
+        });
+
+        // Le reste du code reste inchangé
         boutonConnexion = root.Q<Button>("boutonconnexion");
         boutonJouerSansConnexion = root.Q<Button>("jouersansconnexion");
-        boutonInscription = root.Q<Button>("boutoninscription"); // Récupération du bouton d'inscription
+        boutonInscription = root.Q<Button>("boutoninscription");
         feedbackLabel = root.Q<Label>("feedback");
 
-        // Associer le clic du bouton à l'action de validation
         boutonConnexion.clicked += OnValidateButtonClick;
-
-        // Associer le clic du bouton pour jouer sans connexion
         boutonJouerSansConnexion.clicked += OnJouerSansConnexionClick;
-
-        // Associer le clic du bouton pour l'inscription
         boutonInscription.clicked += OnInscriptionClick;
     }
 
