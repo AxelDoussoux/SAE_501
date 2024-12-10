@@ -17,7 +17,7 @@ public class Apiv : MonoBehaviour
 
         if (string.IsNullOrEmpty(authToken))
         {
-            Debug.LogError("Token d'authentification introuvable !");
+            Debug.Log("Token d'authentification introuvable !");
             return;
         }
 
@@ -49,7 +49,7 @@ public class Apiv : MonoBehaviour
         {
             Debug.Log("URL de la requête: " + apiUpdateZoneUrl);
             Debug.Log("Données envoyées: " + jsonData);
-            Debug.LogError("Erreur lors de la mise à jour de la zone : " + request.error);
+            Debug.Log("Erreur lors de la mise à jour de la zone : " + request.error);
         }
     }
 

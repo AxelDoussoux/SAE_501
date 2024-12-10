@@ -12,9 +12,13 @@ public class Login : MonoBehaviour
     private TextField loginInputField; // Champ de texte pour le login
     private TextField passwordInputField; // Champ de texte pour le mot de passe
     private Button boutonConnexion; // Bouton pour valider
+    private Button boutonJouerSansConnexion;
+    private Button boutonInscription; // Nouveau bouton pour l'inscription
+    private Label feedbackLabel; // Champ de texte pour afficher les messages de feedback
 
     [Header("API Configuration")]
     public string apiLoginUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/login";
+    public string apiInscriptionUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/inscription"; // URL d'inscription
 
     private bool isRequestInProgress = false; // Évite les multiples requêtes
 
@@ -26,9 +30,18 @@ public class Login : MonoBehaviour
         loginInputField = root.Q<TextField>("loginInput");
         passwordInputField = root.Q<TextField>("passwordInput");
         boutonConnexion = root.Q<Button>("boutonconnexion");
+        boutonJouerSansConnexion = root.Q<Button>("jouersansconnexion");
+        boutonInscription = root.Q<Button>("boutoninscription"); // Récupération du bouton d'inscription
+        feedbackLabel = root.Q<Label>("feedback");
 
         // Associer le clic du bouton à l'action de validation
         boutonConnexion.clicked += OnValidateButtonClick;
+
+        // Associer le clic du bouton pour jouer sans connexion
+        boutonJouerSansConnexion.clicked += OnJouerSansConnexionClick;
+
+        // Associer le clic du bouton pour l'inscription
+        boutonInscription.clicked += OnInscriptionClick;
     }
 
     public void OnValidateButtonClick()
@@ -56,6 +69,8 @@ public class Login : MonoBehaviour
     {
         isRequestInProgress = true;
         boutonConnexion.SetEnabled(false); // Désactiver le bouton pendant la requête
+        feedbackLabel.text = ""; // Réinitialiser le message précédent
+
         Debug.Log("Connexion en cours...");
 
         // Création des données JSON pour la requête
@@ -79,12 +94,18 @@ public class Login : MonoBehaviour
         else
         {
             Debug.LogError("Erreur lors de la connexion : " + request.error);
+
+            // Afficher un message d'erreur dans le label
+            feedbackLabel.text = "Connexion échouée. Veuillez réessayer"; // Afficher le message d'erreur
+
+            // Réactiver le bouton pour permettre à l'utilisateur de réessayer
+            boutonConnexion.SetEnabled(true);
         }
 
-        // Réinitialiser l'état du bouton
-        boutonConnexion.SetEnabled(true);
+        // Réinitialiser l'état de la requête
         isRequestInProgress = false;
     }
+
 
     void HandleLoginResponse(string jsonResponse)
     {
@@ -107,7 +128,31 @@ public class Login : MonoBehaviour
         else
         {
             Debug.LogError("Erreur : " + response.error);
+
+            // Afficher un message d'erreur dans le label
+            if (feedbackLabel != null)
+            {
+                feedbackLabel.text = "Connexion échouée. Veuillez réessayer"; // Afficher le message d'erreur
+            }
+            else
+            {
+                Debug.LogWarning("Le label feedback est nul.");
+            }
         }
+    }
+
+    // Fonction pour jouer sans connexion
+    public void OnJouerSansConnexionClick()
+    {
+        Debug.Log("Jouer sans connexion sélectionné. Chargement de la scène Fonctionnement...");
+        SceneManager.LoadScene("Fonctionnement");
+    }
+
+    // Fonction pour ouvrir la page d'inscription
+    public void OnInscriptionClick()
+    {
+        Debug.Log("Inscription sélectionnée. Ouverture de l'URL d'inscription...");
+        Application.OpenURL(apiInscriptionUrl); // Ouvrir l'URL d'inscription dans le navigateur
     }
 
     // Classe pour les données de connexion
