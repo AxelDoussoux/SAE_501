@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 182968102
+  GlobalObjectIdHash: 740251029
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -233,6 +233,8 @@ MonoBehaviour:
   - {fileID: 1868498791887986406, guid: 023753f958df411439305374243063c1, type: 3}
   havehammer: 0
   haveSpeedShoes: 0
+  canTakeHammer: 1
+  canTakeSpeedShoes: 0
   _hammer: {fileID: 7824721428776631939}
   _speedShoes1: {fileID: 0}
   _speedShoes2: {fileID: 0}

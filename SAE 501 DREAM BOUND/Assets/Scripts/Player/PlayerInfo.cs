@@ -22,21 +22,11 @@ namespace TomAg
 
         public void EnabledHammer()
         {
-            if (!canTakeHammer)
-            {
-                Debug.Log("Vouse ne pouvez pas ramasser cette item !");
-                return;
-            }
             havehammer = true;
             _hammer.SetActive(true);
         }
         public void EnabledSpeedShoes()
         {
-            if (!canTakeSpeedShoes)
-            {
-                Debug.Log("Vouse ne pouvez pas ramasser cette item !");
-                return;
-            }
             haveSpeedShoes = true;
             _speedShoes1.SetActive(true);
             _speedShoes2.SetActive(true);
