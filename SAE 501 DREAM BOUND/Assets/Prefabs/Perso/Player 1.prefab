@@ -139,13 +139,13 @@ GameObject:
   - component: {fileID: 7395395012165199239}
   - component: {fileID: 6572207862888438662}
   - component: {fileID: 8616882920587216801}
+  - component: {fileID: 2023806854518046491}
   - component: {fileID: 4827699242802284255}
   - component: {fileID: 3187470210664822573}
   - component: {fileID: 3780287213838878866}
   - component: {fileID: 9005549880962374346}
   - component: {fileID: 4259100737079150503}
   - component: {fileID: 3278050281737314994}
-  - component: {fileID: 7441275669828633531}
   - component: {fileID: 6522190596832088186}
   - component: {fileID: 3847291411701469490}
   - component: {fileID: 8425359063612780426}
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 740251029
+  GlobalObjectIdHash: 182968102
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -217,6 +217,34 @@ CapsuleCollider:
   m_Height: 6.1226134
   m_Direction: 1
   m_Center: {x: 0.019188166, y: 3.0712879, z: 0.028611422}
+--- !u!114 &2023806854518046491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816914834668261742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkForce: 400
+  strafeForce: 400
+  maxVelocity: 30
+  maxVerticalVelocity: 50
+  jumpForce: 20
+  jumpHorizontalDrag: 2
+  jumpVerticalDrag: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  groundCheckDistance: 0.5
+  maxSlopeAngle: 45
+  slopeForce: 10
+  airControlFactor: 1
+  gravityMultiplier: 4
+  cameraTransform: {fileID: 9085838872107970471}
 --- !u!114 &4827699242802284255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,34 +481,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &7441275669828633531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7816914834668261742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e8481b98af2a9142aa928d27faebab6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkForce: 400
-  strafeForce: 400
-  maxVelocity: 30
-  maxVerticalVelocity: 50
-  jumpForce: 20
-  jumpHorizontalDrag: 2
-  jumpVerticalDrag: 0
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 1
-  groundCheckDistance: 0.5
-  maxSlopeAngle: 45
-  slopeForce: 10
-  airControlFactor: 1
-  gravityMultiplier: 4
-  cameraTransform: {fileID: 9085838872107970471}
 --- !u!114 &6522190596832088186
 MonoBehaviour:
   m_ObjectHideFlags: 0

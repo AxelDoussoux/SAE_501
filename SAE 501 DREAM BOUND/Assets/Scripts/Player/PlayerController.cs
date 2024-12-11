@@ -21,7 +21,7 @@ namespace TomAg
 
         private int _playerId;
         private GameInputs _gameInputs;
-        private bool _isPaused;
+        private bool _isPaused = false;
 
         private void Start()
         {

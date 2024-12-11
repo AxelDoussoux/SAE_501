@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using Unity.Netcode;
 
 namespace TomAg
 {
-    public class PlayerMotor : MonoBehaviour
+    public class PlayerMotor : NetworkBehaviour
     {
         [Header("Movement")]
         [SerializeField] private float walkForce = 400f;
