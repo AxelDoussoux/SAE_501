@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 182968102
+  GlobalObjectIdHash: 740251029
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -233,7 +233,7 @@ MonoBehaviour:
   strafeForce: 400
   maxVelocity: 30
   maxVerticalVelocity: 50
-  jumpForce: 20
+  jumpForce: 12
   jumpHorizontalDrag: 2
   jumpVerticalDrag: 0
   groundMask:
@@ -242,8 +242,8 @@ MonoBehaviour:
   groundCheckDistance: 0.5
   maxSlopeAngle: 45
   slopeForce: 10
-  airControlFactor: 1
-  gravityMultiplier: 4
+  airControlFactor: 0.5
+  gravityMultiplier: 20
   cameraTransform: {fileID: 9085838872107970471}
 --- !u!114 &4827699242802284255
 MonoBehaviour:
@@ -495,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
 --- !u!114 &3847291411701469490
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -317,7 +317,7 @@ MonoBehaviour:
   strafeForce: 400
   maxVelocity: 30
   maxVerticalVelocity: 50
-  jumpForce: 40
+  jumpForce: 30
   jumpHorizontalDrag: 2
   jumpVerticalDrag: 0
   groundMask:
@@ -326,8 +326,8 @@ MonoBehaviour:
   groundCheckDistance: 0.5
   maxSlopeAngle: 45
   slopeForce: 10
-  airControlFactor: 1
-  gravityMultiplier: 4
+  airControlFactor: 0.5
+  gravityMultiplier: 20
   cameraTransform: {fileID: 5684941503764668917}
 --- !u!114 &37867816712404199
 MonoBehaviour:
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
 --- !u!114 &6046285534442973919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,11 +589,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1451265473960444468, guid: 6b132f5e336598546bd45dfe4ff8589d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bf6a1d8d198b41d428ee96c761fd3124, type: 2}
     - target: {fileID: 3865216440611087926, guid: 6b132f5e336598546bd45dfe4ff8589d,
         type: 3}
       propertyPath: m_Name
       value: Perso_sae_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8559996550300346311, guid: 6b132f5e336598546bd45dfe4ff8589d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bf6a1d8d198b41d428ee96c761fd3124, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

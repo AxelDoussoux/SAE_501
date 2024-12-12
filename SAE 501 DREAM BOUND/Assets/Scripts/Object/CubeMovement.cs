@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class CubeMovement : MonoBehaviour, IMovable
+public class CubeMovement : NetworkBehaviour, IMovable
 {
     [SerializeField] 
     private MovementSettings settings;
