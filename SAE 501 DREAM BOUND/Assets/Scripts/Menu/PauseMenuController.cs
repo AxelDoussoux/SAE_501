@@ -104,6 +104,9 @@ namespace TomAg
 
             // Gestion de la visibilité du curseur
             UnityEngine.Cursor.visible = _isMenuVisible;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+
+
 
             if (_localPlayer != null)
             {
@@ -122,6 +125,7 @@ namespace TomAg
 
                 // Masquer le curseur en reprenant le jeu
                 UnityEngine.Cursor.visible = false;
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
         }
 
