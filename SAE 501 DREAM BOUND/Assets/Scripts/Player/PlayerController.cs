@@ -140,10 +140,7 @@ namespace TomAg
 
         public void OnInteract(InputAction.CallbackContext ctx)
         {
-            if (_isPaused)
-            {
-                return;
-            }
+           
 
             if (ctx.started)
                 onInteract?.Invoke();
