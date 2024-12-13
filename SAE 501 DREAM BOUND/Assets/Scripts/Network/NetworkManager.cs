@@ -99,6 +99,7 @@ public class NetworkManager : MonoBehaviour
 
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(joinCode);
             transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
+            echoChannel.SetChannelCode(joinCode);
             Unity.Netcode.NetworkManager.Singleton.StartClient();
         }
         catch (System.Exception e)

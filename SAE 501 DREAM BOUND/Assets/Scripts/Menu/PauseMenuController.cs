@@ -10,6 +10,7 @@ namespace TomAg
 
         [SerializeField] private UIDocument _pauseMenuDocument;
         [SerializeField] private UIDocument _mainMenuDocument;
+        [SerializeField] private JoinEchoChannel echoChannel;
         private MenuUI _mainMenu;
         private VisualElement _pauseMenuRoot;
         private VisualElement _mainMenuRoot;
@@ -139,11 +140,13 @@ namespace TomAg
 
                 if (Unity.Netcode.NetworkManager.Singleton.IsHost)
                 {
+                    echoChannel.LeaveChannel();
                     Unity.Netcode.NetworkManager.Singleton.Shutdown();
                     Debug.Log("Host: Shutting down server");
                 }
                 else if (Unity.Netcode.NetworkManager.Singleton.IsClient)
                 {
+                    echoChannel.LeaveChannel();
                     Unity.Netcode.NetworkManager.Singleton.Shutdown();
                     Debug.Log("Client: Disconnecting from server");
                 }
