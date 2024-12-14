@@ -3,9 +3,9 @@ using UnityEngine.AI;
 
 public class NPCPatrol : MonoBehaviour
 {
-    public Transform[] patrolPoints; // Points de patrouille à définir dans l'éditeur
-    public float stoppingDistance = 1.0f; // Distance minimale pour atteindre un point
-    public bool isRandomPatrol = false; // Si activé, le NPC patrouillera de manière aléatoire
+    public Transform[] patrolPoints; 
+    public float stoppingDistance = 1.0f; 
+    public bool isRandomPatrol = true; // Si activé, le NPC patrouillera de manière aléatoire
 
     private NavMeshAgent agent;
     private int currentPatrolIndex = 0;
