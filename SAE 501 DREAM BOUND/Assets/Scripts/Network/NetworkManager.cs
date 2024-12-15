@@ -10,11 +10,16 @@ using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.UIElements;
 using System;
+using Unity.Services.Vivox.AudioTaps;
 
 public class NetworkManager : MonoBehaviour
 {
     public UnityTransport transport;
+    private string joinCode;
     [SerializeField] private MenuUI mainMenuUI;
+
+    [SerializeField] private VivoxChannelAudioTap vivoxChannel;
+    [SerializeField] private JoinChannel echoChannel;
 
     async void Awake()
     {
@@ -24,6 +29,16 @@ public class NetworkManager : MonoBehaviour
             Debug.LogError("UnityTransport not found. Please ensure it's attached to the Network Manager.");
             return;
         }
+
+        if (vivoxChannel == null) {
+            Debug.LogError("VivoxChannelAudioTap not found.");
+            return;
+        };
+        if (echoChannel == null)
+        {
+            Debug.LogError("EchoChannel not found.");
+            return;
+        };
 
         await Authenticate();
 
@@ -49,7 +64,7 @@ public class NetworkManager : MonoBehaviour
             }
 
             Allocation a = await RelayService.Instance.CreateAllocationAsync(2);
-            string joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
+            joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
             if (codeLabel != null)
             {
@@ -61,6 +76,10 @@ public class NetworkManager : MonoBehaviour
             }
 
             transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
+            echoChannel.SetChannelCode(joinCode);
+
+            // Exemple d'utilisation dans un autre script
+
             Unity.Netcode.NetworkManager.Singleton.StartHost();
         }
         catch (System.Exception e)
@@ -81,6 +100,7 @@ public class NetworkManager : MonoBehaviour
 
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(joinCode);
             transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
+            echoChannel.SetChannelCode(joinCode);
             Unity.Netcode.NetworkManager.Singleton.StartClient();
         }
         catch (System.Exception e)
