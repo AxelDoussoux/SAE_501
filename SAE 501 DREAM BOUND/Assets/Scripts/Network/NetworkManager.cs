@@ -18,7 +18,6 @@ public class NetworkManager : MonoBehaviour
     private string joinCode;
     [SerializeField] private MenuUI mainMenuUI;
 
-    [SerializeField] private VivoxChannelAudioTap vivoxChannel;
     [SerializeField] private JoinChannel echoChannel;
 
     async void Awake()
@@ -30,14 +29,9 @@ public class NetworkManager : MonoBehaviour
             return;
         }
 
-        if (vivoxChannel == null) {
-            Debug.LogError("VivoxChannelAudioTap not found.");
-            return;
-        };
         if (echoChannel == null)
         {
-            Debug.LogError("EchoChannel not found.");
-            return;
+            Debug.Log("EchoChannel not found.");
         };
 
         await Authenticate();
@@ -76,7 +70,8 @@ public class NetworkManager : MonoBehaviour
             }
 
             transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
-            echoChannel.SetChannelCode(joinCode);
+
+            if (echoChannel != null) echoChannel.SetChannelCode(joinCode);
 
             // Exemple d'utilisation dans un autre script
 

@@ -144,13 +144,19 @@ namespace TomAg
 
                 if (Unity.Netcode.NetworkManager.Singleton.IsHost)
                 {
-                    echoChannel.LeaveChannel();
+                    if (echoChannel != null)
+                    {
+                        echoChannel.LeaveChannel();
+                    }
                     Unity.Netcode.NetworkManager.Singleton.Shutdown();
                     Debug.Log("Host: Shutting down server");
                 }
                 else if (Unity.Netcode.NetworkManager.Singleton.IsClient)
                 {
-                    echoChannel.LeaveChannel();
+                    if (echoChannel != null)
+                    {
+                        echoChannel.LeaveChannel();
+                    }
                     Unity.Netcode.NetworkManager.Singleton.Shutdown();
                     Debug.Log("Client: Disconnecting from server");
                 }
