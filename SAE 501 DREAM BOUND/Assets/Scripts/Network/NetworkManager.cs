@@ -15,10 +15,11 @@ using Unity.Services.Vivox.AudioTaps;
 public class NetworkManager : MonoBehaviour
 {
     public UnityTransport transport;
+    private string joinCode;
     [SerializeField] private MenuUI mainMenuUI;
 
     [SerializeField] private VivoxChannelAudioTap vivoxChannel;
-    [SerializeField] private JoinEchoChannel echoChannel;
+    [SerializeField] private JoinChannel echoChannel;
 
     async void Awake()
     {
@@ -63,7 +64,7 @@ public class NetworkManager : MonoBehaviour
             }
 
             Allocation a = await RelayService.Instance.CreateAllocationAsync(2);
-            string joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
+            joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
             if (codeLabel != null)
             {

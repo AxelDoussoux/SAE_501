@@ -10,7 +10,7 @@ namespace TomAg
 
         [SerializeField] private UIDocument _pauseMenuDocument;
         [SerializeField] private UIDocument _mainMenuDocument;
-        [SerializeField] private JoinEchoChannel echoChannel;
+        [SerializeField] private JoinChannel echoChannel;
         private MenuUI _mainMenu;
         private VisualElement _pauseMenuRoot;
         private VisualElement _mainMenuRoot;
