@@ -6,6 +6,7 @@ public class DialogueCursorManager : MonoBehaviour
 {
     [SerializeField] private GameObject npc;
     [SerializeField] private GameObject particlePrefab;
+    [SerializeField] private GameObject morpheePatrouille;
 
     // Appelé lorsque le dialogue commence
     public void EnableCursor()
@@ -19,6 +20,10 @@ public class DialogueCursorManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
         Cursor.visible = false; // Cache le curseur
+        if (morpheePatrouille != null)
+        {
+            morpheePatrouille.SetActive(true);
+        }
         HideNPC();
     }
 
