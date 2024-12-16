@@ -1424,6 +1424,7 @@ GameObject:
   - component: {fileID: 2094833446}
   - component: {fileID: 2094833447}
   - component: {fileID: 2094833448}
+  - component: {fileID: 2094833449}
   m_Layer: 0
   m_Name: ConversationEventInfo
   m_TagString: Untagged
@@ -1677,6 +1678,37 @@ MonoBehaviour:
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
+--- !u!114 &2094833449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094833438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00abedce3cdbbba46bf2d86c9518c9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: DisableCursor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  NodeID: 9
+  TMPFont: {fileID: 0}
+  Icon: {fileID: 0}
+  Audio: {fileID: 0}
 --- !u!1001 &5188327921985802196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1784,7 +1816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83189876d4d389f43b7dd2e925aa112e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentIDCounter: 9
+  CurrentIDCounter: 10
   json: "{\"Options\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":3}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":56.80002,\"yPos\":95.9999847},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mais
     qu'est ce que je fais la ?\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":300.600372,\"yPos\":107.199966},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
     !\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":52.6000061,\"yPos\":361.000183},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hmmm
@@ -1808,6 +1840,7 @@ MonoBehaviour:
   - {fileID: 2094833446}
   - {fileID: 2094833447}
   - {fileID: 2094833448}
+  - {fileID: 2094833449}
   ContinueFont: {fileID: 0}
   EndConversationFont: {fileID: 0}
   Event:
