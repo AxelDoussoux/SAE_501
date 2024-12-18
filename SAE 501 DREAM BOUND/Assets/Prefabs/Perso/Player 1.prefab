@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 4827699242802284255}
   - component: {fileID: 3187470210664822573}
   - component: {fileID: 3780287213838878866}
+  - component: {fileID: 6592163330358144105}
   - component: {fileID: 9005549880962374346}
   - component: {fileID: 4259100737079150503}
   - component: {fileID: 3278050281737314994}
@@ -414,7 +415,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5960b91cedf01e645b9661b5e397047a, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -422,6 +423,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6592163330358144105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816914834668261742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c95be181950f4a4e816dfcc540562cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3780287213838878866}
+  rb: {fileID: 3278050281737314994}
+  velocity: 0
+  velocityTransitionTime: 65
 --- !u!114 &9005549880962374346
 MonoBehaviour:
   m_ObjectHideFlags: 0

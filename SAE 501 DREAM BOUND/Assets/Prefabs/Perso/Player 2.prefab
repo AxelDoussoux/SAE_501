@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4944629450489347332}
   - component: {fileID: 2793237295698818833}
   - component: {fileID: 6773101827807985820}
+  - component: {fileID: 1040480360163837651}
   - component: {fileID: 2370774543010643280}
   - component: {fileID: 7261438157840346156}
   - component: {fileID: 3570870590516213309}
@@ -234,7 +235,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5960b91cedf01e645b9661b5e397047a, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -254,6 +255,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23679521c7a757547809458d94577aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1040480360163837651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522360775394759168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c95be181950f4a4e816dfcc540562cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2793237295698818833}
+  rb: {fileID: 7261438157840346156}
+  velocity: 0
+  velocityTransitionTime: 65
 --- !u!114 &2370774543010643280
 MonoBehaviour:
   m_ObjectHideFlags: 0
