@@ -240,7 +240,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckDistance: 0.5
+  groundCheckDistance: 1
+  groundDrag: 5
   maxSlopeAngle: 45
   slopeForce: 10
   airControlFactor: 0.5
@@ -437,8 +438,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3780287213838878866}
   rb: {fileID: 3278050281737314994}
+  playerMotor: {fileID: 2023806854518046491}
   velocity: 0
   velocityTransitionTime: 65
+  isGrounded: 0
+  isJumping: 0
 --- !u!114 &9005549880962374346
 MonoBehaviour:
   m_ObjectHideFlags: 0

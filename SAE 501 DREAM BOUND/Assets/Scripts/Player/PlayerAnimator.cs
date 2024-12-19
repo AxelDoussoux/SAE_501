@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using TomAg;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
@@ -7,11 +8,16 @@ public class PlayerAnimator : NetworkBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private PlayerMotor playerMotor;
 
     private const string VelocityParam = "Velocity";
+    private const string IsJumpingParam = "IsJumping";
+    private const string IsGroundedParam = "IsGrounded";
 
     [SerializeField] private float velocity = 0f;
     [SerializeField] private float velocityTransitionTime = 65f;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isJumping;
 
     private void OnEnable()
     {
@@ -19,22 +25,19 @@ public class PlayerAnimator : NetworkBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();
-            if (animator == null)
-            {
-                animator = gameObject.AddComponent<Animator>();  // Créer une nouvelle instance si nécessaire
-                Debug.LogWarning("Animator component was not assigned, creating a new one.");
-            }
         }
 
         if (rb == null)
         {
             rb = GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = gameObject.AddComponent<Rigidbody>();  // Créer une nouvelle instance si nécessaire
-                Debug.LogWarning("Rigidbody component was not assigned, creating a new one.");
-            }
         }
+
+        if (playerMotor == null)
+        {
+            playerMotor = GetComponent<PlayerMotor>();
+        }
+
+        
     }
 
     private void Update()
@@ -53,6 +56,13 @@ public class PlayerAnimator : NetworkBehaviour
 
         // Calculer la vitesse normalisée du joueur
         velocity = Mathf.Clamp01(rb.velocity.magnitude / velocityTransitionTime); // Normaliser la vitesse (par exemple, avec une valeur max de 10)
+
+        // Récup valeurs de isJumping et isGrounded de Player Motor
+        isJumping = playerMotor._isJumping;
+        isGrounded = playerMotor._isGrounded;
+
         animator.SetFloat(VelocityParam, velocity);
+        animator.SetBool(IsGroundedParam, isGrounded);
+        animator.SetBool(IsJumpingParam, isJumping);
     }
 }
