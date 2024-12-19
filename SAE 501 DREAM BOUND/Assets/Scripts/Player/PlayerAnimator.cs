@@ -1,68 +1,78 @@
 using UnityEngine;
 using Unity.Netcode;
-using TomAg;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Rigidbody))]
-public class PlayerAnimator : NetworkBehaviour
+namespace TomAg
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private PlayerMotor playerMotor;
-
-    private const string VelocityParam = "Velocity";
-    private const string IsJumpingParam = "IsJumping";
-    private const string IsGroundedParam = "IsGrounded";
-
-    [SerializeField] private float velocity = 0f;
-    [SerializeField] private float velocityTransitionTime = 65f;
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private bool isJumping;
-
-    private void OnEnable()
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Rigidbody))]
+    public class PlayerAnimator : NetworkBehaviour
     {
-        // Initialisation des composants s'ils ne sont pas assignés via l'inspecteur
-        if (animator == null)
+        public static PlayerAnimator Instance;
+
+        [SerializeField] private Animator animator;
+        [SerializeField] private Rigidbody rb;
+        [SerializeField] private PlayerMotor playerMotor;
+
+        private const string VelocityParam = "Velocity";
+        private const string IsJumpingParam = "IsJumping";
+        private const string IsGroundedParam = "IsGrounded";
+
+        [SerializeField] private float velocityTransitionTime = 65f;
+
+        // NetworkVariables pour synchroniser les états
+        private NetworkVariable<float> networkVelocity = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private NetworkVariable<bool> networkIsGrounded = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private NetworkVariable<bool> networkIsJumping = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+        private void OnEnable()
         {
-            animator = GetComponent<Animator>();
+            if (Instance == null) Instance = this;
+
+            // Initialisation des composants s'ils ne sont pas assignés via l'inspecteur
+            animator ??= GetComponent<Animator>();
+            rb ??= GetComponent<Rigidbody>();
+            playerMotor ??= GetComponent<PlayerMotor>();
         }
 
-        if (rb == null)
+        private void Update()
         {
-            rb = GetComponent<Rigidbody>();
+            if (rb == null || animator == null || playerMotor == null)
+            {
+                Debug.LogWarning("PlayerAnimator: Required components are not initialized.");
+                return;
+            }
+
+            if (IsOwner)
+            {
+                // Calculer la vitesse normalisée du joueur
+                float velocity = Mathf.Clamp01(rb.velocity.magnitude / velocityTransitionTime);
+
+                // Récupérer les valeurs de `isJumping` et `isGrounded` depuis `PlayerMotor`
+                bool isJumping = playerMotor._isJumping;
+                bool isGrounded = playerMotor._isGrounded;
+
+                // Mettre à jour les NetworkVariables uniquement si nécessaire
+                if (networkVelocity.Value != velocity)
+                    networkVelocity.Value = velocity;
+
+                if (networkIsGrounded.Value != isGrounded)
+                    networkIsGrounded.Value = isGrounded;
+
+                if (networkIsJumping.Value != isJumping)
+                    networkIsJumping.Value = isJumping;
+
+                // Mettre à jour directement les paramètres pour le propriétaire
+                animator.SetFloat(VelocityParam, velocity);
+                animator.SetBool(IsGroundedParam, isGrounded);
+                animator.SetBool(IsJumpingParam, isJumping);
+            }
+            else
+            {
+                // Les autres clients appliquent les états reçus via les NetworkVariables
+                animator.SetFloat(VelocityParam, networkVelocity.Value);
+                animator.SetBool(IsGroundedParam, networkIsGrounded.Value);
+                animator.SetBool(IsJumpingParam, networkIsJumping.Value);
+            }
         }
-
-        if (playerMotor == null)
-        {
-            playerMotor = GetComponent<PlayerMotor>();
-        }
-
-        
-    }
-
-    private void Update()
-    {
-        if (!IsOwner)
-        {
-            Debug.Log("PlayerAnimator: This object is not owned by the local client.");
-            return;
-        }
-
-        if (rb == null || animator == null)
-        {
-            Debug.LogWarning("PlayerAnimator: Rigidbody or Animator is not initialized.");
-            return;
-        }
-
-        // Calculer la vitesse normalisée du joueur
-        velocity = Mathf.Clamp01(rb.velocity.magnitude / velocityTransitionTime); // Normaliser la vitesse (par exemple, avec une valeur max de 10)
-
-        // Récup valeurs de isJumping et isGrounded de Player Motor
-        isJumping = playerMotor._isJumping;
-        isGrounded = playerMotor._isGrounded;
-
-        animator.SetFloat(VelocityParam, velocity);
-        animator.SetBool(IsGroundedParam, isGrounded);
-        animator.SetBool(IsJumpingParam, isJumping);
     }
 }

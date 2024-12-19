@@ -12,16 +12,20 @@ using UnityEngine.UIElements;
 using System;
 using Unity.Services.Vivox.AudioTaps;
 
-public class NetworkManager : MonoBehaviour
+public class NetworkManager : NetworkBehaviour
 {
+
+    private NetworkManager Instance;
     public UnityTransport transport;
     private string joinCode;
     [SerializeField] private MenuUI mainMenuUI;
 
     [SerializeField] private JoinChannel echoChannel;
 
-    async void Awake()
+    private async void Awake()
     {
+        if (Instance == null) Instance = this;
+
         transport = FindObjectOfType<UnityTransport>();
         if (transport == null)
         {
@@ -95,7 +99,9 @@ public class NetworkManager : MonoBehaviour
 
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(joinCode);
             transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
-            echoChannel.SetChannelCode(joinCode);
+
+            if (echoChannel != null) echoChannel.SetChannelCode(joinCode);
+
             Unity.Netcode.NetworkManager.Singleton.StartClient();
         }
         catch (System.Exception e)
