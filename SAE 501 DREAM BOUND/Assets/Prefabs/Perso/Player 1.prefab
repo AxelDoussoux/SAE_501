@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 182968102
+  GlobalObjectIdHash: 740251029
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -439,10 +439,7 @@ MonoBehaviour:
   animator: {fileID: 3780287213838878866}
   rb: {fileID: 3278050281737314994}
   playerMotor: {fileID: 2023806854518046491}
-  velocity: 0
   velocityTransitionTime: 65
-  isGrounded: 0
-  isJumping: 0
 --- !u!114 &9005549880962374346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,7 +480,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7816914834668261742}
   serializedVersion: 4
-  m_Mass: 70
+  m_Mass: 30
   m_Drag: 8
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
