@@ -78,3 +78,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transport: {fileID: 0}
   mainMenuUI: {fileID: 3420924978720289667}
+  echoChannel: {fileID: 0}

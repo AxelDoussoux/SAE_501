@@ -579,16 +579,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4846321406999159879, guid: 8f87227ea88b38743a2359ec82c8c145,
-        type: 3}
-      propertyPath: echoChannel
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846321406999159879, guid: 8f87227ea88b38743a2359ec82c8c145,
-        type: 3}
-      propertyPath: vivoxChannel
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
