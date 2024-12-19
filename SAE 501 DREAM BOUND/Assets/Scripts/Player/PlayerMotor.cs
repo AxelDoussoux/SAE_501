@@ -79,7 +79,6 @@ namespace TomAg
 
         private void InitializeRigidbody()
         {
-            _rb.mass = 70f;
             _rb.drag = 8f;
             _rb.angularDrag = 0.05f;
             _rb.useGravity = true;
