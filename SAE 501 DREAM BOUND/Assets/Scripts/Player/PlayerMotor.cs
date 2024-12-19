@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TomAg
 {
@@ -15,10 +17,12 @@ namespace TomAg
         [SerializeField] private float jumpForce = 20f;
         [SerializeField] private float jumpHorizontalDrag = 2f; // Drag horizontal pendant le saut
         [SerializeField] private float jumpVerticalDrag = 0f; // Drag vertical pendant le saut
+        
 
         [Header("Ground Check")]
         [SerializeField] private LayerMask groundMask;
-        [SerializeField] private float groundCheckDistance = 0.5f;
+        [SerializeField] private float groundCheckDistance;
+        [SerializeField] private float groundDrag;
 
         [Header("Slope Handling")]
         [SerializeField] private float maxSlopeAngle = 45f;
@@ -36,9 +40,10 @@ namespace TomAg
         private Rigidbody _rb;
         private PlayerController _controller;
         private Vector3 _moveInput;
-        private bool _isGrounded;
-        private bool _isJumping;
         private PlayerInfo _playerInfo;
+
+        public bool _isGrounded { get; private set; }
+        public bool _isJumping { get; private set; }
 
         public delegate void GroundChangeHandler(bool isGrounded);
         public event GroundChangeHandler onGroundChanged;
@@ -75,7 +80,7 @@ namespace TomAg
         private void InitializeRigidbody()
         {
             _rb.mass = 70f;
-            _rb.drag = 8f;
+            _rb.drag = groundDrag;
             _rb.angularDrag = 0.05f;
             _rb.useGravity = true;
 
@@ -217,6 +222,7 @@ namespace TomAg
             _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
             _rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
             _isJumping = true;
+            StartCoroutine(WaitJumpStop());
             onJump?.Invoke();
         }
 
@@ -224,5 +230,12 @@ namespace TomAg
         {
             _isJumping = false;
         }
+
+        private IEnumerator WaitJumpStop()
+        {
+            yield return new WaitForSeconds(0.05f);
+            _isJumping = false;
+        }
+
     }
 }
