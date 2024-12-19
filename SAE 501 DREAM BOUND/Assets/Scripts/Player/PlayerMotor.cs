@@ -79,7 +79,8 @@ namespace TomAg
             _rb.angularDrag = 0.05f;
             _rb.useGravity = true;
 
-            _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            // Contraindre les rotations physiques sur tous les axes
+            _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
         }
 
         private void FixedUpdate()
@@ -101,8 +102,6 @@ namespace TomAg
             cameraForward.Normalize();
             cameraRight.Normalize();
 
-            
-
             Vector3 moveDirection = (cameraForward * _moveInput.z * walkForce) +
                                     (cameraRight * _moveInput.x * strafeForce);
 
@@ -111,14 +110,18 @@ namespace TomAg
                 moveDirection *= airControlFactor;
             }
 
+            // Appliquer la force pour le mouvement
             _rb.AddForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
+            // Contrôle manuel de la rotation (basé uniquement sur l'entrée utilisateur)
             if (_moveInput != Vector3.zero)
             {
                 Vector3 direction = moveDirection.normalized;
                 if (direction.magnitude >= 0.1f)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    // Appliquer uniquement la rotation sur l'axe Y
+                    targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
                     _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * 10f));
                 }
             }
