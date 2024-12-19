@@ -6,6 +6,9 @@ public class DialogueCursorManager : MonoBehaviour
 {
     [SerializeField] private GameObject npc;
     [SerializeField] private GameObject particlePrefab;
+    [SerializeField] private GameObject morpheePatrouille;
+
+    private static bool morpheePatrouilleActivated = false;
 
     // Appelé lorsque le dialogue commence
     public void EnableCursor()
@@ -19,6 +22,11 @@ public class DialogueCursorManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
         Cursor.visible = false; // Cache le curseur
+        if (!morpheePatrouilleActivated && morpheePatrouille != null)
+        {
+            morpheePatrouille.SetActive(true);
+            morpheePatrouilleActivated = true; // Met à jour le flag pour empêcher les appels futurs
+        }
         HideNPC();
     }
 
@@ -44,4 +52,31 @@ public class DialogueCursorManager : MonoBehaviour
             Debug.LogWarning("NPC GameObject is not assigned in DialogueCursorManager.");
         }
     }
+
+    public void HideMorpheePatrouille()
+    {
+        if (morpheePatrouille != null)
+        {
+            // Instancie le prefab de particules à la position de Morphee Patrouille
+            if (particlePrefab != null)
+            {
+                Instantiate(particlePrefab, morpheePatrouille.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning("Particle Prefab is not assigned for Morphee Patrouille in DialogueCursorManager.");
+            }
+
+            // Désactive le GameObject de Morphee Patrouille
+            morpheePatrouille.SetActive(false);
+            Debug.Log("Morphee Patrouille has disappeared.");
+        }
+        else
+        {
+            Debug.LogWarning("Morphee Patrouille GameObject is not assigned in DialogueCursorManager.");
+        }
+        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
+        Cursor.visible = false;
+    }
+
 }
