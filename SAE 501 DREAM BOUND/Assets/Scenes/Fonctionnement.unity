@@ -555,7 +555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myConversation: {fileID: 92391425}
   interactionText: {fileID: 816843358}
-  message: Appuie sur E pour interagir
+  message: Tu as une autre question ?
 --- !u!114 &92391432
 MonoBehaviour:
   m_ObjectHideFlags: 0
