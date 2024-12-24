@@ -44,13 +44,13 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     private void OnTriggerEnter(Collider other)
     {
         var playerInfo = other.GetComponent<PlayerInfo>();
-        if (playerInfo != null)
+        if (playerInfo != null) // Vérifie si c'est le propriétaire local
         {
             isPlayerInRange = true;
             currentPlayerInfo = playerInfo; // Stocke la référence pour une utilisation ultérieure
 
-            // Affiche le texte d'interaction
-            if (interactionText != null)
+            // Affiche le texte d'interaction uniquement pour le client local
+            if (interactionText != null && playerInfo.IsOwner)
             {
                 interactionText.text = message;
                 interactionText.gameObject.SetActive(true);
@@ -70,19 +70,20 @@ public class ConversationStarter : MonoBehaviour, IInteractable
 
     private void OnTriggerExit(Collider other)
     {
-        // On termine le dialogue si le joueur sort de la zone
-        if (other.GetComponent<PlayerInfo>() == currentPlayerInfo)
+        var playerInfo = other.GetComponent<PlayerInfo>();
+        if (playerInfo != null && playerInfo == currentPlayerInfo) // Vérifie également que c'est le propriétaire local
         {
             dialogueCamera.EndDialogue();
             currentPlayerInfo = null;
-        }
 
-        // Cache le texte d'interaction
-        if (interactionText != null)
-        {
-            interactionText.gameObject.SetActive(false);
+            // Cache le texte d'interaction uniquement pour le client local
+            if (interactionText != null && playerInfo.IsOwner)
+            {
+                interactionText.gameObject.SetActive(false);
+            }
         }
     }
+
 
     private void Update()
     {
