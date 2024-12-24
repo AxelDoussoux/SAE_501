@@ -9,6 +9,8 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     [SerializeField] private NPCConversation myConversation;
     [SerializeField] private TextMeshProUGUI interactionText; // Référence au texte UI
     [SerializeField] private string message = "Appuie sur E pour interagir";
+    [SerializeField] private DynamicDialogueCamera dialogueCamera;
+    [SerializeField] private Transform npc;  // Référence au NPC
 
     private PlayerInput playerInput;
     private InputAction interactAction;
@@ -23,6 +25,9 @@ public class ConversationStarter : MonoBehaviour, IInteractable
             // Démarrer la conversation avec le NPC
             ConversationManager.Instance.StartConversation(myConversation);
             Debug.Log($"Conversation démarrée avec le joueur : {playerInfo.name}");
+
+            // Dynamically assign the player and NPC for dialogue camera
+            dialogueCamera.StartDialogue(playerInfo.transform, npc);
 
             // Cache le texte d'interaction
             if (interactionText != null)
@@ -65,17 +70,17 @@ public class ConversationStarter : MonoBehaviour, IInteractable
 
     private void OnTriggerExit(Collider other)
     {
-        var playerInfo = other.GetComponent<PlayerInfo>();
-        if (playerInfo != null)
+        // On termine le dialogue si le joueur sort de la zone
+        if (other.GetComponent<PlayerInfo>() == currentPlayerInfo)
         {
-            isPlayerInRange = false;
+            dialogueCamera.EndDialogue();
             currentPlayerInfo = null;
+        }
 
-            // Cache le texte d'interaction
-            if (interactionText != null)
-            {
-                interactionText.gameObject.SetActive(false);
-            }
+        // Cache le texte d'interaction
+        if (interactionText != null)
+        {
+            interactionText.gameObject.SetActive(false);
         }
     }
 
