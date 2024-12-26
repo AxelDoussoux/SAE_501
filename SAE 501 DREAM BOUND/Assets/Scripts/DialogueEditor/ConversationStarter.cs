@@ -17,35 +17,69 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     private bool isPlayerInRange = false;
     private PlayerInfo currentPlayerInfo;
 
+    private void Start()
+    {
+        // Vérification dynamique si les références ne sont pas assignées dans l'inspecteur
+        if (dialogueCamera == null)
+        {
+            dialogueCamera = FindObjectOfType<DynamicDialogueCamera>();
+            if (dialogueCamera == null)
+            {
+                Debug.LogError("DynamicDialogueCamera non trouvé dans la scène !");
+            }
+        }
+
+        if (interactionText == null)
+        {
+            Debug.LogWarning("interactionText n'est pas assigné dans l'inspecteur !");
+        }
+
+        if (npc == null)
+        {
+            Debug.LogWarning("npc (Transform) n'est pas assigné dans l'inspecteur !");
+        }
+
+        if (myConversation == null)
+        {
+            Debug.LogWarning("myConversation n'est pas assigné dans l'inspecteur !");
+        }
+    }
+
     // Implémentation de l'interface IInteractable
     public void Interact(PlayerInfo playerInfo)
     {
-        if (myConversation != null)
+        if (myConversation == null)
         {
-            // Démarrer la conversation avec le NPC
-            ConversationManager.Instance.StartConversation(myConversation);
-            Debug.Log($"Conversation démarrée avec le joueur : {playerInfo.name}");
-
-            // Dynamically assign the player and NPC for dialogue camera
-            dialogueCamera.StartDialogue(playerInfo.transform, npc);
-
-            // Cache le texte d'interaction
-            if (interactionText != null)
-            {
-                interactionText.gameObject.SetActive(false);
-            }
+            Debug.LogError("myConversation n'est pas assigné dans ConversationStarter.");
+            return;
         }
-        else
+
+        if (dialogueCamera == null)
         {
-            Debug.LogWarning("Aucune conversation assignée dans ConversationStarter.");
+            Debug.LogError("dialogueCamera n'est pas assigné dans ConversationStarter.");
+            return;
+        }
+
+        // Démarrer la conversation
+        ConversationManager.Instance.StartConversation(myConversation);
+        Debug.Log($"Conversation démarrée avec le joueur : {playerInfo.name}");
+
+        // Dynamically assign the player and NPC for dialogue camera
+        dialogueCamera.StartDialogue(playerInfo.transform, npc);
+
+        // Cache le texte d'interaction
+        if (interactionText != null)
+        {
+            interactionText.gameObject.SetActive(false);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         var playerInfo = other.GetComponent<PlayerInfo>();
-        if (playerInfo != null) // Vérifie si c'est le propriétaire local
+        if (playerInfo != null)
         {
+            Debug.Log("PlayerInfo trouvé !");
             isPlayerInRange = true;
             currentPlayerInfo = playerInfo; // Stocke la référence pour une utilisation ultérieure
 
@@ -63,17 +97,26 @@ public class ConversationStarter : MonoBehaviour, IInteractable
                 if (playerInput != null)
                 {
                     interactAction = playerInput.actions["Interact"];
+                    Debug.Log("Action 'Interact' assignée.");
+                }
+                else
+                {
+                    Debug.LogError("PlayerInput non trouvé sur l'objet.");
                 }
             }
+        }
+        else
+        {
+            Debug.LogError("PlayerInfo non trouvé sur l'objet entrant dans le trigger.");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         var playerInfo = other.GetComponent<PlayerInfo>();
-        if (playerInfo != null && playerInfo == currentPlayerInfo) // Vérifie également que c'est le propriétaire local
+        if (playerInfo != null && playerInfo == currentPlayerInfo)
         {
-            dialogueCamera.EndDialogue();
+            dialogueCamera?.EndDialogue();
             currentPlayerInfo = null;
 
             // Cache le texte d'interaction uniquement pour le client local
@@ -84,13 +127,19 @@ public class ConversationStarter : MonoBehaviour, IInteractable
         }
     }
 
-
     private void Update()
     {
         // Vérifie si le joueur est dans la zone et a pressé l'action "Interact"
         if (isPlayerInRange && interactAction != null && interactAction.triggered)
         {
-            Interact(currentPlayerInfo);
+            if (currentPlayerInfo != null)
+            {
+                Interact(currentPlayerInfo);
+            }
+            else
+            {
+                Debug.LogWarning("currentPlayerInfo est null au moment d'interagir.");
+            }
         }
     }
 }
