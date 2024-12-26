@@ -294,6 +294,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 293538290}
+        m_TargetAssemblyTypeName: DynamicDialogueCamera, Assembly-CSharp
+        m_MethodName: EndDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   NodeID: 1
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
@@ -504,13 +516,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 8
-  json: "{\"Options\":[{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":146.400009,\"yPos\":223.800018},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Non,
-    tout va bien.\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":4}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":387.2,\"yPos\":221.400024},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Oui,
-    je ne comprend pas ce que nous devons faire.\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":397.599976,\"yPos\":508.6001},\"ID\":5,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Tr\xE8s
-    bien, je vais essayer\",\"parentUIDs\":[4],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":406.400024,\"yPos\":752.6001},\"ID\":7,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
-    !\",\"parentUIDs\":[6],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1},{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":243,\"yPos\":78},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Vous
-    avez besoin d'aide ?\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":390.400024,\"yPos\":354.400024},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Aidez
-    vous des plaques de pression. Des \xE9lements du d\xE9cor devraient bouger\",\"parentUIDs\":[2],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":7}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":403.2,\"yPos\":621.6001},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Si
+  json: "{\"Options\":[{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-37.59999,\"yPos\":165.400024},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Non,
+    tout va bien.\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":4}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":203.200012,\"yPos\":163.000031},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Oui,
+    je ne comprend pas ce que nous devons faire.\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":6}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":213.599976,\"yPos\":450.200073},\"ID\":5,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Tr\xE8s
+    bien, je vais essayer\",\"parentUIDs\":[4],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":222.400024,\"yPos\":694.2},\"ID\":7,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
+    !\",\"parentUIDs\":[6],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1},{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":59,\"yPos\":19.6000061},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Vous
+    avez besoin d'aide ?\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":206.400024,\"yPos\":296.000061},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Aidez
+    vous des plaques de pression. Des \xE9lements du d\xE9cor devraient bouger\",\"parentUIDs\":[2],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":7}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":219.200012,\"yPos\":563.2},\"ID\":6,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Si
     vous avez d'autres questions, revenez me voir !\",\"parentUIDs\":[5],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
@@ -532,6 +544,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1891031817}
         m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
         m_MethodName: HideMorpheePatrouille
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 293538290}
+        m_TargetAssemblyTypeName: DynamicDialogueCamera, Assembly-CSharp
+        m_MethodName: EndDialogue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1296,7 +1320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 2
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":300,"yPos":395},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"tset","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":1}],"EditorInfo":{"isRoot":true,"xPos":285,"yPos":185},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"test","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"test","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":117.200012,"yPos":204.799927},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"tset","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":1}],"EditorInfo":{"isRoot":true,"xPos":102.200012,"yPos":-5.199997},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"test","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"test","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
@@ -1308,7 +1332,43 @@ MonoBehaviour:
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: DisableCursor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: HideNPC2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 293538290}
+        m_TargetAssemblyTypeName: DynamicDialogueCamera, Assembly-CSharp
+        m_MethodName: EndDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &724447280
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1687,7 +1747,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: DisableCursor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: HideNPC2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 293538290}
+        m_TargetAssemblyTypeName: DynamicDialogueCamera, Assembly-CSharp
+        m_MethodName: EndDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   NodeID: 1
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
@@ -1721,7 +1817,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: EnableCursor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   NodeID: 0
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
@@ -2244,6 +2352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 5188327921985802197}
+  npc2: {fileID: 724447277}
   particlePrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
     type: 3}
   morpheePatrouille: {fileID: 92391415}
@@ -2598,6 +2707,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: HideNPC1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   NodeID: 2
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
@@ -2934,14 +3055,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 10
-  json: "{\"Options\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":3}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":180.200012,\"yPos\":279},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mais
-    qu'est ce que je fais la ?\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":424.000366,\"yPos\":290.199951},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
-    !\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":176,\"yPos\":544.000244},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hmmm
-    je vois\",\"parentUIDs\":[3],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":172.200012,\"yPos\":759.600037},\"ID\":9,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord\",\"parentUIDs\":[5],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1},{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":228,\"yPos\":145},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hey,
+  json: "{\"Options\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":3}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-112.799988,\"yPos\":156.000076},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mais
+    qu'est ce que je fais la ?\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":131.000366,\"yPos\":167.200027},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
+    !\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-117,\"yPos\":421.0003},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hmmm
+    je vois\",\"parentUIDs\":[3],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-120.799988,\"yPos\":636.600159},\"ID\":9,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord\",\"parentUIDs\":[5],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1},{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":-65,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hey,
     bienvenue \xE0 Dream Bound, si tu as besoin d'aide n'h\xE9site pas \xE0 venir
-    me voir, je me prom\xE8ne souvent par ici.\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":4}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":176.6,\"yPos\":410.399841},\"ID\":3,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Je
+    me voir, je me prom\xE8ne souvent par ici.\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":4}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-116.399994,\"yPos\":287.3999},\"ID\":3,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Je
     t'ai enferm\xE9 ici pour permettre \xE0 toi et ton ami de vous retrouver. Il
-    faudra coop\xE9rer pour r\xE9ussir \xE0 sortir !\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":9}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":182.600037,\"yPos\":638.2002},\"ID\":5,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Si
+    faudra coop\xE9rer pour r\xE9ussir \xE0 sortir !\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":9}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-110.399963,\"yPos\":515.2004},\"ID\":5,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Si
     tu as d'autres questions passe me voir, je vais me promener par ici.\",\"parentUIDs\":[4],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
@@ -2978,6 +3099,18 @@ MonoBehaviour:
       - m_Target: {fileID: 293538290}
         m_TargetAssemblyTypeName: DynamicDialogueCamera, Assembly-CSharp
         m_MethodName: EndDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: HideNPC1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

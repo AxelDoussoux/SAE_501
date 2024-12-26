@@ -5,6 +5,7 @@ using UnityEngine;
 public class DialogueCursorManager : MonoBehaviour
 {
     [SerializeField] private GameObject npc;
+    [SerializeField] private GameObject npc2;
     [SerializeField] private GameObject particlePrefab;
     [SerializeField] private GameObject morpheePatrouille;
 
@@ -27,10 +28,9 @@ public class DialogueCursorManager : MonoBehaviour
             morpheePatrouille.SetActive(true);
             morpheePatrouilleActivated = true; // Met à jour le flag pour empêcher les appels futurs
         }
-        HideNPC();
     }
 
-    private void HideNPC()
+    public void HideNPC1()
     {
         if (npc != null)
         {
@@ -46,6 +46,29 @@ public class DialogueCursorManager : MonoBehaviour
 
             // Désactive le GameObject du NPC
             npc.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("NPC GameObject is not assigned in DialogueCursorManager.");
+        }
+    }
+
+    public void HideNPC2()
+    {
+        if (npc2 != null)
+        {
+            // Instancie le prefab de particules à la position du NPC
+            if (particlePrefab != null)
+            {
+                Instantiate(particlePrefab, npc2.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning("Particle Prefab is not assigned in DialogueCursorManager.");
+            }
+
+            // Désactive le GameObject du NPC
+            npc2.SetActive(false);
         }
         else
         {

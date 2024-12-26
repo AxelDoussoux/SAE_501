@@ -7,19 +7,24 @@ using TMPro;
 public class ConversationStarter : MonoBehaviour, IInteractable
 {
     [SerializeField] private NPCConversation myConversation;
-    [SerializeField] private TextMeshProUGUI interactionText; // Référence au texte UI
+    [SerializeField] private TextMeshProUGUI interactionText;
     [SerializeField] private string message = "Appuie sur E pour interagir";
     [SerializeField] private DynamicDialogueCamera dialogueCamera;
-    [SerializeField] private Transform npc;  // Référence au NPC
+    [SerializeField] private Transform npc;
 
     private PlayerInput playerInput;
     private InputAction interactAction;
     private bool isPlayerInRange = false;
     private PlayerInfo currentPlayerInfo;
+    private bool isInteracting = false;
 
     private void Start()
     {
-        // Vérification dynamique si les références ne sont pas assignées dans l'inspecteur
+        ValidateReferences();
+    }
+
+    private void ValidateReferences()
+    {
         if (dialogueCamera == null)
         {
             dialogueCamera = FindObjectOfType<DynamicDialogueCamera>();
@@ -45,69 +50,78 @@ public class ConversationStarter : MonoBehaviour, IInteractable
         }
     }
 
-    // Implémentation de l'interface IInteractable
     public void Interact(PlayerInfo playerInfo)
     {
-        if (myConversation == null)
-        {
-            Debug.LogError("myConversation n'est pas assigné dans ConversationStarter.");
-            return;
-        }
+        if (!ValidateInteraction(playerInfo)) return;
 
-        if (dialogueCamera == null)
-        {
-            Debug.LogError("dialogueCamera n'est pas assigné dans ConversationStarter.");
-            return;
-        }
-
-        // Démarrer la conversation
+        isInteracting = true;
         ConversationManager.Instance.StartConversation(myConversation);
         Debug.Log($"Conversation démarrée avec le joueur : {playerInfo.name}");
 
-        // Dynamically assign the player and NPC for dialogue camera
         dialogueCamera.StartDialogue(playerInfo.transform, npc);
 
-        // Cache le texte d'interaction
         if (interactionText != null)
         {
             interactionText.gameObject.SetActive(false);
         }
     }
 
+    private bool ValidateInteraction(PlayerInfo playerInfo)
+    {
+        if (myConversation == null)
+        {
+            Debug.LogError("myConversation n'est pas assigné dans ConversationStarter.");
+            return false;
+        }
+
+        if (dialogueCamera == null)
+        {
+            Debug.LogError("dialogueCamera n'est pas assigné dans ConversationStarter.");
+            return false;
+        }
+
+        if (playerInfo == null)
+        {
+            Debug.LogError("PlayerInfo est null lors de l'interaction.");
+            return false;
+        }
+
+        return true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var playerInfo = other.GetComponent<PlayerInfo>();
-        if (playerInfo != null)
+        if (playerInfo != null && playerInfo.IsOwner)  // Vérifie si c'est le propriétaire local
         {
-            Debug.Log("PlayerInfo trouvé !");
+            Debug.Log($"PlayerInfo trouvé pour {playerInfo.name}!");
             isPlayerInRange = true;
-            currentPlayerInfo = playerInfo; // Stocke la référence pour une utilisation ultérieure
+            currentPlayerInfo = playerInfo;
 
-            // Affiche le texte d'interaction uniquement pour le client local
-            if (interactionText != null && playerInfo.IsOwner)
+            if (interactionText != null)
             {
                 interactionText.text = message;
                 interactionText.gameObject.SetActive(true);
             }
 
-            // Récupérer le PlayerInput si ce n'est pas déjà fait
-            if (playerInput == null)
-            {
-                playerInput = other.GetComponent<PlayerInput>();
-                if (playerInput != null)
-                {
-                    interactAction = playerInput.actions["Interact"];
-                    Debug.Log("Action 'Interact' assignée.");
-                }
-                else
-                {
-                    Debug.LogError("PlayerInput non trouvé sur l'objet.");
-                }
-            }
+            SetupPlayerInput(other);
         }
-        else
+    }
+
+    private void SetupPlayerInput(Collider other)
+    {
+        if (playerInput == null)
         {
-            Debug.LogError("PlayerInfo non trouvé sur l'objet entrant dans le trigger.");
+            playerInput = other.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                interactAction = playerInput.actions["Interact"];
+                Debug.Log($"Action 'Interact' assignée pour {other.name}");
+            }
+            else
+            {
+                Debug.LogError($"PlayerInput non trouvé sur {other.name}");
+            }
         }
     }
 
@@ -116,30 +130,34 @@ public class ConversationStarter : MonoBehaviour, IInteractable
         var playerInfo = other.GetComponent<PlayerInfo>();
         if (playerInfo != null && playerInfo == currentPlayerInfo)
         {
-            dialogueCamera?.EndDialogue();
-            currentPlayerInfo = null;
+            CleanupInteraction(playerInfo);
+        }
+    }
 
-            // Cache le texte d'interaction uniquement pour le client local
-            if (interactionText != null && playerInfo.IsOwner)
-            {
-                interactionText.gameObject.SetActive(false);
-            }
+    private void CleanupInteraction(PlayerInfo playerInfo)
+    {
+        if (isInteracting)
+        {
+            dialogueCamera?.EndDialogue();
+        }
+
+        isInteracting = false;
+        isPlayerInRange = false;
+        currentPlayerInfo = null;
+
+        if (interactionText != null && playerInfo.IsOwner)
+        {
+            interactionText.gameObject.SetActive(false);
         }
     }
 
     private void Update()
     {
-        // Vérifie si le joueur est dans la zone et a pressé l'action "Interact"
-        if (isPlayerInRange && interactAction != null && interactAction.triggered)
+        if (isPlayerInRange && !isInteracting && interactAction != null &&
+            interactAction.triggered && currentPlayerInfo != null &&
+            currentPlayerInfo.IsOwner)  // Vérifie si c'est le propriétaire local
         {
-            if (currentPlayerInfo != null)
-            {
-                Interact(currentPlayerInfo);
-            }
-            else
-            {
-                Debug.LogWarning("currentPlayerInfo est null au moment d'interagir.");
-            }
+            Interact(currentPlayerInfo);
         }
     }
 }
