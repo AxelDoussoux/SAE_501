@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 29502343}
   - component: {fileID: 29502342}
   - component: {fileID: 29502340}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ConversationEventInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1224,6 +1224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Morph\xE9e (1)"
       objectReference: {fileID: 0}
+    - target: {fileID: 2682247011794093, guid: 87e78a1f82da409489942248d6232fc0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 125537060944955974, guid: 87e78a1f82da409489942248d6232fc0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1273,6 +1277,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 540089068258409028, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866919155703975698, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762856999273936905, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542437513828961075, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1726,7 +1750,7 @@ GameObject:
   - component: {fileID: 1192749809}
   - component: {fileID: 1192749810}
   - component: {fileID: 1192749808}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ConversationEventInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2369,6 +2393,10 @@ PrefabInstance:
       value: "Morph\xE9ePatrouille"
       objectReference: {fileID: 0}
     - target: {fileID: 2682247011794093, guid: 87e78a1f82da409489942248d6232fc0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2682247011794093, guid: 87e78a1f82da409489942248d6232fc0, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2421,6 +2449,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 540089068258409028, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866919155703975698, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762856999273936905, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542437513828961075, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2627,7 +2675,7 @@ GameObject:
   - component: {fileID: 2094833447}
   - component: {fileID: 2094833448}
   - component: {fileID: 2094833449}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ConversationEventInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2947,6 +2995,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Morph\xE9e"
       objectReference: {fileID: 0}
+    - target: {fileID: 2682247011794093, guid: 87e78a1f82da409489942248d6232fc0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 125537060944955974, guid: 87e78a1f82da409489942248d6232fc0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2996,6 +3048,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 540089068258409028, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866919155703975698, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762856999273936905, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542437513828961075, guid: 87e78a1f82da409489942248d6232fc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
