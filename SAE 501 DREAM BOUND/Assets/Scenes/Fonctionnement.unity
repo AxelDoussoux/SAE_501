@@ -2437,11 +2437,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd184cc32cf4845479d2350fb85e577f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc: {fileID: 5188327921985802210}
-  npc2: {fileID: 724447290}
+  npc: {fileID: 5188327921985802197}
+  npc2: {fileID: 724447277}
   particlePrefab: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
     type: 3}
-  morpheePatrouille: {fileID: 92391423}
+  morpheePatrouille: {fileID: 92391415}
 --- !u!114 &1891031818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3241,14 +3241,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 10
-  json: "{\"Options\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":3}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":68.80002,\"yPos\":185.600113},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mais
-    qu'est ce que je fais la ?\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":312.600372,\"yPos\":196.800064},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
-    !\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":64.6000061,\"yPos\":450.60025},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hmmm
-    je vois\",\"parentUIDs\":[3],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":60.80002,\"yPos\":666.1999},\"ID\":9,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord\",\"parentUIDs\":[5],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1},{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":116.600006,\"yPos\":51.6000366},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hey,
+  json: "{\"Options\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":3}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-112.799988,\"yPos\":156.000076},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Mais
+    qu'est ce que je fais la ?\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":131.000366,\"yPos\":167.200027},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord
+    !\",\"parentUIDs\":[0],\"SpeechUID\":-1},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":5}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-117,\"yPos\":421.0002},\"ID\":4,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hmmm
+    je vois\",\"parentUIDs\":[3],\"SpeechUID\":-1},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-120.799988,\"yPos\":636.599854},\"ID\":9,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"D'accord\",\"parentUIDs\":[5],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1},{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":-65,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Hey,
     bienvenue \xE0 Dream Bound, si tu as besoin d'aide n'h\xE9site pas \xE0 venir
-    me voir, je me prom\xE8ne souvent par ici.\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":4}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":65.20001,\"yPos\":316.999847},\"ID\":3,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Je
+    me voir, je me prom\xE8ne souvent par ici.\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":4}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-116.399994,\"yPos\":287.3998},\"ID\":3,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Je
     t'ai enferm\xE9 ici pour permettre \xE0 toi et ton ami de vous retrouver. Il
-    faudra coop\xE9rer pour r\xE9ussir \xE0 sortir !\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":9}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":71.20004,\"yPos\":544.8001},\"ID\":5,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Si
+    faudra coop\xE9rer pour r\xE9ussir \xE0 sortir !\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":9}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":-110.399963,\"yPos\":515.2001},\"ID\":5,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Si
     tu as d'autres questions passe me voir, je vais me promener par ici.\",\"parentUIDs\":[4],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Morph\xE9e\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: 
