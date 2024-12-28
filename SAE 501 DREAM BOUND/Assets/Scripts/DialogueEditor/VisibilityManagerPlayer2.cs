@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class VisibilityManager : NetworkBehaviour
+public class VisibilityManagerForPlayer2 : NetworkBehaviour
 {
     private NetworkObject networkObject;
 
@@ -12,7 +12,7 @@ public class VisibilityManager : NetworkBehaviour
         // Vérifier si le NetworkObject existe
         if (networkObject == null)
         {
-            Debug.LogError("[VisibilityManager] NetworkObject manquant !");
+            Debug.LogError("[VisibilityManagerForPlayer2] NetworkObject manquant !");
             return;
         }
     }
@@ -51,25 +51,25 @@ public class VisibilityManager : NetworkBehaviour
         // Gérer la visibilité de l'objet pour chaque client connecté
         if (IsServer)
         {
-            Debug.Log($"[VisibilityManager] Nouveau client connecté: {clientId}");
+            Debug.Log($"[VisibilityManagerForPlayer2] Nouveau client connecté: {clientId}");
             HandleClientVisibility(clientId);
         }
     }
 
     private void HandleClientVisibility(ulong clientId)
     {
-        Debug.Log($"[VisibilityManager] Gestion de la visibilité pour le client: {clientId}");
+        Debug.Log($"[VisibilityManagerForPlayer2] Gestion de la visibilité pour le client: {clientId}");
 
-        // Si le client est le joueur 2 (clientId == 1), on cache l'objet
-        if (clientId == 1)
+        // Si le client est le joueur 1 (clientId == 0), on cache l'objet
+        if (clientId == 0)
         {
             HideObjectClientRpc();
-            Debug.Log("[VisibilityManager] Objet caché pour le joueur 2.");
+            Debug.Log("[VisibilityManagerForPlayer2] Objet caché pour le joueur 1.");
         }
-        else // Si le client est le joueur 1, on le montre
+        else // Si le client est le joueur 2, on le montre
         {
             ShowObjectClientRpc();
-            Debug.Log("[VisibilityManager] Objet montré pour le joueur 1.");
+            Debug.Log("[VisibilityManagerForPlayer2] Objet montré pour le joueur 2.");
         }
     }
 
