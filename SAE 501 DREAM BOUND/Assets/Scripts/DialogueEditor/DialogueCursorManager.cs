@@ -6,7 +6,8 @@ public class DialogueCursorManager : MonoBehaviour
     [SerializeField] private GameObject npc;
     [SerializeField] private GameObject npc2;
     [SerializeField] private GameObject particlePrefab;
-    [SerializeField] private GameObject morpheePatrouille;
+    [SerializeField] private GameObject morpheePatrouillePlayer1;
+    [SerializeField] private GameObject morpheePatrouillePlayer2;
     private static bool morpheePatrouilleActivated = false;
     // Appelé lorsque le dialogue commence
     public void EnableCursor()
@@ -19,12 +20,27 @@ public class DialogueCursorManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
         Cursor.visible = false; // Cache le curseur
-        if (!morpheePatrouilleActivated && morpheePatrouille != null)
+        
+    }
+
+    public void SetActiveMorpheePatrouillePlayer1()
+    {
+        if (!morpheePatrouilleActivated && morpheePatrouillePlayer1 != null)
+            {
+                morpheePatrouillePlayer1.SetActive(true);
+                morpheePatrouilleActivated = true; // Met à jour le flag pour empêcher les appels futurs
+            }
+    }
+
+    public void SetActiveMorpheePatrouillePlayer2()
+    {
+        if (morpheePatrouillePlayer2 != null)
         {
-            morpheePatrouille.SetActive(true);
+            morpheePatrouillePlayer2.SetActive(true);
             morpheePatrouilleActivated = true; // Met à jour le flag pour empêcher les appels futurs
         }
     }
+
     public void HideNPC1()
     {
         if (npc != null)
@@ -67,21 +83,46 @@ public class DialogueCursorManager : MonoBehaviour
             Debug.LogWarning("NPC GameObject is not assigned in DialogueCursorManager.");
         }
     }
-    public void HideMorpheePatrouille()
+    public void HideMorpheePatrouillePlayer1()
     {
-        if (morpheePatrouille != null)
+        if (morpheePatrouillePlayer1 != null)
         {
             // Instancie le prefab de particules à la position de Morphee Patrouille
             if (particlePrefab != null)
             {
-                Instantiate(particlePrefab, morpheePatrouille.transform.position, Quaternion.identity);
+                Instantiate(particlePrefab, morpheePatrouillePlayer1.transform.position, Quaternion.identity);
             }
             else
             {
                 Debug.LogWarning("Particle Prefab is not assigned for Morphee Patrouille in DialogueCursorManager.");
             }
             // Désactive le GameObject de Morphee Patrouille
-            morpheePatrouille.SetActive(false);
+            morpheePatrouillePlayer1.SetActive(false);
+            Debug.Log("Morphee Patrouille has disappeared.");
+        }
+        else
+        {
+            Debug.LogWarning("Morphee Patrouille GameObject is not assigned in DialogueCursorManager.");
+        }
+        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
+        Cursor.visible = false;
+    }
+
+    public void HideMorpheePatrouillePlayer2()
+    {
+        if (morpheePatrouillePlayer1 != null)
+        {
+            // Instancie le prefab de particules à la position de Morphee Patrouille
+            if (particlePrefab != null)
+            {
+                Instantiate(particlePrefab, morpheePatrouillePlayer1.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning("Particle Prefab is not assigned for Morphee Patrouille in DialogueCursorManager.");
+            }
+            // Désactive le GameObject de Morphee Patrouille
+            morpheePatrouillePlayer2.SetActive(false);
             Debug.Log("Morphee Patrouille has disappeared.");
         }
         else
