@@ -9,7 +9,6 @@ public class VisibilityManager : NetworkBehaviour
     {
         networkObject = GetComponent<NetworkObject>();
 
-        // Vérifier si le NetworkObject existe
         if (networkObject == null)
         {
             Debug.LogError("[VisibilityManager] NetworkObject manquant !");
@@ -21,13 +20,10 @@ public class VisibilityManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        // Si le serveur gère la connexion des clients
         if (IsServer)
         {
-            // Abonnement à l'événement de connexion des clients
             Unity.Netcode.NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
 
-            // Gérer les clients déjà connectés
             foreach (ulong clientId in Unity.Netcode.NetworkManager.Singleton.ConnectedClientsIds)
             {
                 HandleClientVisibility(clientId);
@@ -39,7 +35,6 @@ public class VisibilityManager : NetworkBehaviour
     {
         base.OnNetworkDespawn();
 
-        // Désabonnement de l'événement de connexion des clients
         if (IsServer)
         {
             Unity.Netcode.NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
@@ -48,7 +43,6 @@ public class VisibilityManager : NetworkBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
-        // Gérer la visibilité de l'objet pour chaque client connecté
         if (IsServer)
         {
             Debug.Log($"[VisibilityManager] Nouveau client connecté: {clientId}");
@@ -60,30 +54,33 @@ public class VisibilityManager : NetworkBehaviour
     {
         Debug.Log($"[VisibilityManager] Gestion de la visibilité pour le client: {clientId}");
 
-        // Si le client est le joueur 2 (clientId == 1), on cache l'objet
-        if (clientId == 1)
+        if (clientId == 1) // Joueur 2
         {
-            HideObjectClientRpc();
+            HideObjectForClientRpc(clientId);
             Debug.Log("[VisibilityManager] Objet caché pour le joueur 2.");
         }
-        else // Si le client est le joueur 1, on le montre
+        else // Joueur 1
         {
-            ShowObjectClientRpc();
+            ShowObjectForClientRpc(clientId);
             Debug.Log("[VisibilityManager] Objet montré pour le joueur 1.");
         }
     }
 
     [ClientRpc]
-    private void HideObjectClientRpc()
+    private void HideObjectForClientRpc(ulong targetClientId)
     {
-        // Cache l'objet pour ce client
-        networkObject.gameObject.SetActive(false);
+        if (Unity.Netcode.NetworkManager.Singleton.LocalClientId == targetClientId)
+        {
+            networkObject.gameObject.SetActive(false);
+        }
     }
 
     [ClientRpc]
-    private void ShowObjectClientRpc()
+    private void ShowObjectForClientRpc(ulong targetClientId)
     {
-        // Montre l'objet pour ce client
-        networkObject.gameObject.SetActive(true);
+        if (Unity.Netcode.NetworkManager.Singleton.LocalClientId == targetClientId)
+        {
+            networkObject.gameObject.SetActive(true);
+        }
     }
 }
