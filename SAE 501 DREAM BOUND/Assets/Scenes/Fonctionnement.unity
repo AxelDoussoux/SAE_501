@@ -3185,6 +3185,8 @@ MonoBehaviour:
     type: 3}
   morpheePatrouillePlayer1: {fileID: 92391415}
   morpheePatrouillePlayer2: {fileID: 190219366}
+  playerController: {fileID: 9005549880962374346, guid: df834ceba66c57b43830f2f35cb58d37,
+    type: 3}
 --- !u!114 &1891031818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3690,6 +3692,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: DisablePlayerControls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   NodeID: 0
   TMPFont: {fileID: 0}
   Icon: {fileID: 21300000, guid: bba032349a9d9c947a323df189649ab6, type: 3}
@@ -4072,6 +4086,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1891031817}
         m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
         m_MethodName: EnableCursor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1891031817}
+        m_TargetAssemblyTypeName: DialogueCursorManager, Assembly-CSharp
+        m_MethodName: DisablePlayerControls
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -22,6 +22,7 @@ namespace TomAg
         private int _playerId;
         private GameInputs _gameInputs;
         private bool _isPaused = false;
+        private bool _canMove = true;
 
         private void Start()
         {
@@ -89,11 +90,22 @@ namespace TomAg
         }
 
 
+        public void SetMovementEnabled(bool enabled)
+        {
+            if (IsOwner)
+            {
+                _canMove = enabled;
+                Debug.Log($"Movement set to: {enabled}");
+            }
+        }
+
         public void OnMove(InputAction.CallbackContext ctx)
         {
-            if (_isPaused)
+            // Vérifie si le mouvement est autorisé avant de le traiter
+            if (!_canMove || _isPaused)
             {
-                Debug.Log("Move ignored - game is paused");
+                // Si le mouvement est désactivé, on envoie un vecteur zéro
+                onMove?.Invoke(Vector2.zero);
                 return;
             }
 

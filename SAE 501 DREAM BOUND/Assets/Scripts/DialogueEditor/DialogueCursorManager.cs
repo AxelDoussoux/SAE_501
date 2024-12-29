@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TomAg;
+
 public class DialogueCursorManager : MonoBehaviour
 {
     [SerializeField] private GameObject npc;
@@ -9,18 +11,47 @@ public class DialogueCursorManager : MonoBehaviour
     [SerializeField] private GameObject morpheePatrouillePlayer1;
     [SerializeField] private GameObject morpheePatrouillePlayer2;
     private static bool morpheePatrouilleActivated = false;
-    // Appelé lorsque le dialogue commence
+
+    public void DisablePlayerControls()
+    {
+        PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();
+        foreach (PlayerController player in allPlayers)
+        {
+            if (player.IsOwner)
+            {
+                player.SetMovementEnabled(false);
+                Debug.Log("Movement controls disabled for local player");
+                break;
+            }
+        }
+    }
+
+    public void EnablePlayerControls()
+    {
+        PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();
+        foreach (PlayerController player in allPlayers)
+        {
+            if (player.IsOwner)
+            {
+                player.SetMovementEnabled(true);
+                Debug.Log("Movement controls enabled for local player");
+                break;
+            }
+        }
+    }
+
     public void EnableCursor()
     {
-        Cursor.lockState = CursorLockMode.None; // Libère le curseur
-        Cursor.visible = true; // Rendre le curseur visible
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        DisablePlayerControls();
     }
-    // Appelé lorsque le dialogue se termine
+
     public void DisableCursor()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
-        Cursor.visible = false; // Cache le curseur
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        EnablePlayerControls();
     }
 
     public void SetActiveMorpheePatrouillePlayer1()
