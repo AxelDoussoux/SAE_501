@@ -4,7 +4,7 @@ public class DynamicDialogueCamera : MonoBehaviour
 {
     // Suppression de la référence au joueur dans l'inspecteur
     [SerializeField] private Transform npc; // Le NPC
-    [SerializeField] private float distanceFromPlayer = 5f;  // Distance de la caméra par rapport au joueur
+    [SerializeField] private float distanceFromPlayer = 10f;  // Distance de la caméra par rapport au joueur
     [SerializeField] private float heightOffset = 2f;        // Hauteur de la caméra
     [SerializeField] private float smoothing = 0.1f;         // Lissage du mouvement de la caméra
 

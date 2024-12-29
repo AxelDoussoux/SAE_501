@@ -1111,9 +1111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 5188327921985802198}
-  distanceFromPlayer: 5
-  heightOffset: 2
-  smoothing: 0.1
+  distanceFromPlayer: 10
+  heightOffset: 3
+  smoothing: 0.065
 --- !u!114 &293538291
 MonoBehaviour:
   m_ObjectHideFlags: 0
