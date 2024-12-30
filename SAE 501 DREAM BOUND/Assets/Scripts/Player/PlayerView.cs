@@ -12,6 +12,7 @@ namespace TomAg
         [SerializeField] private Vector3 cameraOffset = new Vector3(0f, 5f, 0f);
         [SerializeField] private float smoothSpeed = 0f;
         [SerializeField] private float collisionOffset = 0.2f;
+        [SerializeField] private LayerMask collisionMask;
 
         private PlayerController _controller;
         private float _rotationX;
@@ -28,7 +29,6 @@ namespace TomAg
             _controller.onAim += OnAim;
             _currentDistance = cameraDistance;
 
-            // Initial position setup
             _camera.transform.position = transform.position + cameraOffset - transform.forward * cameraDistance;
             _camera.transform.LookAt(transform.position + cameraOffset);
         }
@@ -47,17 +47,14 @@ namespace TomAg
 
         private void UpdateCameraPosition()
         {
-            // Calculate desired rotation
             _currentRotation = new Vector3(_rotationY, _rotationX, 0f);
             Quaternion rotation = Quaternion.Euler(_currentRotation);
 
-            // Calculate desired position
             Vector3 targetPosition = transform.position + cameraOffset;
             Vector3 desiredPosition = targetPosition - rotation * Vector3.forward * cameraDistance;
 
-            // Handle collision
             RaycastHit hit;
-            if (Physics.Linecast(targetPosition, desiredPosition, out hit))
+            if (Physics.Linecast(targetPosition, desiredPosition, out hit, collisionMask))
             {
                 _currentDistance = Mathf.Clamp(hit.distance - collisionOffset, 0f, cameraDistance);
             }
@@ -66,7 +63,6 @@ namespace TomAg
                 _currentDistance = cameraDistance;
             }
 
-            // Apply position with smoothing
             Vector3 smoothedPosition = Vector3.SmoothDamp(
                 _camera.transform.position,
                 targetPosition - rotation * Vector3.forward * _currentDistance,
@@ -74,7 +70,6 @@ namespace TomAg
                 Time.deltaTime * smoothSpeed
             );
 
-            // Update camera transform
             _camera.transform.position = smoothedPosition;
             _camera.transform.LookAt(targetPosition);
         }

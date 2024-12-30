@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 740251029
+  GlobalObjectIdHash: 182968102
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -472,6 +472,9 @@ MonoBehaviour:
   cameraOffset: {x: 0, y: 5, z: 0}
   smoothSpeed: 0
   collisionOffset: 0.2
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 807
 --- !u!54 &3278050281737314994
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -513,7 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 896
 --- !u!114 &3847291411701469490
 MonoBehaviour:
   m_ObjectHideFlags: 0
