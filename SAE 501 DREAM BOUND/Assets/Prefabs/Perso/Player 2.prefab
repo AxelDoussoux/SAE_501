@@ -206,7 +206,19 @@ MonoBehaviour:
     m_ActionId: bb9cd624-ef4a-4713-a292-eeb532603d0f
     m_ActionName: App/Point[/Mouse/position]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6773101827807985820}
+        m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 61211ff8-10cb-4f25-a833-bad4c4b08ec8
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
@@ -217,6 +229,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 2f4b609b-56aa-44db-b6d8-46e846bbcdc6
     m_ActionName: App/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6773101827807985820}
+        m_TargetAssemblyTypeName: TomAg.PlayerController, Assembly-CSharp
+        m_MethodName: OnSprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3cb7a40f-88fc-416a-8c19-a679015dd218
+    m_ActionName: Player/Sprint[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player

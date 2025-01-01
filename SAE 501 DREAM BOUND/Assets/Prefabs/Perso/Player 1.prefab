@@ -398,6 +398,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2f4b609b-56aa-44db-b6d8-46e846bbcdc6
     m_ActionName: App/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3cb7a40f-88fc-416a-8c19-a679015dd218
+    m_ActionName: Player/Sprint[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player

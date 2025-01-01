@@ -13,6 +13,13 @@ namespace TomAg
         [SerializeField] private float maxVelocity = 30f;
         [SerializeField] private float maxVerticalVelocity = 50f;
 
+        [Header("Sprint")]
+        [SerializeField] private float sprintForceMultiplier = 2f;
+        [SerializeField] private float sprintVelocityMultiplier = 2f;
+        private float defaultWalkForce;
+        private float defaultStrafeForce;
+        private float defaultMaxVelocity;
+
         [Header("Jumping")]
         [SerializeField] private float jumpForce = 20f;
         [SerializeField] private float jumpHorizontalDrag = 2f; // Drag horizontal pendant le saut
@@ -67,14 +74,15 @@ namespace TomAg
             _controller.onMove += OnMove;
             _controller.onJumpStart += OnJumpStart;
             _controller.onJumpStop += OnJumpStop;
+            _controller.onSprintStart += OnSprintStart;
+            _controller.onSprintStop += OnSprintStop;
 
             _playerInfo = GetComponent<PlayerInfo>();
 
-            if (_playerInfo.HaveSpeedShoes)
-            {
-                walkForce *= 2;
-                strafeForce *= 2;
-            }
+            defaultWalkForce = walkForce;
+            defaultStrafeForce = strafeForce;
+            defaultMaxVelocity = maxVelocity;
+
         }
 
         private void InitializeRigidbody()
@@ -215,6 +223,26 @@ namespace TomAg
         private void OnMove(Vector2 axis)
         {
             _moveInput = new Vector3(axis.x, 0, axis.y);
+        }
+
+        private void OnSprintStart()
+        {
+            if (_playerInfo.HaveSpeedShoes == true)
+            {
+                walkForce *= sprintForceMultiplier;
+                strafeForce *= sprintForceMultiplier;
+                maxVelocity *= sprintVelocityMultiplier;
+            }
+        }
+
+        private void OnSprintStop()
+        {
+            if (_playerInfo.HaveSpeedShoes == true)
+            {
+                walkForce = defaultWalkForce;
+                strafeForce = defaultStrafeForce;
+                maxVelocity = defaultMaxVelocity;
+            }
         }
 
         private void OnJumpStart()

@@ -18,6 +18,8 @@ namespace TomAg
         public event Action onCrouchStop;
         public event Action onInteract;
         public event Action onPauseToggle;
+        public event Action onSprintStart;
+        public event Action onSprintStop;
 
         private int _playerId;
         private GameInputs _gameInputs;
@@ -85,10 +87,9 @@ namespace TomAg
 
         public void ResumeMovement()
         {
-            _isPaused = false;  // Désactive l'état de pause
+            _isPaused = false;
             Debug.Log("PlayerController - Movement resumed.");
         }
-
 
         public void SetMovementEnabled(bool enabled)
         {
@@ -101,10 +102,8 @@ namespace TomAg
 
         public void OnMove(InputAction.CallbackContext ctx)
         {
-            // Vérifie si le mouvement est autorisé avant de le traiter
             if (!_canMove || _isPaused)
             {
-                // Si le mouvement est désactivé, on envoie un vecteur zéro
                 onMove?.Invoke(Vector2.zero);
                 return;
             }
@@ -161,6 +160,19 @@ namespace TomAg
                 onInteract?.Invoke();
         }
 
+        public void OnSprint(InputAction.CallbackContext ctx)
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            if (ctx.started)
+                onSprintStart?.Invoke();
+            else if (ctx.canceled)
+                onSprintStop?.Invoke();
+        }
+
         public void OnPause(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
@@ -189,10 +201,8 @@ namespace TomAg
 
         public void OnNaviguate(InputAction.CallbackContext context)
         {
-            // Laisser vide si vous ne voulez pas gérer cette action pour le moment
+            // Empty
         }
-
-
 
         public void OnSubmit(InputAction.CallbackContext context)
         {
