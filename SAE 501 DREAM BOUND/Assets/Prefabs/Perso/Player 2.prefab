@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 37867816712404199}
   - component: {fileID: 6046285534442973919}
   - component: {fileID: 574373891511429854}
+  - component: {fileID: 9034942572123016657}
   m_Layer: 6
   m_Name: Player 2
   m_TagString: Player
@@ -58,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1690639042
+  GlobalObjectIdHash: 2334019507
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -365,6 +366,8 @@ MonoBehaviour:
   strafeForce: 400
   maxVelocity: 30
   maxVerticalVelocity: 50
+  sprintForceMultiplier: 2
+  sprintVelocityMultiplier: 2
   jumpForce: 30
   jumpHorizontalDrag: 2
   jumpVerticalDrag: 0
@@ -437,6 +440,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 6773101827807985820}
+--- !u!114 &9034942572123016657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522360775394759168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b667de01ddecb4d93e56f755f85ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5582182015038334740
 GameObject:
   m_ObjectHideFlags: 0
