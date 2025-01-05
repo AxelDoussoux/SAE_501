@@ -20,6 +20,8 @@ namespace TomAg
         public event Action onPauseToggle;
         public event Action onSprintStart;
         public event Action onSprintStop;
+        public event Action onAgileInteractStart;
+        public event Action onAgileInteractStop;
 
         private int _playerId;
         private GameInputs _gameInputs;
@@ -181,6 +183,19 @@ namespace TomAg
                 Debug.Log($"Pause state toggled - IsPaused: {_isPaused}");
                 onPauseToggle?.Invoke();
             }
+        }
+
+        public void OnAgileInteract(InputAction.CallbackContext ctx)
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            if (ctx.started)
+                onAgileInteractStart?.Invoke();
+            else if (ctx.canceled)
+                onAgileInteractStop?.Invoke();
         }
 
         public void SetPauseState(bool state)

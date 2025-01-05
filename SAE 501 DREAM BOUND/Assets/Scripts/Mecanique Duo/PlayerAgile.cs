@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using TomAg;
-using UnityEngine.InputSystem;
 
 public class PlayerAgile : NetworkBehaviour
 {
@@ -12,7 +11,7 @@ public class PlayerAgile : NetworkBehaviour
     private bool isHolding = false;
     private bool canCharge = true;
     private Image progressBar;
-    private GameInputs gameInputs;
+    private PlayerController playerController;
 
     private float targetFillAmount = 0f;
     private float currentFillAmount = 0f;
@@ -26,11 +25,12 @@ public class PlayerAgile : NetworkBehaviour
 
         if (IsOwner)
         {
-            // Initialiser les inputs
-            gameInputs = new GameInputs();
-            gameInputs.Player.Interact.started += OnInteractStarted;
-            gameInputs.Player.Interact.canceled += OnInteractCanceled;
-            gameInputs.Enable();
+            playerController = GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.onAgileInteractStart += OnAgileInteractStart;
+                playerController.onAgileInteractStop += OnAgileInteractStop;
+            }
 
             Canvas canvas = FindObjectOfType<Canvas>();
             if (canvas != null)
@@ -54,15 +54,14 @@ public class PlayerAgile : NetworkBehaviour
 
     private void OnDisable()
     {
-        if (IsOwner && gameInputs != null)
+        if (IsOwner && playerController != null)
         {
-            gameInputs.Player.Interact.started -= OnInteractStarted;
-            gameInputs.Player.Interact.canceled -= OnInteractCanceled;
-            gameInputs.Disable();
+            playerController.onAgileInteractStart -= OnAgileInteractStart;
+            playerController.onAgileInteractStop -= OnAgileInteractStop;
         }
     }
 
-    private void OnInteractStarted(InputAction.CallbackContext context)
+    private void OnAgileInteractStart()
     {
         if (!canCharge || strongPlayerInRange == null) return;
 
@@ -77,7 +76,7 @@ public class PlayerAgile : NetworkBehaviour
         }
     }
 
-    private void OnInteractCanceled(InputAction.CallbackContext context)
+    private void OnAgileInteractStop()
     {
         if (isHolding)
         {
@@ -118,7 +117,7 @@ public class PlayerAgile : NetworkBehaviour
     }
 
     // Le reste du code reste inchangé...
-    // (StartCooldown, ResetCanCharge, StartShrinking, ShrinkProgressBar, ResetHoldState, OnTriggerEnter, OnTriggerExit)
+
 
 private void StartCooldown()
     {
