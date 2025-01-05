@@ -1362,6 +1362,11 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 4111047848
       objectReference: {fileID: 0}
+    - target: {fileID: 5481015888398214355, guid: 9bd7fdd88839a824997fdecdce0be2ac,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8062538992614660320, guid: 9bd7fdd88839a824997fdecdce0be2ac,
         type: 3}
       propertyPath: m_Name
