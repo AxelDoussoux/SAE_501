@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using TomAg;
+using UnityEngine.InputSystem;
 
 public class PlayerAgile : NetworkBehaviour
 {
@@ -8,15 +10,15 @@ public class PlayerAgile : NetworkBehaviour
     private float holdTime = 0f;
     private const float REQUIRED_HOLD_TIME = 2f;
     private bool isHolding = false;
-    private bool canCharge = true; // Permet de vérifier si un saut peut être chargé
+    private bool canCharge = true;
     private Image progressBar;
+    private GameInputs gameInputs;
 
-    // Variables pour l'effet de progression
     private float targetFillAmount = 0f;
     private float currentFillAmount = 0f;
-    private float fillSpeed = 3f; // Vitesse de l'effet de remplissage
-    private float shrinkSpeed = 5f; // Vitesse de l'effet de réduction
-    private float cooldownTime = 2f; // Temps de cooldown après un saut
+    private float fillSpeed = 3f;
+    private float shrinkSpeed = 5f;
+    private float cooldownTime = 2f;
 
     public override void OnNetworkSpawn()
     {
@@ -24,11 +26,16 @@ public class PlayerAgile : NetworkBehaviour
 
         if (IsOwner)
         {
+            // Initialiser les inputs
+            gameInputs = new GameInputs();
+            gameInputs.Player.Interact.started += OnInteractStarted;
+            gameInputs.Player.Interact.canceled += OnInteractCanceled;
+            gameInputs.Enable();
+
             Canvas canvas = FindObjectOfType<Canvas>();
             if (canvas != null)
             {
                 progressBar = canvas.transform.Find("ChargeBar")?.GetComponent<Image>();
-
                 if (progressBar != null)
                 {
                     progressBar.gameObject.SetActive(false);
@@ -45,65 +52,83 @@ public class PlayerAgile : NetworkBehaviour
         }
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (!IsOwner || !canCharge) return; // Vérifier si un saut peut être chargé
-
-        if (strongPlayerInRange != null)
+        if (IsOwner && gameInputs != null)
         {
-            if (Input.GetKey(KeyCode.F))
+            gameInputs.Player.Interact.started -= OnInteractStarted;
+            gameInputs.Player.Interact.canceled -= OnInteractCanceled;
+            gameInputs.Disable();
+        }
+    }
+
+    private void OnInteractStarted(InputAction.CallbackContext context)
+    {
+        if (!canCharge || strongPlayerInRange == null) return;
+
+        if (!isHolding)
+        {
+            isHolding = true;
+            if (progressBar != null)
             {
-                if (!isHolding)
-                {
-                    isHolding = true;
-                    if (progressBar != null)
-                    {
-                        progressBar.gameObject.SetActive(true);
-                        currentFillAmount = 0f;
-                    }
-                }
-
-                holdTime += Time.deltaTime;
-                targetFillAmount = holdTime / REQUIRED_HOLD_TIME;
-
-                if (progressBar != null)
-                {
-                    // Animation fluide de remplissage
-                    currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, Time.deltaTime * fillSpeed);
-                    progressBar.fillAmount = currentFillAmount;
-
-                    // Effet de pulsation lorsque proche du remplissage
-                    if (currentFillAmount > 0.95f)
-                    {
-                        float pulse = Mathf.PingPong(Time.time * 3f, 0.1f);
-                        progressBar.transform.localScale = Vector3.one * (1f + pulse);
-                    }
-                }
-
-                if (holdTime >= REQUIRED_HOLD_TIME)
-                {
-                    Debug.Log("Délai atteint, lancement !");
-                    strongPlayerInRange.LaunchPlayer();
-                    StartCooldown(); // Déclencher le cooldown
-                    ResetHoldState();
-                }
-            }
-            else if (Input.GetKeyUp(KeyCode.F))
-            {
-                StartShrinking();
+                progressBar.gameObject.SetActive(true);
+                currentFillAmount = 0f;
             }
         }
     }
 
-    private void StartCooldown()
+    private void OnInteractCanceled(InputAction.CallbackContext context)
     {
-        canCharge = false; // Désactiver la possibilité de charger un nouveau saut
-        Invoke(nameof(ResetCanCharge), cooldownTime); // Réactiver après le délai
+        if (isHolding)
+        {
+            StartShrinking();
+            isHolding = false;
+        }
+    }
+
+    private void Update()
+    {
+        if (!IsOwner || !canCharge) return;
+
+        if (strongPlayerInRange != null && isHolding)
+        {
+            holdTime += Time.deltaTime;
+            targetFillAmount = holdTime / REQUIRED_HOLD_TIME;
+
+            if (progressBar != null)
+            {
+                currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, Time.deltaTime * fillSpeed);
+                progressBar.fillAmount = currentFillAmount;
+
+                if (currentFillAmount > 0.95f)
+                {
+                    float pulse = Mathf.PingPong(Time.time * 3f, 0.1f);
+                    progressBar.transform.localScale = Vector3.one * (1f + pulse);
+                }
+            }
+
+            if (holdTime >= REQUIRED_HOLD_TIME)
+            {
+                Debug.Log("Délai atteint, lancement !");
+                strongPlayerInRange.LaunchPlayer();
+                StartCooldown();
+                ResetHoldState();
+            }
+        }
+    }
+
+    // Le reste du code reste inchangé...
+    // (StartCooldown, ResetCanCharge, StartShrinking, ShrinkProgressBar, ResetHoldState, OnTriggerEnter, OnTriggerExit)
+
+private void StartCooldown()
+    {
+        canCharge = false;
+        Invoke(nameof(ResetCanCharge), cooldownTime);
     }
 
     private void ResetCanCharge()
     {
-        canCharge = true; // Réactiver la possibilité de charger un saut
+        canCharge = true;
     }
 
     private void StartShrinking()
@@ -113,8 +138,6 @@ public class PlayerAgile : NetworkBehaviour
             holdTime = 0f;
             isHolding = false;
             targetFillAmount = 0f;
-
-            // Commencer la coroutine de réduction progressive
             StartCoroutine(ShrinkProgressBar());
         }
     }
@@ -125,9 +148,8 @@ public class PlayerAgile : NetworkBehaviour
         {
             currentFillAmount = Mathf.Lerp(currentFillAmount, 0f, Time.deltaTime * shrinkSpeed);
             progressBar.fillAmount = currentFillAmount;
-            progressBar.transform.localScale = Vector3.one; // Réinitialiser l'échelle
+            progressBar.transform.localScale = Vector3.one;
 
-            // Si la barre est presque vide, la désactiver
             if (currentFillAmount < 0.01f)
             {
                 progressBar.gameObject.SetActive(false);
