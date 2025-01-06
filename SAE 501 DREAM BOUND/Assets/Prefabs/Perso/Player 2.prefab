@@ -246,6 +246,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3cb7a40f-88fc-416a-8c19-a679015dd218
     m_ActionName: Player/Sprint[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8ce7c85-80a9-44fc-9750-13e1aac05e90
+    m_ActionName: Player/AgileInteract[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard / Mouse
   m_DefaultActionMap: Player
@@ -368,7 +372,7 @@ MonoBehaviour:
   maxVerticalVelocity: 50
   sprintForceMultiplier: 2
   sprintVelocityMultiplier: 2
-  jumpForce: 30
+  jumpForce: 40
   jumpHorizontalDrag: 2
   jumpVerticalDrag: 0
   groundMask:
