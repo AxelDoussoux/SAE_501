@@ -2013,8 +2013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222d0e135ae86674cb2433eb914d8bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movableReferences:
-  - movableObject: {fileID: 8479014399592638081}
+  linkedCubes: []
 --- !u!65 &4959535555470679770
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3300,7 +3299,6 @@ GameObject:
   - component: {fileID: 6732767486114433859}
   - component: {fileID: 144704087464567522}
   - component: {fileID: 8310150263034242072}
-  - component: {fileID: 642350183300709787}
   - component: {fileID: 5664071054857144818}
   - component: {fileID: 4600420045469543596}
   m_Layer: 0
@@ -3396,21 +3394,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &642350183300709787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 418389472594784740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &5664071054857144818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3454,7 +3437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1575279462
+  GlobalObjectIdHash: 1989209593
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -11795,7 +11778,6 @@ GameObject:
   - component: {fileID: 101315808677726847}
   - component: {fileID: 2223225885995094939}
   - component: {fileID: 4069098057113255837}
-  - component: {fileID: 8611374888213354165}
   - component: {fileID: 943336929772677784}
   m_Layer: 0
   m_Name: CubeYellow (2)
@@ -11902,7 +11884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3082835285
+  GlobalObjectIdHash: 3837804536
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -11911,21 +11893,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &8611374888213354165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1622819366257493003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: -1, y: 0, z: 0}
-    moveSpeed: 2
 --- !u!114 &943336929772677784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13071,7 +13038,6 @@ GameObject:
   - component: {fileID: 6567828067149551154}
   - component: {fileID: 3555825051907993577}
   - component: {fileID: 8745359134980748115}
-  - component: {fileID: 1599283522032416939}
   - component: {fileID: 5054253720021522246}
   - component: {fileID: 5360110546594249763}
   m_Layer: 0
@@ -13167,21 +13133,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1599283522032416939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1821728555089991151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &5054253720021522246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13225,7 +13176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3710714202
+  GlobalObjectIdHash: 837747282
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -14831,7 +14782,6 @@ GameObject:
   - component: {fileID: 7484245613677313383}
   - component: {fileID: 7804319993851985908}
   - component: {fileID: 9212914126888369103}
-  - component: {fileID: 1121485852068783721}
   - component: {fileID: 6960534993275044845}
   - component: {fileID: 2721049755846965865}
   m_Layer: 0
@@ -14927,21 +14877,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1121485852068783721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110631198097721312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &6960534993275044845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14985,7 +14920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4083722782
+  GlobalObjectIdHash: 4178752464
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -17114,7 +17049,6 @@ GameObject:
   - component: {fileID: 4479175913457913780}
   - component: {fileID: 5540134912017205090}
   - component: {fileID: 652561640793221984}
-  - component: {fileID: 82757228575144339}
   - component: {fileID: 3480800094192609788}
   - component: {fileID: 7922409137125567662}
   m_Layer: 0
@@ -17210,21 +17144,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &82757228575144339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493991028852826187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: -1, y: 4, z: 0}
-    moveSpeed: 2
 --- !u!114 &3480800094192609788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17268,7 +17187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 293762495
+  GlobalObjectIdHash: 1402601633
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -22987,7 +22906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4054186914
+  GlobalObjectIdHash: 1342838044
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -24285,8 +24204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222d0e135ae86674cb2433eb914d8bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movableReferences:
-  - movableObject: {fileID: 5224119169483006033}
+  linkedCubes: []
 --- !u!1 &3453315921442267375
 GameObject:
   m_ObjectHideFlags: 0
@@ -28349,7 +28267,6 @@ GameObject:
   - component: {fileID: 3924652244287009787}
   - component: {fileID: 8029057273193598250}
   - component: {fileID: 6220588408861142121}
-  - component: {fileID: 3240583431598674974}
   - component: {fileID: 8660246588819107051}
   - component: {fileID: 1378274981286330325}
   m_Layer: 0
@@ -28445,21 +28362,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3240583431598674974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970051369478652682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &8660246588819107051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28503,7 +28405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2724761387
+  GlobalObjectIdHash: 1884195165
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -28607,7 +28509,6 @@ GameObject:
   - component: {fileID: 8002195127189457396}
   - component: {fileID: 1684813965242253839}
   - component: {fileID: 8466718729898296929}
-  - component: {fileID: 2165506812101797004}
   - component: {fileID: 7885401436962758166}
   - component: {fileID: 8978727893911581225}
   m_Layer: 0
@@ -28703,21 +28604,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2165506812101797004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4010314877843733077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: -1, y: 4, z: 0}
-    moveSpeed: 2
 --- !u!114 &7885401436962758166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28761,7 +28647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 484662938
+  GlobalObjectIdHash: 2059131984
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -30992,7 +30878,6 @@ GameObject:
   - component: {fileID: 155557650524931334}
   - component: {fileID: 1498276280251584627}
   - component: {fileID: 8400170631813711630}
-  - component: {fileID: 4789539888873407634}
   - component: {fileID: 5626324248410182243}
   m_Layer: 0
   m_Name: CubeYellow
@@ -31099,7 +30984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3393956491
+  GlobalObjectIdHash: 973858201
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -31108,21 +30993,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4789539888873407634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4360441415140294523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: -1, y: 0, z: 0}
-    moveSpeed: 2
 --- !u!114 &5626324248410182243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41036,7 +40906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4253810070
+  GlobalObjectIdHash: 2545954628
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -43576,7 +43446,6 @@ GameObject:
   - component: {fileID: 1073726341222220814}
   - component: {fileID: 4558343980097168596}
   - component: {fileID: 6504677206617115014}
-  - component: {fileID: 7709339054966982473}
   - component: {fileID: 2370268719439035700}
   m_Layer: 0
   m_Name: CubeYellow (1)
@@ -43683,7 +43552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4219775088
+  GlobalObjectIdHash: 2402942371
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -43692,21 +43561,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &7709339054966982473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6144507025191979835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: -1, y: 0, z: 0}
-    moveSpeed: 2
 --- !u!114 &2370268719439035700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46695,7 +46549,6 @@ GameObject:
   - component: {fileID: 4416995433686651634}
   - component: {fileID: 7498470378851254939}
   - component: {fileID: 7326177871646682224}
-  - component: {fileID: 8580479023714720598}
   - component: {fileID: 5213891434839843765}
   - component: {fileID: 6885462005263994362}
   m_Layer: 0
@@ -46791,21 +46644,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8580479023714720598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6618691055414925410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &5213891434839843765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46849,7 +46687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4207127017
+  GlobalObjectIdHash: 3602449177
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -55943,7 +55781,6 @@ GameObject:
   - component: {fileID: 6515250074831449782}
   - component: {fileID: 1386076501235266863}
   - component: {fileID: 7154451822407066887}
-  - component: {fileID: 4349391021144646463}
   - component: {fileID: 6538870564656953967}
   - component: {fileID: 793574964182291005}
   m_Layer: 0
@@ -56039,21 +55876,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4349391021144646463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7883559792558338884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &6538870564656953967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56097,7 +55919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3041624542
+  GlobalObjectIdHash: 967155657
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -56556,9 +56378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222d0e135ae86674cb2433eb914d8bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movableReferences:
-  - movableObject: {fileID: 4789539888873407634}
-  - movableObject: {fileID: 0}
+  linkedCubes: []
 --- !u!1 &7920983360245045922
 GameObject:
   m_ObjectHideFlags: 0
@@ -57650,7 +57470,6 @@ GameObject:
   - component: {fileID: 621386207602555031}
   - component: {fileID: 5212604840995644670}
   - component: {fileID: 5383644764475599650}
-  - component: {fileID: 5224119169483006033}
   - component: {fileID: 4610764132248599018}
   - component: {fileID: 1433934187912328398}
   m_Layer: 0
@@ -57746,21 +57565,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5224119169483006033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8115155616040315665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: -1, y: 4, z: 0}
-    moveSpeed: 2
 --- !u!114 &4610764132248599018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57804,7 +57608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2192029168
+  GlobalObjectIdHash: 2343449221
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -62948,8 +62752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222d0e135ae86674cb2433eb914d8bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movableReferences:
-  - movableObject: {fileID: 4349391021144646463}
+  linkedCubes: []
 --- !u!1 &8814684164126825184
 GameObject:
   m_ObjectHideFlags: 0
@@ -62962,7 +62765,6 @@ GameObject:
   - component: {fileID: 768789951846210700}
   - component: {fileID: 2786725814154101817}
   - component: {fileID: 3402946612225851965}
-  - component: {fileID: 5637659676687141033}
   - component: {fileID: 6570567745763061631}
   - component: {fileID: 4873272591306862855}
   m_Layer: 0
@@ -63058,21 +62860,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5637659676687141033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8814684164126825184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 4, z: 1}
-    moveSpeed: 2
 --- !u!114 &6570567745763061631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63116,7 +62903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4061939647
+  GlobalObjectIdHash: 276516460
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -64385,8 +64172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222d0e135ae86674cb2433eb914d8bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movableReferences:
-  - movableObject: {fileID: 8580479023714720598}
+  linkedCubes: []
 --- !u!1 &8998166927788250508
 GameObject:
   m_ObjectHideFlags: 0
