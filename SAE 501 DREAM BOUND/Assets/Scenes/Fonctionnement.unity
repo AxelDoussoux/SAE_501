@@ -2934,6 +2934,11 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 122398476
       objectReference: {fileID: 0}
+    - target: {fileID: 3463530840433401197, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3771926598448723393, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2968,6 +2973,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043392115408217311, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4069098057113255837, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
@@ -3043,6 +3053,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5800382729130333715, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5800382729130333715, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
@@ -3123,11 +3138,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 13400000, guid: 20773d69b93ba1f4abf687dedf9194b5,
+        type: 2}
+    - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_Mass
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
       propertyPath: m_UseGravity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
@@ -3137,6 +3168,11 @@ PrefabInstance:
     - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
       propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861474876384489905, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6885462005263994362, guid: 7b19c6333d2cf25478f6d3837a3971c3,
@@ -3193,6 +3229,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287053089989833516, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287053089989833516, guid: 7b19c6333d2cf25478f6d3837a3971c3,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7672987884049348636, guid: 7b19c6333d2cf25478f6d3837a3971c3,
         type: 3}
@@ -3483,7 +3529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positionB: {x: 0, y: 20, z: 0}
-  speed: 20
+  speed: 1
 --- !u!1001 &1153060453
 PrefabInstance:
   m_ObjectHideFlags: 0
