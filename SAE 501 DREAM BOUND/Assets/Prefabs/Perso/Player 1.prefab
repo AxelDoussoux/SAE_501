@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 182968102
+  GlobalObjectIdHash: 740251029
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -238,7 +238,7 @@ MonoBehaviour:
   maxVerticalVelocity: 50
   sprintForceMultiplier: 2
   sprintVelocityMultiplier: 2
-  jumpForce: 12
+  jumpForce: 15
   jumpHorizontalDrag: 2
   jumpVerticalDrag: 0
   groundMask:
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchPoint: {fileID: 7395395012165199239}
-  launchForce: 500
+  launchForce: 1000
 --- !u!65 &4109370293810216258
 BoxCollider:
   m_ObjectHideFlags: 0
