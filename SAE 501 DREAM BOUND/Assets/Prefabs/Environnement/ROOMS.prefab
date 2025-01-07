@@ -22772,7 +22772,6 @@ GameObject:
   - component: {fileID: 7287053089989833516}
   - component: {fileID: 3463530840433401197}
   - component: {fileID: 533281198785135487}
-  - component: {fileID: 8479014399592638081}
   - component: {fileID: 446557514789353075}
   m_Layer: 0
   m_Name: platformCube
@@ -22915,21 +22914,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &8479014399592638081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3246818750194396934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d15281359f10c894b81725ce444fbd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    moveDirection: {x: 0, y: 10, z: 0}
-    moveSpeed: 2
 --- !u!114 &446557514789353075
 MonoBehaviour:
   m_ObjectHideFlags: 0
