@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 740251029
+  GlobalObjectIdHash: 182968102
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -606,8 +606,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8.837771, y: 6.5057487, z: 10.825935}
-  m_Center: {x: 0.41542387, y: 2.7528744, z: -0.68803406}
+  m_Size: {x: 5.1538634, y: 6.5057487, z: 4.740016}
+  m_Center: {x: -0.19342208, y: 2.7528744, z: -0.1888231}
 --- !u!1001 &3316553109393610813
 PrefabInstance:
   m_ObjectHideFlags: 0
