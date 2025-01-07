@@ -1,45 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using System.Collections.Generic;
 
-public class PressurePlate : MonoBehaviour, ITrigger
+public class PressurePlate : NetworkBehaviour
 {
-    [SerializeField] private List<MovableReference> movableReferences;
-    private bool isActivated;
+    public List<MovementCube> linkedCubes = new List<MovementCube>(); // Liste des objets à contrôler
+    private int objectsOnPlate = 0; // Compteur pour les objets dans la zone
 
-
-    public void OnTriggerActivated()
+    public override void OnNetworkSpawn()
     {
-        if (!isActivated)
+        base.OnNetworkSpawn();
+
+        if (linkedCubes == null || linkedCubes.Count == 0)
         {
-            foreach (var reference in movableReferences)
-            {
-                reference.Movable?.StartMoving(true);
-            }
-            isActivated = true;
+            Debug.LogWarning("[PressurePlate] No linked cubes assigned to the pressure plate.");
+        }
+        else
+        {
+            Debug.Log($"[PressurePlate] Initialized with {linkedCubes.Count} linked objects.");
         }
     }
 
-    public void OnTriggerDesactivated()
-    {
-        if (isActivated)
-        {
-            foreach (var reference in movableReferences)
-            {
-                reference.Movable?.StartMoving(false);
-            }
-            isActivated = false;
-        }
-    }
-
-    // Unity trigger events
     private void OnTriggerEnter(Collider other)
     {
-        OnTriggerActivated();
+        // Incrémente le compteur pour chaque objet entrant
+        objectsOnPlate++;
+        Debug.Log($"[PressurePlate] Object entered the plate. Total objects: {objectsOnPlate}");
+
+        // Si c'est le premier objet, activer le mouvement pour tous les cubes
+        if (objectsOnPlate == 1)
+        {
+            ActivateCubes();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        OnTriggerDesactivated();
+        // Décrémente le compteur pour chaque objet sortant
+        objectsOnPlate = Mathf.Max(0, objectsOnPlate - 1);
+        Debug.Log($"[PressurePlate] Object left the plate. Total objects: {objectsOnPlate}");
+
+        // Si la plaque est vide, désactiver le mouvement pour tous les cubes
+        if (objectsOnPlate == 0)
+        {
+            DeactivateCubes();
+        }
+    }
+
+    private void ActivateCubes()
+    {
+        foreach (var cube in linkedCubes)
+        {
+            if (cube != null)
+            {
+                Debug.Log($"[PressurePlate] Activating movement for: {cube.gameObject.name}");
+                cube.SetMoveStateServerRpc(true);
+            }
+        }
+    }
+
+    private void DeactivateCubes()
+    {
+        foreach (var cube in linkedCubes)
+        {
+            if (cube != null)
+            {
+                Debug.Log($"[PressurePlate] Deactivating movement for: {cube.gameObject.name}");
+                cube.SetMoveStateServerRpc(false);
+            }
+        }
     }
 }
