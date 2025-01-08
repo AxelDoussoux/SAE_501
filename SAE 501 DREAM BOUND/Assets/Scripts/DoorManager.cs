@@ -31,21 +31,20 @@ public class DoorManager : NetworkBehaviour
 
     public void CheckButtonsState()
     {
+        // Si la porte est déjà ouverte, ne rien faire
+        if (isDoorOpen.Value) return;
+
         // Si les deux boutons sont appuyés en même temps
         if (button1.IsPressed() && button2.IsPressed())
         {
             SetDoorStateServerRpc(true); // Ouvre la porte (appel côté serveur)
-        }
-        else
-        {
-            SetDoorStateServerRpc(false); // Ferme la porte (appel côté serveur)
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void SetDoorStateServerRpc(bool open)
     {
-        isDoorOpen.Value = open; // Met à jour la variable réseau
+        isDoorOpen.Value = open; // Met à jour la variable réseau (ouvre la porte)
     }
 
     private void OnDoorStateChanged(bool oldState, bool newState)
@@ -54,20 +53,11 @@ public class DoorManager : NetworkBehaviour
         {
             OpenDoor();
         }
-        else
-        {
-            CloseDoor();
-        }
     }
 
     private void OpenDoor()
     {
         door.SetActive(false); // Désactive la porte pour "l'ouvrir"
-    }
-
-    private void CloseDoor()
-    {
-        door.SetActive(true); // Active la porte pour la "fermer"
     }
 
     private void OnDestroy()
