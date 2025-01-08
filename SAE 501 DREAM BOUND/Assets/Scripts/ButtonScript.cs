@@ -1,31 +1,24 @@
 using UnityEngine;
 using Unity.Netcode;
+using TomAg;
 
-public class ButtonScript : NetworkBehaviour
+public class ButtonScript : NetworkBehaviour, IInteractable
 {
     [SerializeField] private GameObject door; // Référence à la porte
     private NetworkVariable<bool> isPressed = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    private void OnTriggerEnter(Collider other)
+    public void Interact(PlayerInfo playerInfo)
     {
-        if (other.CompareTag("Player") && IsOwner) // Vérifie si c'est un joueur local
+        if (IsServer)
         {
-            SetButtonStateServerRpc(true); // Informe le serveur que le bouton est appuyé
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player") && IsOwner)
-        {
-            SetButtonStateServerRpc(false); // Informe le serveur que le bouton est relâché
+            SetButtonStateServerRpc(true);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void SetButtonStateServerRpc(bool pressed)
     {
-        isPressed.Value = pressed; // Met à jour l'état du bouton sur le serveur
+        isPressed.Value = pressed;
         DoorManager.Instance.CheckButtonsState(); // Vérifie l'état des boutons
     }
 
