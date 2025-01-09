@@ -46,36 +46,42 @@ namespace TomAg
 
         private void OnTriggerEnter(Collider other)
         {
-            // Vérifie si l'objet qui entre dans la zone est interactable
+            Debug.Log($"Player {OwnerClientId}: Trigger Enter with {other.gameObject.name} on layer {other.gameObject.layer}");
+
             if (other.gameObject.layer == LayerMask.NameToLayer("Interactable") &&
                 other.TryGetComponent<IInteractable>(out IInteractable interactable))
             {
                 _currentInteractable = interactable;
+                Debug.Log($"Player {OwnerClientId}: Found interactable object");
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            // Si l'objet interactable sort de la zone, on réinitialise _currentInteractable
+            Debug.Log($"Player {OwnerClientId}: Trigger Exit with {other.gameObject.name}");
+
             if (_currentInteractable != null && other.TryGetComponent<IInteractable>(out IInteractable interactable))
             {
                 if (_currentInteractable == interactable)
                 {
                     _currentInteractable = null;
+                    Debug.Log($"Player {OwnerClientId}: Cleared interactable object");
                 }
             }
         }
 
         private void HandleInteract()
         {
-            // Si un objet interactable est présent dans la zone, on appelle sa méthode Interact
+            Debug.Log($"Player {OwnerClientId}: HandleInteract called");
+
             if (_currentInteractable != null)
             {
+                Debug.Log($"Player {OwnerClientId}: Attempting to interact");
                 _currentInteractable.Interact(_playerInfo);
             }
             else
             {
-                Debug.Log("No interactable object in range.");
+                Debug.Log($"Player {OwnerClientId}: No interactable object in range.");
             }
         }
     }

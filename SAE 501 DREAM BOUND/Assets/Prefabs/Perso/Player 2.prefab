@@ -109,6 +109,7 @@ MonoBehaviour:
   haveSpeedShoes: 0
   canTakeHammer: 0
   canTakeSpeedShoes: 1
+  canInteractWithButtons: 1
   _hammer: {fileID: 0}
   _speedShoes1: {fileID: 4263932210059883265}
   _speedShoes2: {fileID: 2665761894710635679}
@@ -399,7 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 896
 --- !u!114 &6046285534442973919
 MonoBehaviour:
   m_ObjectHideFlags: 0

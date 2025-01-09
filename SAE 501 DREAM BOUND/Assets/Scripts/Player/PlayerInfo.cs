@@ -12,6 +12,7 @@ namespace TomAg
 
         [SerializeField] public bool canTakeHammer;
         [SerializeField] public bool canTakeSpeedShoes;
+        [SerializeField] public bool canInteractWithButtons = true;
 
         [SerializeField] private GameObject _hammer;
         [SerializeField] private GameObject _speedShoes1;

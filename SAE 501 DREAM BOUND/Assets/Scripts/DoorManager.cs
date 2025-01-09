@@ -7,7 +7,11 @@ public class DoorManager : NetworkBehaviour
     [SerializeField] private ButtonScript button1; // Référence au premier bouton
     [SerializeField] private ButtonScript button2; // Référence au deuxième bouton
 
-    private NetworkVariable<bool> isDoorOpen = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<bool> isDoorOpen = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
 
     public static DoorManager Instance { get; private set; }
 
@@ -25,26 +29,23 @@ public class DoorManager : NetworkBehaviour
 
     private void Start()
     {
-        // Abonne la fonction de synchronisation à la variable réseau
-        isDoorOpen.OnValueChanged += OnDoorStateChanged;
+        isDoorOpen.OnValueChanged += OnDoorStateChanged; // Synchronisation de l'état de la porte
     }
 
     public void CheckButtonsState()
     {
-        // Si la porte est déjà ouverte, ne rien faire
-        if (isDoorOpen.Value) return;
+        if (isDoorOpen.Value) return; // Si la porte est déjà ouverte, ne rien faire
 
-        // Si les deux boutons sont appuyés en même temps
-        if (button1.IsPressed() && button2.IsPressed())
+        if (button1.IsPressed() && button2.IsPressed()) // Si les deux boutons sont pressés
         {
-            SetDoorStateServerRpc(true); // Ouvre la porte (appel côté serveur)
+            SetDoorStateServerRpc(true);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void SetDoorStateServerRpc(bool open)
     {
-        isDoorOpen.Value = open; // Met à jour la variable réseau (ouvre la porte)
+        isDoorOpen.Value = open; // Met à jour l'état de la porte côté serveur
     }
 
     private void OnDoorStateChanged(bool oldState, bool newState)
@@ -57,12 +58,18 @@ public class DoorManager : NetworkBehaviour
 
     private void OpenDoor()
     {
-        door.SetActive(false); // Désactive la porte pour "l'ouvrir"
+        if (door != null)
+        {
+            door.SetActive(false); // Désactive la porte pour "l'ouvrir"
+        }
+        else
+        {
+            Debug.LogError("Door reference is missing.");
+        }
     }
 
     private void OnDestroy()
     {
-        // Désabonne pour éviter des erreurs
-        isDoorOpen.OnValueChanged -= OnDoorStateChanged;
+        isDoorOpen.OnValueChanged -= OnDoorStateChanged; // Désabonnement
     }
 }

@@ -3708,7 +3708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16bc15ec5289154fb90210f97b9bcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 703406390}
 --- !u!114 &892148061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3721,7 +3720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16bc15ec5289154fb90210f97b9bcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 703406390}
 --- !u!65 &892148065
 BoxCollider:
   m_ObjectHideFlags: 0
