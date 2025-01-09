@@ -1,13 +1,12 @@
 using UnityEngine;
 using Unity.Netcode;
-
 public class DoorManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject door; // Référence à la porte
-    [SerializeField] private ButtonScript button1; // Référence au premier bouton
-    [SerializeField] private ButtonScript button2; // Référence au deuxième bouton
+    [SerializeField] private GameObject[] doors; // Tableau de portes
+    [SerializeField] private ButtonScript button1;
+    [SerializeField] private ButtonScript button2;
 
-    private NetworkVariable<bool> isDoorOpen = new NetworkVariable<bool>(
+    private NetworkVariable<bool> areDoorsOpen = new NetworkVariable<bool>(
         false,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
@@ -29,47 +28,56 @@ public class DoorManager : NetworkBehaviour
 
     private void Start()
     {
-        isDoorOpen.OnValueChanged += OnDoorStateChanged; // Synchronisation de l'état de la porte
+        areDoorsOpen.OnValueChanged += OnDoorsStateChanged;
     }
 
     public void CheckButtonsState()
     {
-        if (isDoorOpen.Value) return; // Si la porte est déjà ouverte, ne rien faire
-
-        if (button1.IsPressed() && button2.IsPressed()) // Si les deux boutons sont pressés
+        if (areDoorsOpen.Value) return;
+        if (button1.IsPressed() && button2.IsPressed())
         {
-            SetDoorStateServerRpc(true);
+            SetDoorsStateServerRpc(true);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SetDoorStateServerRpc(bool open)
+    private void SetDoorsStateServerRpc(bool open)
     {
-        isDoorOpen.Value = open; // Met à jour l'état de la porte côté serveur
+        areDoorsOpen.Value = open;
     }
 
-    private void OnDoorStateChanged(bool oldState, bool newState)
+    private void OnDoorsStateChanged(bool oldState, bool newState)
     {
         if (newState)
         {
-            OpenDoor();
+            OpenDoors();
         }
     }
 
-    private void OpenDoor()
+    private void OpenDoors()
     {
-        if (door != null)
+        if (doors != null && doors.Length > 0)
         {
-            door.SetActive(false); // Désactive la porte pour "l'ouvrir"
+            foreach (GameObject door in doors)
+            {
+                if (door != null)
+                {
+                    door.SetActive(false);
+                }
+                else
+                {
+                    Debug.LogError("One of the door references is missing.");
+                }
+            }
         }
         else
         {
-            Debug.LogError("Door reference is missing.");
+            Debug.LogError("No doors assigned to the doors array.");
         }
     }
 
     private void OnDestroy()
     {
-        isDoorOpen.OnValueChanged -= OnDoorStateChanged; // Désabonnement
+        areDoorsOpen.OnValueChanged -= OnDoorsStateChanged;
     }
 }
