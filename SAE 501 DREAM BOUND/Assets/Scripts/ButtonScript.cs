@@ -15,6 +15,10 @@ public class ButtonScript : NetworkBehaviour, IInteractable
     public float pressDepth = 0.2f; // Distance de l'enfoncement (en Z)
     public float pressDuration = 0.1f; // Durée de l'enfoncement et du retour
 
+    [Header("Audio Settings")]
+    public AudioSource audioSource; // Référence à l'AudioSource
+    public AudioClip pressSound;    // Son joué à l'appui du bouton
+
     private void Start()
     {
         initialPosition = transform.localPosition; // Enregistre la position initiale
@@ -47,6 +51,9 @@ public class ButtonScript : NetworkBehaviour, IInteractable
             SetButtonStateServerRpc(true);
             Debug.Log($"Player {playerInfo.OwnerClientId} sending ServerRpc");
         }
+
+        // Joue le son localement pour le joueur qui interagit
+        PlayLocalSound();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -77,5 +84,15 @@ public class ButtonScript : NetworkBehaviour, IInteractable
                 // Remonte le bouton à la position initiale
                 transform.DOLocalMove(initialPosition, pressDuration);
             });
+    }
+
+    private void PlayLocalSound()
+    {
+        // Joue le son uniquement pour le joueur local qui interagit
+        if (audioSource != null && pressSound != null)
+        {
+            audioSource.PlayOneShot(pressSound);
+            Debug.Log("Sound played locally for the interacting player.");
+        }
     }
 }
