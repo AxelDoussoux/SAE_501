@@ -4,26 +4,45 @@ using Unity.Netcode;
 public class PlayerAudioListener : NetworkBehaviour
 {
     private AudioListener audioListener;
+    private Camera playerCamera;
 
-    private void Start()
+    private void Awake()
     {
-        // Recherche le composant AudioListener dans les enfants du joueur
-        audioListener = GetComponentInChildren<AudioListener>();
-
-        if (audioListener == null)
+        // Obtenir la caméra du joueur
+        playerCamera = GetComponentInChildren<Camera>();
+        if (playerCamera != null)
         {
-            Debug.LogWarning("No AudioListener found on this player!");
-            return;
+            audioListener = playerCamera.GetComponent<AudioListener>();
+
+            // Si pas d'AudioListener sur la caméra, on l'ajoute
+            if (audioListener == null)
+            {
+                audioListener = playerCamera.gameObject.AddComponent<AudioListener>();
+            }
         }
+    }
 
-        // Désactiver l'AudioListener si ce n'est pas le joueur local
-        if (!IsOwner)
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (audioListener != null)
         {
-            audioListener.enabled = false;
+            // Activer l'AudioListener uniquement pour le joueur local
+            audioListener.enabled = IsOwner;
+
+            if (IsOwner)
+            {
+                Debug.Log($"AudioListener enabled for Player {OwnerClientId}");
+            }
+            else
+            {
+                Debug.Log($"AudioListener disabled for non-local Player {OwnerClientId}");
+            }
         }
         else
         {
-            Debug.Log("AudioListener enabled for local player.");
+            Debug.LogWarning("No AudioListener found!");
         }
     }
 }
