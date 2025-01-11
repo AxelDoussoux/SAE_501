@@ -1,10 +1,16 @@
 using UnityEngine;
 using Unity.Netcode;
+using DG.Tweening;
+
 public class DoorManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject[] doors; // Tableau de portes
+    [SerializeField] private GameObject[] doors;
     [SerializeField] private ButtonScript button1;
     [SerializeField] private ButtonScript button2;
+    [SerializeField] private AudioClip doorOpenSound;
+    [SerializeField] private float doorMoveDistance = 15f;
+    [SerializeField] private float doorMoveTime = 9f;
+    [SerializeField] private float soundVolume = 10f; // Valeur entre 0 et 1
 
     private NetworkVariable<bool> areDoorsOpen = new NetworkVariable<bool>(
         false,
@@ -58,11 +64,19 @@ public class DoorManager : NetworkBehaviour
     {
         if (doors != null && doors.Length > 0)
         {
+            if (doorOpenSound != null)
+            {
+                AudioSource.PlayClipAtPoint(doorOpenSound, Vector3.zero, soundVolume);
+            }
+
             foreach (GameObject door in doors)
             {
                 if (door != null)
                 {
-                    door.SetActive(false);
+                    door.transform.DOMove(
+                        door.transform.position + Vector3.up * doorMoveDistance,
+                        doorMoveTime
+                    );
                 }
                 else
                 {
