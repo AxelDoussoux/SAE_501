@@ -1664,7 +1664,7 @@ MonoBehaviour:
   button2: {fileID: 206737931}
   doorOpenSound: {fileID: 8300000, guid: 4c4b89c5aeec72643ae959b499e258e7, type: 3}
   doorMoveDistance: 7
-  doorMoveTime: 6
+  doorMoveTime: 8
   soundVolume: 10
 --- !u!64 &247662558
 MeshCollider:
