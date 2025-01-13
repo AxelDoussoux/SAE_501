@@ -126,8 +126,8 @@ public class Login : MonoBehaviour
 
             Debug.Log("Token sauvegardé avec succès.");
 
-            // Redirection vers la scène "Fonctionnement"
-            SceneManager.LoadScene("Fonctionnement");
+            // Redirection vers la scène "Cinematic"
+            SceneManager.LoadScene("Cinematic");
         }
         else
         {
@@ -148,8 +148,8 @@ public class Login : MonoBehaviour
     // Fonction pour jouer sans connexion
     public void OnJouerSansConnexionClick()
     {
-        Debug.Log("Jouer sans connexion sélectionné. Chargement de la scène Fonctionnement...");
-        SceneManager.LoadScene("Fonctionnement");
+        Debug.Log("Jouer sans connexion sélectionné. Chargement de la scène Cinematic...");
+        SceneManager.LoadScene("Cinematic");
     }
 
     // Fonction pour ouvrir la page d'inscription
