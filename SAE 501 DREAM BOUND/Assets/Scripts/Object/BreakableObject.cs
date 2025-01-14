@@ -15,14 +15,22 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     {
         if (!IsServer)
         {
-            RequestBreakServerRpc();
+            RequestBreakServerRpc(playerInfo.HaveHammer);
             return;
         }
 
-        if (playerInfo.HaveHammer)
+        HandleBreak(playerInfo.HaveHammer);
+    }
+
+    private void HandleBreak(bool hasHammer)
+    {
+        if (hasHammer)
         {
             SpawnEffectsClientRpc(transform.position);
             Debug.Log($"{gameObject.name} a été détruit !");
+            // First notify clients that the object is being destroyed
+            DestroyObjectClientRpc();
+            // Then destroy the object on the server
             Destroy(gameObject);
         }
         else
@@ -32,8 +40,18 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void RequestBreakServerRpc()
+    private void RequestBreakServerRpc(bool hasHammer)
     {
+        HandleBreak(hasHammer);
+    }
+
+    [ClientRpc]
+    private void DestroyObjectClientRpc()
+    {
+        if (!IsServer)  // Only destroy on clients, server handles its own destruction
+        {
+            Destroy(gameObject);
+        }
     }
 
     [ClientRpc]
@@ -45,7 +63,6 @@ public class BreakableObject : NetworkBehaviour, IInteractable
             particles.Play();
             Destroy(particles.gameObject, particleLifetime);
         }
-
         SpawnDecal(position);
     }
 
@@ -55,13 +72,9 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         {
             Vector3 decalPosition = hit.point + hit.normal * 0.01f;
             Quaternion decalRotation = Quaternion.LookRotation(-hit.normal);
-
             GameObject decal = Instantiate(decalPrefab, decalPosition, decalRotation);
-
-            // Add a component to handle the decal's lifetime
             DecalLifetime lifetimeHandler = decal.AddComponent<DecalLifetime>();
             lifetimeHandler.Initialize(decalDuration);
         }
     }
 }
-
