@@ -9,7 +9,7 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     [SerializeField] private ParticleSystem breakParticles;
     [SerializeField] private GameObject decalPrefab;
     [SerializeField] private float particleLifetime = 2f;
-    [SerializeField] private float decalDuration = 5f;
+    [SerializeField] private float decalDuration = 30f;
 
     public void Interact(PlayerInfo playerInfo)
     {
