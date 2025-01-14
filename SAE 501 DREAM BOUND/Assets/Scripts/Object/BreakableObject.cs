@@ -1,22 +1,29 @@
 using TomAg;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Rendering.Universal;
 
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
     [Header("Effects")]
-    [SerializeField] private ParticleSystem breakParticlePrefab;
+    [SerializeField] private ParticleSystem breakParticles;
     [SerializeField] private GameObject decalPrefab;
     [SerializeField] private float particleLifetime = 2f;
-    [SerializeField] private float decalLifetime = 5f;
-    [SerializeField] private float decalGroundOffset = 0.01f;
+    [SerializeField] private float decalDuration = 5f;
 
     public void Interact(PlayerInfo playerInfo)
     {
+        if (!IsServer)
+        {
+            RequestBreakServerRpc();
+            return;
+        }
+
         if (playerInfo.HaveHammer)
         {
-            // Request destruction from the server
-            RequestDestructionServerRpc();
+            SpawnEffectsClientRpc(transform.position);
+            Debug.Log($"{gameObject.name} a été détruit !");
+            Destroy(gameObject);
         }
         else
         {
@@ -25,59 +32,79 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void RequestDestructionServerRpc()
+    private void RequestBreakServerRpc()
     {
-        // Server validates and triggers the destruction on all clients
-        SpawnEffectsClientRpc(transform.position);
-
-        // Destroy the object on all clients
-        NetworkObject.Despawn(true);
     }
 
     [ClientRpc]
     private void SpawnEffectsClientRpc(Vector3 position)
     {
-        // Spawn break particles
-        if (breakParticlePrefab != null)
+        if (breakParticles != null)
         {
-            ParticleSystem particles = Instantiate(breakParticlePrefab, position, Quaternion.identity);
+            ParticleSystem particles = Instantiate(breakParticles, position, Quaternion.identity);
             particles.Play();
             Destroy(particles.gameObject, particleLifetime);
         }
 
-        // Spawn decal on the ground
-        if (decalPrefab != null && Physics.Raycast(position, Vector3.down, out RaycastHit hit))
-        {
-            Vector3 decalPosition = hit.point + (Vector3.up * decalGroundOffset);
-            Quaternion decalRotation = Quaternion.LookRotation(hit.normal);
-
-            GameObject decal = Instantiate(decalPrefab, decalPosition, decalRotation);
-            StartCoroutine(FadeAndDestroyDecal(decal));
-        }
-
-        Debug.Log($"{gameObject.name} a été détruit !");
+        SpawnDecal(position);
     }
 
-    private System.Collections.IEnumerator FadeAndDestroyDecal(GameObject decal)
+    private void SpawnDecal(Vector3 position)
     {
-        Renderer[] renderers = decal.GetComponentsInChildren<Renderer>();
-        float elapsedTime = 0f;
-
-        while (elapsedTime < decalLifetime)
+        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit))
         {
-            float alpha = 1f - (elapsedTime / decalLifetime);
+            Vector3 decalPosition = hit.point + hit.normal * 0.01f;
+            Quaternion decalRotation = Quaternion.LookRotation(-hit.normal);
 
-            foreach (Renderer renderer in renderers)
-            {
-                Color color = renderer.material.color;
-                color.a = alpha;
-                renderer.material.color = color;
-            }
+            GameObject decal = Instantiate(decalPrefab, decalPosition, decalRotation);
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            // Add a component to handle the decal's lifetime
+            DecalLifetime lifetimeHandler = decal.AddComponent<DecalLifetime>();
+            lifetimeHandler.Initialize(decalDuration);
+        }
+    }
+}
+
+// New component to handle decal lifetime
+public class DecalLifetime : MonoBehaviour
+{
+    private float duration;
+    private float startTime;
+    private DecalProjector projector;
+    private Material material;
+    private bool initialized = false;
+
+    public void Initialize(float duration)
+    {
+        this.duration = duration;
+        this.startTime = Time.time;
+
+        projector = GetComponent<DecalProjector>();
+        if (projector != null)
+        {
+            material = new Material(projector.material);
+            projector.material = material;
         }
 
-        Destroy(decal);
+        initialized = true;
+    }
+
+    void Update()
+    {
+        if (!initialized) return;
+
+        float elapsed = Time.time - startTime;
+        if (elapsed >= duration)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        float alpha = 1 - (elapsed / duration);
+        if (projector != null && material != null)
+        {
+            Color color = material.color;
+            material.color = new Color(color.r, color.g, color.b, alpha);
+        }
     }
 }
