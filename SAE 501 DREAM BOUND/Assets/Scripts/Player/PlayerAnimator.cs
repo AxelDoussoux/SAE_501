@@ -12,10 +12,13 @@ namespace TomAg
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private PlayerMotor playerMotor;
+        
+        public bool _isBreaking = true;
 
         private const string VelocityParam = "Velocity";
         private const string IsJumpingParam = "IsJumping";
         private const string IsGroundedParam = "IsGrounded";
+        private const string IsBreakingParam = "IsBreaking";
 
         [SerializeField] private float velocityTransitionTime = 65f;
 
@@ -23,6 +26,7 @@ namespace TomAg
         private NetworkVariable<float> networkVelocity = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         private NetworkVariable<bool> networkIsGrounded = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         private NetworkVariable<bool> networkIsJumping = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private NetworkVariable<bool> networkIsBreaking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         private void OnEnable()
         {
@@ -61,10 +65,16 @@ namespace TomAg
                 if (networkIsJumping.Value != isJumping)
                     networkIsJumping.Value = isJumping;
 
+                if (networkIsBreaking.Value != _isBreaking)
+                    networkIsBreaking.Value = _isBreaking;
+
+
+
                 // Mettre à jour directement les paramètres pour le propriétaire
                 animator.SetFloat(VelocityParam, velocity);
                 animator.SetBool(IsGroundedParam, isGrounded);
                 animator.SetBool(IsJumpingParam, isJumping);
+                animator.SetBool(IsBreakingParam, _isBreaking);
             }
             else
             {
@@ -72,6 +82,7 @@ namespace TomAg
                 animator.SetFloat(VelocityParam, networkVelocity.Value);
                 animator.SetBool(IsGroundedParam, networkIsGrounded.Value);
                 animator.SetBool(IsJumpingParam, networkIsJumping.Value);
+                animator.SetBool(IsBreakingParam, networkIsBreaking.Value);
             }
         }
     }
