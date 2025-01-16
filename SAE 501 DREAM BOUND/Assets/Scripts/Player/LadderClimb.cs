@@ -1,10 +1,12 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class LadderClimb : MonoBehaviour
+public class LadderClimb : NetworkBehaviour
 {
-    public float climbSpeed = 3f; // Vitesse de montée
-    private bool isClimbing = false;
+    public float climbSpeed = 3f;
+    private NetworkVariable<bool> isClimbing = new NetworkVariable<bool>(false);
     private Rigidbody rb;
+    private int ladderContactCount = 0; // Compte le nombre d'échelles en contact
 
     void Start()
     {
@@ -13,34 +15,76 @@ public class LadderClimb : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Vérifie si l'objet possède le script LadderComponent
+        if (!IsOwner) return;
+
         if (other.GetComponent<LadderComponent>() != null)
         {
-            isClimbing = true;
-            rb.useGravity = false; // Désactive la gravité
-            rb.velocity = Vector3.zero; // Stoppe le mouvement actuel
+            ladderContactCount++;
+            SetClimbingStateServerRpc(true);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        // Vérifie si l'objet possède le script LadderComponent
+        if (!IsOwner) return;
+
         if (other.GetComponent<LadderComponent>() != null)
         {
-            isClimbing = false;
-            rb.useGravity = true; // Réactive la gravité
+            ladderContactCount--;
+            // Ne désactive le mode escalade que si on n'est plus en contact avec aucune échelle
+            if (ladderContactCount <= 0)
+            {
+                ladderContactCount = 0; // Pour éviter les nombres négatifs
+                SetClimbingStateServerRpc(false);
+            }
         }
     }
 
-    void FixedUpdate() // Utilisez FixedUpdate pour la physique
+    [ServerRpc(RequireOwnership = false)]
+    private void SetClimbingStateServerRpc(bool state)
     {
-        if (isClimbing)
-        {
-            float vertical = Input.GetAxis("Vertical"); // Obtenir l'entrée verticale
-            Vector3 climbDirection = new Vector3(0, vertical * climbSpeed, 0);
+        isClimbing.Value = state;
+        UpdatePhysicsStateClientRpc(state);
+    }
 
-            // Applique une vitesse verticale directement au Rigidbody
-            rb.velocity = climbDirection;
+    [ClientRpc]
+    private void UpdatePhysicsStateClientRpc(bool state)
+    {
+        rb.useGravity = !state;
+        if (!state)
+        {
+            rb.velocity = Vector3.zero;
         }
+    }
+
+    void FixedUpdate()
+    {
+        if (!IsOwner) return;
+
+        if (isClimbing.Value)
+        {
+            float vertical = Input.GetAxis("Vertical");
+            if (vertical != 0)
+            {
+                MoveOnLadderServerRpc(vertical);
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+    [ServerRpc]
+    private void MoveOnLadderServerRpc(float verticalInput)
+    {
+        Vector3 movement = new Vector3(0, verticalInput * climbSpeed, 0);
+        UpdateMovementClientRpc(movement);
+    }
+
+    [ClientRpc]
+    private void UpdateMovementClientRpc(Vector3 movement)
+    {
+        rb.velocity = movement;
     }
 }
