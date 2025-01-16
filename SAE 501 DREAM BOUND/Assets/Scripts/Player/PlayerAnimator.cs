@@ -7,13 +7,9 @@ namespace TomAg
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerAnimator : NetworkBehaviour
     {
-        public static PlayerAnimator Instance;
-
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private PlayerMotor playerMotor;
-        
-        public bool _isBreaking = false;
 
         private const string VelocityParam = "Velocity";
         private const string IsJumpingParam = "IsJumping";
@@ -21,6 +17,7 @@ namespace TomAg
         private const string IsBreakingParam = "IsBreaking";
 
         [SerializeField] private float velocityTransitionTime = 65f;
+        public bool isBreaking = false;
 
         // NetworkVariables pour synchroniser les états
         private NetworkVariable<float> networkVelocity = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -30,12 +27,25 @@ namespace TomAg
 
         private void OnEnable()
         {
-            if (Instance == null) Instance = this;
-
             // Initialisation des composants s'ils ne sont pas assignés via l'inspecteur
             animator ??= GetComponent<Animator>();
             rb ??= GetComponent<Rigidbody>();
             playerMotor ??= GetComponent<PlayerMotor>();
+
+            networkIsBreaking.OnValueChanged += (oldValue, newValue) =>
+            {
+                isBreaking = newValue;
+                animator.SetBool(IsBreakingParam, newValue);
+            };
+        }
+
+        private void OnDisable()
+        {
+            networkIsBreaking.OnValueChanged -= (oldValue, newValue) =>
+            {
+                isBreaking = newValue;
+                animator.SetBool(IsBreakingParam, newValue);
+            };
         }
 
         private void Update()
@@ -65,16 +75,14 @@ namespace TomAg
                 if (networkIsJumping.Value != isJumping)
                     networkIsJumping.Value = isJumping;
 
-                if (networkIsBreaking.Value != _isBreaking)
-                    networkIsBreaking.Value = _isBreaking;
-
-
+                if (networkIsBreaking.Value != isBreaking)
+                    networkIsBreaking.Value = isBreaking;
 
                 // Mettre à jour directement les paramètres pour le propriétaire
                 animator.SetFloat(VelocityParam, velocity);
                 animator.SetBool(IsGroundedParam, isGrounded);
                 animator.SetBool(IsJumpingParam, isJumping);
-                animator.SetBool(IsBreakingParam, _isBreaking);
+                animator.SetBool(IsBreakingParam, isBreaking);
             }
             else
             {
@@ -83,6 +91,14 @@ namespace TomAg
                 animator.SetBool(IsGroundedParam, networkIsGrounded.Value);
                 animator.SetBool(IsJumpingParam, networkIsJumping.Value);
                 animator.SetBool(IsBreakingParam, networkIsBreaking.Value);
+            }
+        }
+        public void SetBreakingState(bool state)
+        {
+            isBreaking = state;
+            if (IsOwner)
+            {
+                networkIsBreaking.Value = state;
             }
         }
     }

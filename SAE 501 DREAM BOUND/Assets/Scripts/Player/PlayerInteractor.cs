@@ -32,6 +32,7 @@ namespace TomAg
         {
             if (_playerController != null)
             {
+                _playerController.onInteract -= HandleInteract;
                 _playerController.onInteract += HandleInteract;
             }
         }

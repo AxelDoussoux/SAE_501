@@ -1,27 +1,40 @@
 using TomAg;
 using UnityEngine;
 using Unity.Netcode;
-using System.Collections;
 
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
     [SerializeField] private PlayerAnimator _playerAnimator;
+    [SerializeField] private AnimatorEvent _animEvent;
 
-
-
-    AnimatorEvent _animEvent;
-
-    public void Awake()
+    private void Awake()
     {
-        _playerAnimator.TryGetComponent(out _animEvent);
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.isBreaking = false;
+        }
+        else
+        {
+            Debug.LogWarning("PlayerAnimator n'est pas assigné dans l'inspecteur.");
+        }
+
+        if (_animEvent == null)
+        {
+            Debug.LogWarning("AnimatorEvent n'est pas assigné dans l'inspecteur.");
+        }
     }
 
     public void Interact(PlayerInfo playerInfo)
     {
         if (playerInfo.HaveHammer)
         {
-        _playerAnimator._isBreaking = true;
-            _animEvent.onAnimationEvent += onAnimationEvent;
+            _animEvent.OnAnimationEvent += OnAnimationEvent;
+
+            if (playerInfo.TryGetComponent<PlayerAnimator>(out PlayerAnimator playerAnimator))
+            {
+                playerAnimator.SetBreakingState(true); // Utilisez une méthode pour gérer isBreaking
+            }
+
             Debug.Log($"{gameObject.name} commence à se briser !");
         }
         else
@@ -30,20 +43,33 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         }
     }
 
-    private void onAnimationEvent(string arg)
+    private void OnAnimationEvent(string eventName)
     {
-        Debug.Log($"En attente");
-        if (arg == "HammerBreak")
+        if (string.IsNullOrEmpty(eventName))
+        {
+            Debug.LogWarning("EventName est vide ou null dans OnAnimationEvent.");
+            return;
+        }
+
+        if (eventName == "HammerBreak")
         {
             OnAnimationBreakEvent();
         }
-        _animEvent.onAnimationEvent -= onAnimationEvent;
+
+        if (_animEvent != null)
+        {
+            _animEvent.OnAnimationEvent -= OnAnimationEvent;
+        }
     }
 
-    public void OnAnimationBreakEvent()
+    private void OnAnimationBreakEvent()
     {
         Debug.Log($"{gameObject.name} a été détruit !");
         Destroy(gameObject);
-        _playerAnimator._isBreaking = false;
+
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.isBreaking = false;
+        }
     }
 }
