@@ -13,7 +13,7 @@ namespace TomAg
         [SerializeField] private Rigidbody rb;
         [SerializeField] private PlayerMotor playerMotor;
         
-        public bool _isBreaking = true;
+        public bool _isBreaking = false;
 
         private const string VelocityParam = "Velocity";
         private const string IsJumpingParam = "IsJumping";
