@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 6046285534442973919}
   - component: {fileID: 574373891511429854}
   - component: {fileID: 9034942572123016657}
+  - component: {fileID: -8866809071413043203}
+  - component: {fileID: 6761058424497142822}
   m_Layer: 6
   m_Name: Player 2
   m_TagString: Player
@@ -60,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2334019507
+  GlobalObjectIdHash: 1690639042
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -470,6 +472,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b667de01ddecb4d93e56f755f85ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8866809071413043203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522360775394759168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc9ad6469bbe8441b34daf033f3fa81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 10
+--- !u!65 &6761058424497142822
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522360775394759168}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.2405825, y: 6.7380214, z: 1.9040895}
+  m_Center: {x: 0.015913248, y: 2.8690107, z: 0.021463841}
 --- !u!1 &5582182015038334740
 GameObject:
   m_ObjectHideFlags: 0
