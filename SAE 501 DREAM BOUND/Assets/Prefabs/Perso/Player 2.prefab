@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3930163893688879746}
   - component: {fileID: 8037769053518005111}
+  - component: {fileID: -660187902795008696}
   - component: {fileID: 2572759711293886903}
   - component: {fileID: -1207372711064605968}
   - component: {fileID: 4944629450489347332}
@@ -68,6 +69,19 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
+--- !u!114 &-660187902795008696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522360775394759168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e92ca3183839f3c498c23b6248f90059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 10
 --- !u!136 &2572759711293886903
 CapsuleCollider:
   m_ObjectHideFlags: 0
