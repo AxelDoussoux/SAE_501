@@ -1,0 +1,44 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/GUI/MyButton.uss?fileID=7433441132597879392&amp;guid=9998aaf3d116fc44a987fdda99370b5a&amp;type=3#MyButton" />
+    <ui:VisualElement name="settings-container" style="flex-grow: 1; justify-content: center; align-items: center; align-self: center; width: 50%; max-height: 80%; overflow: visible; background-color: rgba(18, 0, 67, 0.39); margin: auto; padding: 2%; border-radius: 15px;">
+        <ui:Label text="Settings" style="font-size: 24px; margin-bottom: 20px; color: rgb(255, 255, 255);" />
+        
+        <!-- Resolution Dropdown -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: space-between;">
+            <ui:Label text="Resolution" />
+            <ui:DropdownField name="resolution-dropdown" />
+        </ui:VisualElement>
+
+        <!-- Fullscreen Toggle -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: space-between;">
+            <ui:Label text="Fullscreen" />
+            <ui:Toggle name="fullscreen-toggle" />
+        </ui:VisualElement>
+
+        <!-- FPS Toggle -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: space-between;">
+            <ui:Label text="VSync" />
+            <ui:Toggle name="vsync-toggle" />
+        </ui:VisualElement>
+
+        <!-- Game Volume -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: column;">
+            <ui:Label text="Game Volume" />
+            <ui:Slider name="game-volume" low-value="0" high-value="1" value="1" />
+            <ui:Label name="volume-value" text="100%" style="align-self: center;" />
+        </ui:VisualElement>
+
+        <!-- Vivox Volume -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: column;">
+            <ui:Label text="Voice Chat Volume" />
+            <ui:Slider name="vivox-volume" low-value="0" high-value="1" value="1" />
+            <ui:Label name="vivox-volume-value" text="100%" style="align-self: center;" />
+        </ui:VisualElement>
+
+        <!-- Buttons -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-top: 20px;">
+            <ui:Button name="apply-settings" text="Apply" class="PAUSEBUTTON" style="width: 45%;" />
+            <ui:Button name="close-settings" text="Close" class="PAUSEBUTTON" style="width: 45%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

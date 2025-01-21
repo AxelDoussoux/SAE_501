@@ -11,10 +11,13 @@ namespace TomAg
         [SerializeField] private UIDocument _pauseMenuDocument;
         [SerializeField] private UIDocument _mainMenuDocument;
         [SerializeField] private JoinChannel echoChannel;
+        [SerializeField] private OptionsMenuController _optionsMenuController;
+        
         private MenuUI _mainMenu;
         private VisualElement _pauseMenuRoot;
         private VisualElement _mainMenuRoot;
         private Button _continueButton;
+        private Button _optionsButton;
         private Button _quitButton;
         private PlayerController _localPlayer;
         private bool _isMenuVisible = false;
@@ -59,6 +62,13 @@ namespace TomAg
                 {
                     Debug.LogError($"Buttons not found! Continue: {_continueButton != null}, Quit: {_quitButton != null}");
                     return;
+                }
+
+                _optionsButton = _pauseMenuRoot.Q<Button>("options");
+                if (_optionsButton != null)
+                {
+                    _optionsButton.clicked += OnOptionsClicked;
+                    _optionsMenuController.Initialize();
                 }
 
                 _continueButton.clicked += OnContinueClicked;
@@ -163,6 +173,11 @@ namespace TomAg
 
             }
         }
+       private void OnOptionsClicked()
+{
+    _optionsMenuController.Show();
+    _pauseMenuRoot.style.display = DisplayStyle.None; // Masquer le menu pause si nécessaire
+}
 
         private new void OnDestroy()
         {
@@ -179,6 +194,10 @@ namespace TomAg
             if (_quitButton != null)
             {
                 _quitButton.clicked -= OnQuitClicked;
+            }
+            if (_optionsButton != null)
+            {
+                _optionsButton.clicked -= OnOptionsClicked;
             }
         }
     }
