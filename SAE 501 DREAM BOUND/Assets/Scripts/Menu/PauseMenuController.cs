@@ -173,11 +173,16 @@ namespace TomAg
 
             }
         }
-       private void OnOptionsClicked()
-{
-    _optionsMenuController.Show();
-    _pauseMenuRoot.style.display = DisplayStyle.None; // Masquer le menu pause si nécessaire
-}
+        private void OnOptionsClicked()
+        {
+            _pauseMenuRoot.style.display = DisplayStyle.None;
+            _optionsMenuController.Show();
+        }
+
+        public void ShowPauseMenu()
+        {
+            _pauseMenuRoot.style.display = DisplayStyle.Flex;
+        }
 
         private new void OnDestroy()
         {

@@ -37,7 +37,6 @@
 
         <!-- Buttons -->
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-top: 20px;">
-            <ui:Button name="apply-settings" text="Apply" class="PAUSEBUTTON" style="width: 45%;" />
             <ui:Button name="close-settings" text="Close" class="PAUSEBUTTON" style="width: 45%;" />
         </ui:VisualElement>
     </ui:VisualElement>

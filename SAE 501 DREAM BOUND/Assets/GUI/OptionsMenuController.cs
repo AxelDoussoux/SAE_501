@@ -8,6 +8,7 @@ namespace TomAg
     public class OptionsMenuController : MonoBehaviour
     {
         [SerializeField] private UIDocument _optionsDocument;
+        [SerializeField] private PauseMenuController pauseMenuController;
 
         private VisualElement _root;
         private DropdownField _resolutionDropdown;
@@ -17,9 +18,9 @@ namespace TomAg
         private Slider _vivoxVolumeSlider;
         private Label _volumeLabel;
         private Label _vivoxVolumeLabel;
-        private Button _applyButton;
         private Button _closeButton;
 
+        [SerializeField] private int targetFrameRate = 60;
         private Resolution[] _resolutions;
 
         public void Initialize()
@@ -44,7 +45,6 @@ namespace TomAg
             _vivoxVolumeSlider = _root.Q<Slider>("vivox-volume");
             _volumeLabel = _root.Q<Label>("volume-value");
             _vivoxVolumeLabel = _root.Q<Label>("vivox-volume-value");
-            _applyButton = _root.Q<Button>("apply-settings");
             _closeButton = _root.Q<Button>("close-settings");
         }
 
@@ -55,7 +55,6 @@ namespace TomAg
                 $"{res.width}x{res.height} @{res.refreshRate}Hz").ToList();
             _resolutionDropdown.choices = options;
 
-            // Set current resolution
             Resolution currentResolution = Screen.currentResolution;
             string currentRes = $"{currentResolution.width}x{currentResolution.height} @{currentResolution.refreshRate}Hz";
             _resolutionDropdown.value = currentRes;
@@ -73,21 +72,27 @@ namespace TomAg
 
         private void RegisterCallbacks()
         {
+            _resolutionDropdown.RegisterValueChangedCallback(evt => ApplyResolution());
+            _fullscreenToggle.RegisterValueChangedCallback(evt => ApplyFullscreen());
+            _vsyncToggle.RegisterValueChangedCallback(evt => ApplyVSync());
+
             _volumeSlider.RegisterValueChangedCallback(evt => {
+                AudioListener.volume = evt.newValue;
                 _volumeLabel.text = $"{(evt.newValue * 100):F0}%";
             });
 
             _vivoxVolumeSlider.RegisterValueChangedCallback(evt => {
-                _vivoxVolumeLabel.text = $"{(evt.newValue * 100):F0}%";
+                float newValue = evt.newValue;
+                PlayerPrefs.SetFloat("VivoxVolume", newValue);
+                _vivoxVolumeLabel.text = $"{(newValue * 100):F0}%";
+                PlayerPrefs.Save();
             });
 
-            _applyButton.clicked += ApplySettings;
-            _closeButton.clicked += Hide;
+            _closeButton.clicked += OnCloseClicked;
         }
 
-        private void ApplySettings()
+        private void ApplyResolution()
         {
-            // Apply Resolution
             string[] resParts = _resolutionDropdown.value.Split(new[] { 'x', '@' });
             if (resParts.Length >= 2)
             {
@@ -95,31 +100,25 @@ namespace TomAg
                 int height = int.Parse(resParts[1].Split(' ')[0]);
                 Screen.SetResolution(width, height, _fullscreenToggle.value);
             }
+        }
 
-            // Apply Fullscreen
+        private void ApplyFullscreen()
+        {
             Screen.fullScreen = _fullscreenToggle.value;
+        }
 
-            // Apply VSync and Frame Rate settings
+        private void ApplyVSync()
+        {
             if (_vsyncToggle.value)
             {
                 QualitySettings.vSyncCount = 1;
-                Application.targetFrameRate = -1; // Let VSync control the frame rate
+                Application.targetFrameRate = -1; // Let VSync control frame rate
             }
             else
             {
                 QualitySettings.vSyncCount = 0;
-                Application.targetFrameRate = 60; // Force 60 FPS when VSync is off
+                Application.targetFrameRate = targetFrameRate;
             }
-
-            // Apply Volume
-            AudioListener.volume = _volumeSlider.value;
-
-            // Apply Vivox Volume
-            float vivoxVolume = _vivoxVolumeSlider.value;
-            PlayerPrefs.SetFloat("VivoxVolume", vivoxVolume);
-            // Add your Vivox volume implementation here
-
-            PlayerPrefs.Save();
         }
 
         private void UpdateLabels()
@@ -134,6 +133,12 @@ namespace TomAg
             LoadCurrentSettings();
         }
 
+        private void OnCloseClicked()
+        {
+            Hide();
+            pauseMenuController.ShowPauseMenu();
+        }
+
         public void Hide()
         {
             _root.style.display = DisplayStyle.None;
@@ -141,8 +146,7 @@ namespace TomAg
 
         private void OnDestroy()
         {
-            if (_applyButton != null) _applyButton.clicked -= ApplySettings;
-            if (_closeButton != null) _closeButton.clicked -= Hide;
+            if (_closeButton != null) _closeButton.clicked -= OnCloseClicked;
         }
     }
 }
