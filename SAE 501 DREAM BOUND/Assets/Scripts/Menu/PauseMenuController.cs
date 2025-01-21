@@ -103,6 +103,14 @@ namespace TomAg
 
         private void TogglePauseMenu()
         {
+            // Check if the settings menu is visible
+            if (_optionsMenuController != null && _optionsMenuController.IsVisible())
+            {
+                _optionsMenuController.Hide();
+                ShowPauseMenu(); // Show the pause menu immediately
+                return;
+            }
+
             if (_pauseMenuRoot == null)
             {
                 Debug.LogError("Menu not initialized properly. Attempting to reinitialize...");
@@ -110,18 +118,29 @@ namespace TomAg
                 return;
             }
 
+            // Toggle the pause menu visibility
             _isMenuVisible = !_isMenuVisible;
             _pauseMenuRoot.style.display = _isMenuVisible ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Gestion de la visibilité du curseur
             UnityEngine.Cursor.visible = _isMenuVisible;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-
-
+            UnityEngine.Cursor.lockState = _isMenuVisible ? CursorLockMode.None : CursorLockMode.Locked;
 
             if (_localPlayer != null)
             {
                 _localPlayer.SetPauseState(_isMenuVisible);
+            }
+        }
+        public void ShowPauseMenu()
+        {
+            _isMenuVisible = true;
+            _pauseMenuRoot.style.display = DisplayStyle.Flex;
+
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+
+            if (_localPlayer != null)
+            {
+                _localPlayer.SetPauseState(true); // Ensure the pause state remains active
             }
         }
 
@@ -179,10 +198,7 @@ namespace TomAg
             _optionsMenuController.Show();
         }
 
-        public void ShowPauseMenu()
-        {
-            _pauseMenuRoot.style.display = DisplayStyle.Flex;
-        }
+        
 
         private new void OnDestroy()
         {

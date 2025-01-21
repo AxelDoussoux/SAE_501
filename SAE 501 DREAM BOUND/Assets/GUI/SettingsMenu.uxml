@@ -21,6 +21,12 @@
             <ui:Toggle name="vsync-toggle" />
         </ui:VisualElement>
 
+        <!-- FPS Limit Dropdown -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: space-between;">
+            <ui:Label text="FPS Limit" />
+            <ui:DropdownField name="fps-dropdown" />
+        </ui:VisualElement>
+
         <!-- Game Volume -->
         <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: column;">
             <ui:Label text="Game Volume" />

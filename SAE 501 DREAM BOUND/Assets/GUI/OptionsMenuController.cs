@@ -12,6 +12,7 @@ namespace TomAg
 
         private VisualElement _root;
         private DropdownField _resolutionDropdown;
+        private DropdownField _fpsDropdown;
         private Toggle _fullscreenToggle;
         private Toggle _vsyncToggle;
         private Slider _volumeSlider;
@@ -39,6 +40,7 @@ namespace TomAg
         private void InitializeUIElements()
         {
             _resolutionDropdown = _root.Q<DropdownField>("resolution-dropdown");
+            _fpsDropdown = _root.Q<DropdownField>("fps-dropdown");
             _fullscreenToggle = _root.Q<Toggle>("fullscreen-toggle");
             _vsyncToggle = _root.Q<Toggle>("vsync-toggle");
             _volumeSlider = _root.Q<Slider>("game-volume");
@@ -50,6 +52,12 @@ namespace TomAg
 
         private void SetupResolutionOptions()
         {
+            // Setup FPS options
+            var fpsOptions = new List<string> { "30", "60", "120", "Unlimited" };
+            _fpsDropdown.choices = fpsOptions;
+            _fpsDropdown.value = "60"; // Default to 60 FPS
+
+            // Setup resolutions
             _resolutions = Screen.resolutions;
             var options = _resolutions.Select(res =>
                 $"{res.width}x{res.height} @{res.refreshRate}Hz").ToList();
@@ -88,6 +96,7 @@ namespace TomAg
                 PlayerPrefs.Save();
             });
 
+            _fpsDropdown.RegisterValueChangedCallback(evt => ApplyFPSLimit());
             _closeButton.clicked += OnCloseClicked;
         }
 
@@ -121,6 +130,19 @@ namespace TomAg
             }
         }
 
+        private void ApplyFPSLimit()
+        {
+            string selectedValue = _fpsDropdown.value;
+            if (selectedValue == "Unlimited")
+            {
+                Application.targetFrameRate = -1;
+            }
+            else
+            {
+                Application.targetFrameRate = int.Parse(selectedValue);
+            }
+        }
+
         private void UpdateLabels()
         {
             _volumeLabel.text = $"{(_volumeSlider.value * 100):F0}%";
@@ -140,8 +162,15 @@ namespace TomAg
         }
 
         public void Hide()
+{
+    _root.style.display = DisplayStyle.None;
+    UnityEngine.Cursor.visible = false;
+    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+}
+
+        public bool IsVisible()
         {
-            _root.style.display = DisplayStyle.None;
+            return _root.style.display == DisplayStyle.Flex;
         }
 
         private void OnDestroy()
