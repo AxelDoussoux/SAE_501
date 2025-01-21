@@ -69,6 +69,12 @@ namespace TomAg
                     Debug.Log($"Player {OwnerClientId}: Cleared interactable object");
                 }
             }
+
+            // Supprimez la référence si l'objet a été détruit
+            if (_currentInteractable != null && !_currentInteractable.Equals(null))
+            {
+                _currentInteractable = null;
+            }
         }
 
         private void HandleInteract()

@@ -1,38 +1,23 @@
 using TomAg;
 using UnityEngine;
 using Unity.Netcode;
+using System;
+using System.Collections;
 
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
-    [SerializeField] private PlayerAnimator _playerAnimator;
-    [SerializeField] private AnimatorEvent _animEvent;
-
-    private void Awake()
-    {
-        if (_playerAnimator != null)
-        {
-            _playerAnimator.isBreaking = false;
-        }
-        else
-        {
-            Debug.LogWarning("PlayerAnimator n'est pas assigné dans l'inspecteur.");
-        }
-
-        if (_animEvent == null)
-        {
-            Debug.LogWarning("AnimatorEvent n'est pas assigné dans l'inspecteur.");
-        }
-    }
+    private float _destroyAfterTime = 1.5f;
 
     public void Interact(PlayerInfo playerInfo)
     {
+        if (this == null || gameObject == null) return;
+
         if (playerInfo.HaveHammer)
         {
-            _animEvent.OnAnimationEvent += OnAnimationEvent;
-
             if (playerInfo.TryGetComponent<PlayerAnimator>(out PlayerAnimator playerAnimator))
             {
-                playerAnimator.SetBreakingState(true); // Utilisez une méthode pour gérer isBreaking
+                playerAnimator.HammerBreak();
+                StartCoroutine(DestroyObjectCoroutine(playerAnimator));
             }
 
             Debug.Log($"{gameObject.name} commence à se briser !");
@@ -43,33 +28,21 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         }
     }
 
-    private void OnAnimationEvent(string eventName)
-    {
-        if (string.IsNullOrEmpty(eventName))
-        {
-            Debug.LogWarning("EventName est vide ou null dans OnAnimationEvent.");
-            return;
-        }
-
-        if (eventName == "HammerBreak")
-        {
-            OnAnimationBreakEvent();
-        }
-
-        if (_animEvent != null)
-        {
-            _animEvent.OnAnimationEvent -= OnAnimationEvent;
-        }
-    }
-
-    private void OnAnimationBreakEvent()
+    private void DestroyObject(PlayerAnimator playerAnimator)
     {
         Debug.Log($"{gameObject.name} a été détruit !");
         Destroy(gameObject);
-
-        if (_playerAnimator != null)
-        {
-            _playerAnimator.isBreaking = false;
-        }
     }
+
+    private IEnumerator DestroyObjectCoroutine(PlayerAnimator playerAnimator)
+    {
+        yield return new WaitForSeconds(_destroyAfterTime);
+        DestroyObject(playerAnimator);
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
 }

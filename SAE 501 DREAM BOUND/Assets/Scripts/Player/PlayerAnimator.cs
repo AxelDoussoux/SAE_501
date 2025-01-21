@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
 
 namespace TomAg
 {
@@ -10,6 +11,9 @@ namespace TomAg
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private PlayerMotor playerMotor;
+
+        [SerializeField] private GameObject Hammer1;
+        [SerializeField] private GameObject Hammer2;
 
         private const string VelocityParam = "Velocity";
         private const string IsJumpingParam = "IsJumping";
@@ -31,21 +35,6 @@ namespace TomAg
             animator ??= GetComponent<Animator>();
             rb ??= GetComponent<Rigidbody>();
             playerMotor ??= GetComponent<PlayerMotor>();
-
-            networkIsBreaking.OnValueChanged += (oldValue, newValue) =>
-            {
-                isBreaking = newValue;
-                animator.SetBool(IsBreakingParam, newValue);
-            };
-        }
-
-        private void OnDisable()
-        {
-            networkIsBreaking.OnValueChanged -= (oldValue, newValue) =>
-            {
-                isBreaking = newValue;
-                animator.SetBool(IsBreakingParam, newValue);
-            };
         }
 
         private void Update()
@@ -78,6 +67,18 @@ namespace TomAg
                 if (networkIsBreaking.Value != isBreaking)
                     networkIsBreaking.Value = isBreaking;
 
+                if (isBreaking && playerMotor.GetComponent<PlayerInfo>().HaveHammer)
+                {
+                    Hammer1.gameObject.SetActive(false);
+                    Hammer2.gameObject.SetActive(true);
+                }
+
+                if (!isBreaking && playerMotor.GetComponent<PlayerInfo>().HaveHammer)
+                {
+                    Hammer1.gameObject.SetActive(true);
+                    Hammer2.gameObject.SetActive(false);
+                }
+
                 // Mettre à jour directement les paramètres pour le propriétaire
                 animator.SetFloat(VelocityParam, velocity);
                 animator.SetBool(IsGroundedParam, isGrounded);
@@ -93,13 +94,17 @@ namespace TomAg
                 animator.SetBool(IsBreakingParam, networkIsBreaking.Value);
             }
         }
-        public void SetBreakingState(bool state)
+
+        public void HammerBreak() 
+        { 
+            isBreaking = true;
+            StartCoroutine(HideHammerCoroutine());
+        }
+
+        private IEnumerator HideHammerCoroutine()
         {
-            isBreaking = state;
-            if (IsOwner)
-            {
-                networkIsBreaking.Value = state;
-            }
+            yield return new WaitForSeconds( 1.9f);
+            isBreaking = false; 
         }
     }
 }

@@ -46561,12 +46561,4 @@ AnimationClip:
     flags: 0
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 1.6
-    functionName: Event
-    data: HammerBreak
-    objectReferenceParameter: {fileID: 7816914834668261742, guid: df834ceba66c57b43830f2f35cb58d37,
-      type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
