@@ -8,8 +8,6 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     [Header("Effects")]
     [SerializeField] private ParticleSystem breakParticles;
     [SerializeField] private GameObject decalPrefab;
-    [SerializeField] private float particleLifetime = 2f;
-    [SerializeField] private float decalDuration = 30f;
 
     public void Interact(PlayerInfo playerInfo)
     {
@@ -18,7 +16,6 @@ public class BreakableObject : NetworkBehaviour, IInteractable
             RequestBreakServerRpc(playerInfo.HaveHammer);
             return;
         }
-
         HandleBreak(playerInfo.HaveHammer);
     }
 
@@ -61,7 +58,6 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         {
             ParticleSystem particles = Instantiate(breakParticles, position, Quaternion.identity);
             particles.Play();
-            Destroy(particles.gameObject, particleLifetime);
         }
         SpawnDecal(position);
     }
@@ -72,9 +68,7 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         {
             Vector3 decalPosition = hit.point + hit.normal * 0.01f;
             Quaternion decalRotation = Quaternion.LookRotation(-hit.normal);
-            GameObject decal = Instantiate(decalPrefab, decalPosition, decalRotation);
-            DecalLifetime lifetimeHandler = decal.AddComponent<DecalLifetime>();
-            lifetimeHandler.Initialize(decalDuration);
+            Instantiate(decalPrefab, decalPosition, decalRotation);
         }
     }
 }
