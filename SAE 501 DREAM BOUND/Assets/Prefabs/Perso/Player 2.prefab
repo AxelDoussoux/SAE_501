@@ -319,7 +319,10 @@ MonoBehaviour:
   animator: {fileID: 2793237295698818833}
   rb: {fileID: 7261438157840346156}
   playerMotor: {fileID: 3570870590516213309}
+  Hammer1: {fileID: 0}
+  Hammer2: {fileID: 0}
   velocityTransitionTime: 65
+  isBreaking: 0
 --- !u!114 &2370774543010643280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,16 +336,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 461236084568089497}
-  aimSpeed: 10
-  angleMin: -89
-  angleMax: 73
+  aimSpeed: 5
+  angleMin: -30
+  angleMax: 60
   cameraDistance: 12
   cameraOffset: {x: 0, y: 5, z: 0}
   smoothSpeed: 0
   collisionOffset: 0.2
   collisionMask:
     serializedVersion: 2
-    m_Bits: 935
+    m_Bits: 807
 --- !u!54 &7261438157840346156
 Rigidbody:
   m_ObjectHideFlags: 0

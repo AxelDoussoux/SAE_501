@@ -5,7 +5,7 @@ namespace TomAg
     public class PlayerView : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
-        [SerializeField] private float aimSpeed = 10f;
+        [SerializeField] private float aimSpeed = 5f;
         [SerializeField] private float angleMin = -30f;
         [SerializeField] private float angleMax = 60f;
         [SerializeField] private float cameraDistance = 12f;
