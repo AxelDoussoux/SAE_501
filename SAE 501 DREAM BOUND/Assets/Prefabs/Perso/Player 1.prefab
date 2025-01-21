@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: -5974325332757426844}
   - component: {fileID: 4109370293810216258}
   - component: {fileID: 3977237509628513367}
+  - component: {fileID: -4525376101497138208}
   m_Layer: 6
   m_Name: Player 1
   m_TagString: Player
@@ -399,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 182968102
+  GlobalObjectIdHash: 740251029
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -847,6 +848,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec3747cd047064cb9fd521bf469977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4525376101497138208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816914834668261742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc9ad6469bbe8441b34daf033f3fa81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 10
 --- !u!1 &9195015269488935131
 GameObject:
   m_ObjectHideFlags: 0
