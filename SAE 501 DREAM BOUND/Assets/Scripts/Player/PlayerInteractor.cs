@@ -32,6 +32,7 @@ namespace TomAg
         {
             if (_playerController != null)
             {
+                _playerController.onInteract -= HandleInteract;
                 _playerController.onInteract += HandleInteract;
             }
         }
@@ -67,6 +68,12 @@ namespace TomAg
                     _currentInteractable = null;
                     Debug.Log($"Player {OwnerClientId}: Cleared interactable object");
                 }
+            }
+
+            // Supprimez la référence si l'objet a été détruit
+            if (_currentInteractable != null && !_currentInteractable.Equals(null))
+            {
+                _currentInteractable = null;
             }
         }
 

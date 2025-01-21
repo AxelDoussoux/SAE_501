@@ -1,37 +1,26 @@
 using TomAg;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.Rendering.Universal;
+using System;
+using System.Collections;
 
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
-    [Header("Effects")]
-    [SerializeField] private ParticleSystem breakParticles;
-    [SerializeField] private GameObject decalPrefab;
-    [SerializeField] private float particleLifetime = 2f;
-    [SerializeField] private float decalDuration = 30f;
+    private float _destroyAfterTime = 1.5f;
 
     public void Interact(PlayerInfo playerInfo)
     {
-        if (!IsServer)
-        {
-            RequestBreakServerRpc(playerInfo.HaveHammer);
-            return;
-        }
+        if (this == null || gameObject == null) return;
 
-        HandleBreak(playerInfo.HaveHammer);
-    }
-
-    private void HandleBreak(bool hasHammer)
-    {
-        if (hasHammer)
+        if (playerInfo.HaveHammer)
         {
-            SpawnEffectsClientRpc(transform.position);
-            Debug.Log($"{gameObject.name} a été détruit !");
-            // First notify clients that the object is being destroyed
-            DestroyObjectClientRpc();
-            // Then destroy the object on the server
-            Destroy(gameObject);
+            if (playerInfo.TryGetComponent<PlayerAnimator>(out PlayerAnimator playerAnimator))
+            {
+                playerAnimator.HammerBreak();
+                StartCoroutine(DestroyObjectCoroutine(playerAnimator));
+            }
+
+            Debug.Log($"{gameObject.name} commence à se briser !");
         }
         else
         {
@@ -39,42 +28,21 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void RequestBreakServerRpc(bool hasHammer)
+    private void DestroyObject(PlayerAnimator playerAnimator)
     {
-        HandleBreak(hasHammer);
+        Debug.Log($"{gameObject.name} a été détruit !");
+        Destroy(gameObject);
     }
 
-    [ClientRpc]
-    private void DestroyObjectClientRpc()
+    private IEnumerator DestroyObjectCoroutine(PlayerAnimator playerAnimator)
     {
-        if (!IsServer)  // Only destroy on clients, server handles its own destruction
-        {
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(_destroyAfterTime);
+        DestroyObject(playerAnimator);
     }
 
-    [ClientRpc]
-    private void SpawnEffectsClientRpc(Vector3 position)
+    private void OnDestroy()
     {
-        if (breakParticles != null)
-        {
-            ParticleSystem particles = Instantiate(breakParticles, position, Quaternion.identity);
-            particles.Play();
-            Destroy(particles.gameObject, particleLifetime);
-        }
-        SpawnDecal(position);
+        StopAllCoroutines();
     }
 
-    private void SpawnDecal(Vector3 position)
-    {
-        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit))
-        {
-            Vector3 decalPosition = hit.point + hit.normal * 0.01f;
-            Quaternion decalRotation = Quaternion.LookRotation(-hit.normal);
-            GameObject decal = Instantiate(decalPrefab, decalPosition, decalRotation);
-            DecalLifetime lifetimeHandler = decal.AddComponent<DecalLifetime>();
-            lifetimeHandler.Initialize(decalDuration);
-        }
-    }
 }
