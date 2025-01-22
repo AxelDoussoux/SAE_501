@@ -27,6 +27,12 @@
             <ui:DropdownField name="fps-dropdown" />
         </ui:VisualElement>
 
+       <!-- Quality Settings Dropdown -->
+        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: space-between;">
+            <ui:Label text="Graphics Quality" />
+            <ui:DropdownField name="quality-dropdown" />
+        </ui:VisualElement>
+
         <!-- Game Volume -->
         <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 10px; flex-direction: column;">
             <ui:Label text="Game Volume" />

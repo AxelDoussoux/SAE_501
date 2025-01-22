@@ -13,6 +13,7 @@ namespace TomAg
         private VisualElement _root;
         private DropdownField _resolutionDropdown;
         private DropdownField _fpsDropdown;
+        private DropdownField _qualityDropdown;
         private Toggle _fullscreenToggle;
         private Toggle _vsyncToggle;
         private Slider _volumeSlider;
@@ -33,6 +34,7 @@ namespace TomAg
 
             InitializeUIElements();
             SetupResolutionOptions();
+            SetupQualityOptions();
             LoadCurrentSettings();
             RegisterCallbacks();
         }
@@ -41,6 +43,7 @@ namespace TomAg
         {
             _resolutionDropdown = _root.Q<DropdownField>("resolution-dropdown");
             _fpsDropdown = _root.Q<DropdownField>("fps-dropdown");
+            _qualityDropdown = _root.Q<DropdownField>("quality-dropdown");
             _fullscreenToggle = _root.Q<Toggle>("fullscreen-toggle");
             _vsyncToggle = _root.Q<Toggle>("vsync-toggle");
             _volumeSlider = _root.Q<Slider>("game-volume");
@@ -48,6 +51,17 @@ namespace TomAg
             _volumeLabel = _root.Q<Label>("volume-value");
             _vivoxVolumeLabel = _root.Q<Label>("vivox-volume-value");
             _closeButton = _root.Q<Button>("close-settings");
+        }
+
+        private void SetupQualityOptions()
+        {
+            // Get all available quality levels
+            string[] qualityLevels = QualitySettings.names;
+            _qualityDropdown.choices = qualityLevels.ToList();
+
+            // Set current quality level
+            int currentQuality = QualitySettings.GetQualityLevel();
+            _qualityDropdown.value = qualityLevels[currentQuality];
         }
 
         private void SetupResolutionOptions()
@@ -75,6 +89,10 @@ namespace TomAg
             _volumeSlider.value = AudioListener.volume;
             _vivoxVolumeSlider.value = PlayerPrefs.GetFloat("VivoxVolume", 1.0f);
 
+            // Load current quality setting
+            string[] qualityLevels = QualitySettings.names;
+            _qualityDropdown.value = qualityLevels[QualitySettings.GetQualityLevel()];
+
             UpdateLabels();
         }
 
@@ -83,6 +101,7 @@ namespace TomAg
             _resolutionDropdown.RegisterValueChangedCallback(evt => ApplyResolution());
             _fullscreenToggle.RegisterValueChangedCallback(evt => ApplyFullscreen());
             _vsyncToggle.RegisterValueChangedCallback(evt => ApplyVSync());
+            _qualityDropdown.RegisterValueChangedCallback(evt => ApplyQualitySettings());
 
             _volumeSlider.RegisterValueChangedCallback(evt => {
                 AudioListener.volume = evt.newValue;
@@ -98,6 +117,16 @@ namespace TomAg
 
             _fpsDropdown.RegisterValueChangedCallback(evt => ApplyFPSLimit());
             _closeButton.clicked += OnCloseClicked;
+        }
+
+        private void ApplyQualitySettings()
+        {
+            string[] qualityLevels = QualitySettings.names;
+            int selectedQuality = System.Array.IndexOf(qualityLevels, _qualityDropdown.value);
+            if (selectedQuality >= 0)
+            {
+                QualitySettings.SetQualityLevel(selectedQuality, true);
+            }
         }
 
         private void ApplyResolution()
