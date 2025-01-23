@@ -11,10 +11,13 @@ namespace TomAg
         [SerializeField] private UIDocument _pauseMenuDocument;
         [SerializeField] private UIDocument _mainMenuDocument;
         [SerializeField] private JoinChannel echoChannel;
+        [SerializeField] private OptionsMenuController _optionsMenuController;
+        
         private MenuUI _mainMenu;
         private VisualElement _pauseMenuRoot;
         private VisualElement _mainMenuRoot;
         private Button _continueButton;
+        private Button _optionsButton;
         private Button _quitButton;
         private PlayerController _localPlayer;
         private bool _isMenuVisible = false;
@@ -61,6 +64,13 @@ namespace TomAg
                     return;
                 }
 
+                _optionsButton = _pauseMenuRoot.Q<Button>("options");
+                if (_optionsButton != null)
+                {
+                    _optionsButton.clicked += OnOptionsClicked;
+                    _optionsMenuController.Initialize();
+                }
+
                 _continueButton.clicked += OnContinueClicked;
                 _quitButton.clicked += OnQuitClicked;
 
@@ -93,6 +103,14 @@ namespace TomAg
 
         private void TogglePauseMenu()
         {
+            // Check if the settings menu is visible
+            if (_optionsMenuController != null && _optionsMenuController.IsVisible())
+            {
+                _optionsMenuController.Hide();
+                ShowPauseMenu(); // Show the pause menu immediately
+                return;
+            }
+
             if (_pauseMenuRoot == null)
             {
                 Debug.LogError("Menu not initialized properly. Attempting to reinitialize...");
@@ -100,18 +118,29 @@ namespace TomAg
                 return;
             }
 
+            // Toggle the pause menu visibility
             _isMenuVisible = !_isMenuVisible;
             _pauseMenuRoot.style.display = _isMenuVisible ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Gestion de la visibilité du curseur
             UnityEngine.Cursor.visible = _isMenuVisible;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-
-
+            UnityEngine.Cursor.lockState = _isMenuVisible ? CursorLockMode.None : CursorLockMode.Locked;
 
             if (_localPlayer != null)
             {
                 _localPlayer.SetPauseState(_isMenuVisible);
+            }
+        }
+        public void ShowPauseMenu()
+        {
+            _isMenuVisible = true;
+            _pauseMenuRoot.style.display = DisplayStyle.Flex;
+
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+
+            if (_localPlayer != null)
+            {
+                _localPlayer.SetPauseState(true); // Ensure the pause state remains active
             }
         }
 
@@ -163,6 +192,13 @@ namespace TomAg
 
             }
         }
+        private void OnOptionsClicked()
+        {
+            _pauseMenuRoot.style.display = DisplayStyle.None;
+            _optionsMenuController.Show();
+        }
+
+        
 
         private new void OnDestroy()
         {
@@ -179,6 +215,10 @@ namespace TomAg
             if (_quitButton != null)
             {
                 _quitButton.clicked -= OnQuitClicked;
+            }
+            if (_optionsButton != null)
+            {
+                _optionsButton.clicked -= OnOptionsClicked;
             }
         }
     }
