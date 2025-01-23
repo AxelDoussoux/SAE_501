@@ -39,6 +39,16 @@ public class PaintingManager : MonoBehaviour
 
     IEnumerator GetPaintingId(string authToken)
     {
+        if (string.IsNullOrEmpty(authToken))
+        {
+            // Cas où le joueur n'est pas connecté
+            Debug.LogWarning("Pas de token d'authentification trouvé. Utilisation de l'image par défaut.");
+            currentPaintingId = 1; // Utilisation de l'image par défaut (par exemple, la première)
+            UpdatePainting();
+            yield break;
+        }
+
+        // Cas où le joueur est connecté
         PaintingData paintingData = new PaintingData(authToken);
         string jsonData = JsonUtility.ToJson(paintingData);
 
@@ -47,6 +57,7 @@ public class PaintingManager : MonoBehaviour
         request.uploadHandler = new UploadHandlerRaw(jsonToSend);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + authToken);
 
         yield return request.SendWebRequest();
 
@@ -63,9 +74,11 @@ public class PaintingManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Erreur lors de la récupération du paintingid : " + request.error);
+            Debug.LogError($"Erreur lors de la récupération du paintingid : {request.error}");
+            Debug.LogError("Réponse du serveur : " + request.downloadHandler.text);
         }
     }
+
 
     void UpdatePainting()
     {
