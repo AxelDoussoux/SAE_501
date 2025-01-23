@@ -7,6 +7,9 @@ using System.Collections;
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
     private float _destroyAfterTime = 1.5f;
+    [Header("Effects")]
+    [SerializeField] private ParticleSystem breakParticles;
+    [SerializeField] private GameObject decalPrefab;
 
     public void Interact(PlayerInfo playerInfo)
     {
@@ -31,6 +34,10 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     private void DestroyObject(PlayerAnimator playerAnimator)
     {
         Debug.Log($"{gameObject.name} a été détruit !");
+
+        // Spawn effects before destroying the object
+        SpawnEffectsClientRpc(transform.position);
+
         Destroy(gameObject);
     }
 
@@ -38,6 +45,26 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     {
         yield return new WaitForSeconds(_destroyAfterTime);
         DestroyObject(playerAnimator);
+    }
+    [ClientRpc]
+    private void SpawnEffectsClientRpc(Vector3 position)
+    {
+        if (breakParticles != null)
+        {
+            ParticleSystem particles = Instantiate(breakParticles, position, Quaternion.identity);
+            particles.Play();
+        }
+        SpawnDecal(position);
+    }
+
+    private void SpawnDecal(Vector3 position)
+    {
+        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit))
+        {
+            Vector3 decalPosition = hit.point + hit.normal * 0.01f;
+            Quaternion decalRotation = Quaternion.LookRotation(-hit.normal);
+            Instantiate(decalPrefab, decalPosition, decalRotation);
+        }
     }
 
     private void OnDestroy()
