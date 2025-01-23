@@ -63,7 +63,6 @@ namespace TomAg
             int currentQuality = QualitySettings.GetQualityLevel();
             _qualityDropdown.value = qualityLevels[currentQuality];
         }
-
         private void SetupResolutionOptions()
         {
             // Setup FPS options
@@ -74,11 +73,11 @@ namespace TomAg
             // Setup resolutions
             _resolutions = Screen.resolutions;
             var options = _resolutions.Select(res =>
-                $"{res.width}x{res.height} @{res.refreshRate}Hz").ToList();
+                $"{res.width}x{res.height}").ToList();
             _resolutionDropdown.choices = options;
 
             Resolution currentResolution = Screen.currentResolution;
-            string currentRes = $"{currentResolution.width}x{currentResolution.height} @{currentResolution.refreshRate}Hz";
+            string currentRes = $"{currentResolution.width}x{currentResolution.height}";
             _resolutionDropdown.value = currentRes;
         }
 
