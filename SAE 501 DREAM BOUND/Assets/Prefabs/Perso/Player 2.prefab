@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1690639042
+  GlobalObjectIdHash: 2334019507
   InScenePlacedSourceGlobalObjectIdHash: 4236804698
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 1
@@ -338,7 +338,7 @@ MonoBehaviour:
   _camera: {fileID: 461236084568089497}
   aimSpeed: 5
   angleMin: -30
-  angleMax: 60
+  angleMax: 89
   cameraDistance: 12
   cameraOffset: {x: 0, y: 5, z: 0}
   smoothSpeed: 0
