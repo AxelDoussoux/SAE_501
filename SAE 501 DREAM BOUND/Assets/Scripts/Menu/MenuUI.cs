@@ -22,6 +22,21 @@ public class MenuUI : MonoBehaviour
     private VisualElement wrapper;
 
     private bool isHide = false;
+    private bool stopUpdate = false;
+
+    private void Update()
+    {
+        // Vérifie si l'exécution de Update doit continuer
+        if (stopUpdate) return;
+
+        // Optionnel : S'assurer que le curseur reste visible
+        if (!UnityEngine.Cursor.visible)
+        {
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
 
     private void OnEnable()
     {
@@ -56,6 +71,7 @@ public class MenuUI : MonoBehaviour
         createHostButton.clicked += OnCreateHostClicked;
         joinSessionButton.clicked += OnJoinSessionClicked;
         quitButton.clicked += OnQuitButtonClicked;
+
     }
 
     private void OnDisable()
@@ -71,14 +87,13 @@ public class MenuUI : MonoBehaviour
         if (multi != null)
         {
             multi.CreateMultiplayerRelay(codeLabel);
-
         }
         else
         {
             Debug.LogError("NetworkManager is not assigned.");
         }
 
-        // Masque les éléments de l'interface utilisateur
+        stopUpdate = true;
         UIVisibility();
     }
 
@@ -93,7 +108,8 @@ public class MenuUI : MonoBehaviour
             Debug.LogError("NetworkManager or InputField is not assigned.");
         }
 
-        // Masque les éléments de l'interface utilisateur
+
+        stopUpdate = true;
         UIVisibility();
     }
 
@@ -120,4 +136,5 @@ public class MenuUI : MonoBehaviour
         }
     }
 }
+
 
