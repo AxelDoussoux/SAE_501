@@ -26,6 +26,7 @@ public class NavMeshFSM : NetworkBehaviour
     public GameObject[] patrolPoints;
     private int currentPatrolIndex = 0;
     private NavMeshAgent navAgent;
+    private NetworkBehaviour lastTargetPlayer;
 
     void Start()
     {
@@ -145,10 +146,22 @@ public class NavMeshFSM : NetworkBehaviour
         navAgent.isStopped = true;
         ServerAttackPlayerServerRpc(targetPlayer.OwnerClientId);
 
+      
+        if (lastTargetPlayer != targetPlayer)
+        {
+            var playerInfo = targetPlayer.GetComponent<PlayerInfo>();
+            if (playerInfo != null)
+            {
+                TeleportToSpawnPointServerRpc(targetPlayer.NetworkObject.NetworkObjectId, playerInfo.SpawnPoint.position, playerInfo.SpawnPoint.rotation);
+            }
+            lastTargetPlayer = targetPlayer;
+        }
+
         if (distanceToPlayer > attackRadius)
         {
             navAgent.isStopped = false;
             curState.Value = FSMState.ChaseFast;
+            lastTargetPlayer = null;
         }
     }
 
@@ -156,25 +169,6 @@ public class NavMeshFSM : NetworkBehaviour
     private void ServerAttackPlayerServerRpc(ulong targetClientId)
     {
         Debug.Log($"Attacking player with ClientId: {targetClientId}");
-    }
-
-    // Nouvelle méthode pour gérer la collision avec le joueur
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!IsServer) return;
-
-        if (other.CompareTag("Player") && other.TryGetComponent<NetworkObject>(out var networkObject))
-        {
-            var playerInfo = other.GetComponent<PlayerInfo>();
-            if (playerInfo != null)
-            {
-                TeleportToSpawnPointServerRpc(networkObject.NetworkObjectId, playerInfo.SpawnPoint.position, playerInfo.SpawnPoint.rotation);
-            }
-            else
-            {
-                Debug.LogWarning("PlayerInfo component not found on the player object.");
-            }
-        }
     }
 
     [ServerRpc(RequireOwnership = false)]

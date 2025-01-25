@@ -2170,7 +2170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &391920429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2294,7 +2294,7 @@ Transform:
   m_GameObject: {fileID: 391920428}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -42.58479, y: 1.84, z: -3.376419}
+  m_LocalPosition: {x: -42.58479, y: 1.84, z: -3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2315,7 +2315,7 @@ MonoBehaviour:
   debugState: 0
   chaseRadius: 20
   chaseFastRadius: 10
-  attackRadius: 2
+  attackRadius: 1
   patrolPoints:
   - {fileID: 345418123}
   - {fileID: 578039120}
