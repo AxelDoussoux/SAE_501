@@ -1,33 +1,29 @@
 using TomAg;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.Rendering.Universal;
+using System;
+using System.Collections;
 
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
+    private float _destroyAfterTime = 1.5f;
     [Header("Effects")]
     [SerializeField] private ParticleSystem breakParticles;
     [SerializeField] private GameObject decalPrefab;
 
     public void Interact(PlayerInfo playerInfo)
     {
-        // Check if the player has a hammer and can trigger the break animation
+        if (this == null || gameObject == null) return;
+
         if (playerInfo.HaveHammer)
         {
-            // Try to get the PlayerAnimator component
             if (playerInfo.TryGetComponent<PlayerAnimator>(out PlayerAnimator playerAnimator))
             {
-                // Trigger the hammer break animation
                 playerAnimator.HammerBreak();
+                StartCoroutine(DestroyObjectCoroutine(playerAnimator));
             }
 
-            // Proceed with network-based object destruction
-            if (!IsServer)
-            {
-                RequestBreakServerRpc(playerInfo.HaveHammer);
-                return;
-            }
-            HandleBreak(playerInfo.HaveHammer);
+            Debug.Log($"{gameObject.name} commence à se briser !");
         }
         else
         {
@@ -35,40 +31,21 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         }
     }
 
-    private void HandleBreak(bool hasHammer)
+    private void DestroyObject(PlayerAnimator playerAnimator)
     {
-        if (hasHammer)
-        {
-            SpawnEffectsClientRpc(transform.position);
-            Debug.Log($"{gameObject.name} a été détruit !");
+        Debug.Log($"{gameObject.name} a été détruit !");
 
-            // First notify clients that the object is being destroyed
-            DestroyObjectClientRpc();
+        // Spawn effects before destroying the object
+        SpawnEffectsClientRpc(transform.position);
 
-            // Then destroy the object on the server
-            Destroy(gameObject);
-        }
-        else
-        {
-            Debug.Log($"{gameObject.name} n'a pas été détruit ! Il vous manque le marteau...");
-        }
+        Destroy(gameObject);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void RequestBreakServerRpc(bool hasHammer)
+    private IEnumerator DestroyObjectCoroutine(PlayerAnimator playerAnimator)
     {
-        HandleBreak(hasHammer);
+        yield return new WaitForSeconds(_destroyAfterTime);
+        DestroyObject(playerAnimator);
     }
-
-    [ClientRpc]
-    private void DestroyObjectClientRpc()
-    {
-        if (!IsServer)  // Only destroy on clients, server handles its own destruction
-        {
-            Destroy(gameObject);
-        }
-    }
-
     [ClientRpc]
     private void SpawnEffectsClientRpc(Vector3 position)
     {
@@ -89,4 +66,10 @@ public class BreakableObject : NetworkBehaviour, IInteractable
             Instantiate(decalPrefab, decalPosition, decalRotation);
         }
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
 }
