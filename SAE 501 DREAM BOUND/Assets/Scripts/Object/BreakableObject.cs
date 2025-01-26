@@ -7,6 +7,7 @@ using System.Collections;
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
     private float _destroyAfterTime = 1.5f;
+
     [Header("Effects")]
     [SerializeField] private ParticleSystem breakParticles;
     [SerializeField] private GameObject decalPrefab;
@@ -45,6 +46,7 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         yield return new WaitForSeconds(_destroyAfterTime);
         DestroyObject(playerAnimator);
     }
+
     [ClientRpc]
     private void SpawnEffectsClientRpc(Vector3 position)
     {
@@ -70,5 +72,4 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     {
         StopAllCoroutines();
     }
-
 }
