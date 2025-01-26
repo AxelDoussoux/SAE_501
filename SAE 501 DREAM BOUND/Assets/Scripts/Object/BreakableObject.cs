@@ -13,7 +13,7 @@ public class BreakableObject : NetworkBehaviour, IInteractable
 
     public void Interact(PlayerInfo playerInfo)
     {
-        if (this == null || gameObject == null) return;
+        if (!IsServer) return;
 
         if (playerInfo.HaveHammer)
         {
@@ -22,7 +22,6 @@ public class BreakableObject : NetworkBehaviour, IInteractable
                 playerAnimator.HammerBreak();
                 StartCoroutine(DestroyObjectCoroutine(playerAnimator));
             }
-
             Debug.Log($"{gameObject.name} commence à se briser !");
         }
         else
@@ -38,7 +37,7 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         // Spawn effects before destroying the object
         SpawnEffectsClientRpc(transform.position);
 
-        Destroy(gameObject);
+        NetworkObject.Destroy(gameObject);
     }
 
     private IEnumerator DestroyObjectCoroutine(PlayerAnimator playerAnimator)
