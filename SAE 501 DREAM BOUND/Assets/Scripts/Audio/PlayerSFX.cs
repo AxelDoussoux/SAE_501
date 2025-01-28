@@ -4,26 +4,21 @@ using System;
 
 public class PlayerSFX : NetworkBehaviour
 {
-    [SerializeField] private AudioSource audioSource; // Source audio pour jouer les sons
-    [SerializeField] private AudioClip[] footstepClips; // Liste des bruits de pas
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] footstepClips;
 
     public event Action<string> OnAnimationEvent;
 
     private void Start()
     {
-        // Abonne l'événement interne pour déclencher le son
         OnAnimationEvent += HandleAnimationEvent;
     }
 
     private void OnDestroy()
     {
-        // Désabonne pour éviter les erreurs si le GameObject est détruit
         OnAnimationEvent -= HandleAnimationEvent;
     }
 
-    /// <summary>
-    /// Cette méthode est appelée par l'événement d'animation via Event(string arg).
-    /// </summary>
     public void Event(string arg)
     {
         if (string.IsNullOrEmpty(arg))
@@ -36,13 +31,9 @@ public class PlayerSFX : NetworkBehaviour
         OnAnimationEvent?.Invoke(arg);
     }
 
-    /// <summary>
-    /// Gestionnaire des événements d'animation avec des arguments.
-    /// </summary>
-    /// <param name="arg">L'argument transmis par l'événement d'animation.</param>
     private void HandleAnimationEvent(string arg)
     {
-        if (arg == "Footstep") // Vérifie si l'argument correspond à un bruit de pas
+        if (arg == "Footstep")
         {
             PlayFootstepSound();
         }
@@ -52,9 +43,6 @@ public class PlayerSFX : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Joue un son de pas aléatoire.
-    /// </summary>
     private void PlayFootstepSound()
     {
         if (footstepClips.Length == 0 || audioSource == null)
@@ -63,7 +51,6 @@ public class PlayerSFX : NetworkBehaviour
             return;
         }
 
-        // Choisit un clip audio aléatoire et le joue
         AudioClip clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
         audioSource.PlayOneShot(clip);
 
