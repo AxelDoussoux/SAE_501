@@ -40,8 +40,8 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _WindIntensity: 0.01
-    - _WindSpeed: 0.1
+    - _WindIntensity: 5
+    - _WindSpeed: 0.45
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &3402781282791192720
