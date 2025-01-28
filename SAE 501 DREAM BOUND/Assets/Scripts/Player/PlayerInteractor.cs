@@ -69,12 +69,6 @@ namespace TomAg
                     Debug.Log($"Player {OwnerClientId}: Cleared interactable object");
                 }
             }
-
-            // Supprimez la référence si l'objet a été détruit
-            if (_currentInteractable != null && !_currentInteractable.Equals(null))
-            {
-                _currentInteractable = null;
-            }
         }
 
         private void HandleInteract()
@@ -83,8 +77,16 @@ namespace TomAg
 
             if (_currentInteractable != null)
             {
-                Debug.Log($"Player {OwnerClientId}: Attempting to interact");
-                _currentInteractable.Interact(_playerInfo);
+                if (_currentInteractable is MonoBehaviour monoBehaviour && monoBehaviour != null)
+                {
+                    Debug.Log($"Player {OwnerClientId}: Attempting to interact with a valid interactable");
+                    _currentInteractable.Interact(_playerInfo);
+                }
+                else
+                {
+                    Debug.Log($"Player {OwnerClientId}: Interactable object has been destroyed or is no longer valid.");
+                    _currentInteractable = null; // Clear the reference to the destroyed interactable
+                }
             }
             else
             {

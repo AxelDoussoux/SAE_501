@@ -10,7 +10,7 @@ public class DoorManager : NetworkBehaviour
     [SerializeField] private AudioClip doorOpenSound;
     [SerializeField] private float doorMoveDistance = 15f;
     [SerializeField] private float doorMoveTime = 9f;
-    [SerializeField] private float soundVolume = 10f; // Valeur entre 0 et 1
+    [SerializeField] private float soundVolume = 10f;
 
     private NetworkVariable<bool> areDoorsOpen = new NetworkVariable<bool>(
         false,
@@ -40,16 +40,20 @@ public class DoorManager : NetworkBehaviour
     public void CheckButtonsState()
     {
         if (areDoorsOpen.Value) return;
+
         if (button1.IsPressed() && button2.IsPressed())
         {
-            SetDoorsStateServerRpc(true);
+            SetDoorsStateServerRpc();
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SetDoorsStateServerRpc(bool open)
+    private void SetDoorsStateServerRpc()
     {
-        areDoorsOpen.Value = open;
+        if (!areDoorsOpen.Value)
+        {
+            areDoorsOpen.Value = true;
+        }
     }
 
     private void OnDoorsStateChanged(bool oldState, bool newState)

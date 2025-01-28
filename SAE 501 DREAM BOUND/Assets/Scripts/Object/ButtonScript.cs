@@ -1,6 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
-using DG.Tweening; // Import DOTween
+using DG.Tweening;
 using TomAg;
 
 public class ButtonScript : NetworkBehaviour, IInteractable
@@ -11,21 +11,23 @@ public class ButtonScript : NetworkBehaviour, IInteractable
         NetworkVariableWritePermission.Server
     );
 
-    private Vector3 initialPosition; // Stocke la position initiale du bouton
-    public float pressDepth = 0.2f; // Distance de l'enfoncement (en Z)
-    public float pressDuration = 0.1f; // Durée de l'enfoncement et du retour
+    private Vector3 initialPosition;
+    public float pressDepth = 0.2f;
+    public float pressDuration = 0.1f;
 
     [Header("Audio Settings")]
-    public AudioSource audioSource; // Référence à l'AudioSource
-    public AudioClip pressSound;    // Son joué à l'appui du bouton
+    public AudioSource audioSource;
+    public AudioClip pressSound;
 
     private void Start()
     {
-        initialPosition = transform.localPosition; // Enregistre la position initiale
+        initialPosition = transform.localPosition;
     }
 
     public void Interact(PlayerInfo playerInfo)
     {
+        if (isPressed.Value) return; // Si déjà pressé, ne rien faire
+
         Debug.Log($"Button Interact called by Player {(playerInfo != null ? playerInfo.OwnerClientId.ToString() : "null")}");
 
         if (playerInfo == null)
@@ -41,33 +43,25 @@ public class ButtonScript : NetworkBehaviour, IInteractable
         }
 
         Debug.Log($"Player {playerInfo.OwnerClientId} attempting to press button. IsServer: {IsServer}");
-
-        if (IsServer)
-        {
-            SetButtonStateServerRpc(true);
-        }
-        else
-        {
-            SetButtonStateServerRpc(true);
-            Debug.Log($"Player {playerInfo.OwnerClientId} sending ServerRpc");
-        }
-
-        // Joue le son localement pour le joueur qui interagit
+        SetButtonStateServerRpc();
         PlayLocalSound();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SetButtonStateServerRpc(bool pressed)
+    private void SetButtonStateServerRpc()
     {
-        isPressed.Value = pressed;
-        DoorManager.Instance.CheckButtonsState(); // Vérifie l'état des boutons
-        AnimateButtonPressClientRpc(); // Lance l'animation sur tous les clients
+        if (!isPressed.Value)
+        {
+            isPressed.Value = true;
+            AnimateButtonPressClientRpc();
+            DoorManager.Instance.CheckButtonsState();
+        }
     }
 
     [ClientRpc]
     private void AnimateButtonPressClientRpc()
     {
-        AnimateButtonPress(); // Exécute l'animation localement sur chaque client
+        AnimateButtonPress();
     }
 
     public bool IsPressed()
@@ -77,18 +71,12 @@ public class ButtonScript : NetworkBehaviour, IInteractable
 
     private void AnimateButtonPress()
     {
-        // Enfonce le bouton vers le mur (Z négatif)
-        transform.DOLocalMove(initialPosition + Vector3.back * pressDepth, pressDuration)
-            .OnComplete(() =>
-            {
-                // Remonte le bouton à la position initiale
-                transform.DOLocalMove(initialPosition, pressDuration);
-            });
+        // Animation simple sans retour à la position initiale
+        transform.DOLocalMove(initialPosition + Vector3.back * pressDepth, pressDuration);
     }
 
     private void PlayLocalSound()
     {
-        // Joue le son uniquement pour le joueur local qui interagit
         if (audioSource != null && pressSound != null)
         {
             audioSource.PlayOneShot(pressSound);
