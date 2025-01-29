@@ -11,7 +11,7 @@ public class VisibilityManagerPlayer2 : NetworkBehaviour
 
         if (networkObject == null)
         {
-            Debug.LogError("[VisibilityManagerPlayer2] NetworkObject manquant !");
+            Debug.LogError("[VisibilityManagerPlayer2] Missing NetworkObject!");
             return;
         }
     }
@@ -45,24 +45,24 @@ public class VisibilityManagerPlayer2 : NetworkBehaviour
     {
         if (IsServer)
         {
-            Debug.Log($"[VisibilityManagerPlayer2] Nouveau client connecté: {clientId}");
+            Debug.Log($"[VisibilityManagerPlayer2] New client connected: {clientId}");
             HandleClientVisibility(clientId);
         }
     }
 
     private void HandleClientVisibility(ulong clientId)
     {
-        Debug.Log($"[VisibilityManagerPlayer2] Gestion de la visibilité pour le client: {clientId}");
+        Debug.Log($"[VisibilityManagerPlayer2] Managing visibility for client: {clientId}");
 
-        if (clientId == 0) // Joueur 1
+        if (clientId == 0) // Player 1
         {
             HideObjectForClientRpc(clientId);
-            Debug.Log("[VisibilityManagerPlayer2] Objet caché pour le joueur 1.");
+            Debug.Log("[VisibilityManagerPlayer2] Object hidden for player 1.");
         }
-        else // Joueur 2
+        else // Player 2
         {
             ShowObjectForClientRpc(clientId);
-            Debug.Log("[VisibilityManagerPlayer2] Objet montré pour le joueur 2.");
+            Debug.Log("[VisibilityManagerPlayer2] Object shown for player 2.");
         }
     }
 

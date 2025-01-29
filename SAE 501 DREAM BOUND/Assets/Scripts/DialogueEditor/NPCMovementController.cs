@@ -7,33 +7,33 @@ public class NPCMovementController : MonoBehaviour
 
     private void Awake()
     {
-        // Récupérer automatiquement le NavMeshAgent attaché à ce GameObject
+        // Automatically get the NavMeshAgent attached to this GameObject
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         if (navMeshAgent == null)
         {
-            Debug.LogError("NavMeshAgent introuvable sur ce GameObject.");
+            Debug.LogError("NavMeshAgent not found on this GameObject.");
         }
     }
 
     /// <summary>
-    /// Arrête le mouvement du NPC.
+    /// Stops the NPC's movement.
     /// </summary>
     public void StopNpc()
     {
         if (navMeshAgent != null)
         {
-            // Arrête le calcul du chemin et le mouvement
+            // Stop pathfinding and movement
             navMeshAgent.isStopped = true;
 
-            // Réinitialise la vélocité pour stopper immédiatement tout mouvement résiduel
+            // Reset velocity to immediately stop any residual movement
             navMeshAgent.velocity = Vector3.zero;
 
-            Debug.Log("NPC arrêté.");
+            Debug.Log("NPC stopped.");
         }
         else
         {
-            Debug.LogWarning("NavMeshAgent n'est pas assigné. Impossible d'arrêter le NPC.");
+            Debug.LogWarning("NavMeshAgent is not assigned. Unable to stop the NPC.");
         }
     }
 }

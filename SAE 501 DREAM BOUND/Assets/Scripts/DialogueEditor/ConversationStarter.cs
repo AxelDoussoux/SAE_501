@@ -17,7 +17,7 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     private bool isPlayerInRange = false;
     private PlayerInfo currentPlayerInfo;
     private bool isInteracting = false;
-    private ulong authorizedPlayerNetworkId; // Pour stocker l'ID du joueur autorisé
+    private ulong authorizedPlayerNetworkId; // To store the authorized player's ID
 
     private void Start()
     {
@@ -31,32 +31,32 @@ public class ConversationStarter : MonoBehaviour, IInteractable
             dialogueCamera = FindObjectOfType<DynamicDialogueCamera>();
             if (dialogueCamera == null)
             {
-                Debug.LogError("DynamicDialogueCamera non trouvé dans la scène !");
+                Debug.LogError("DynamicDialogueCamera not found in the scene!");
             }
         }
 
         if (interactionText == null)
         {
-            Debug.LogWarning("interactionText n'est pas assigné dans l'inspecteur !");
+            Debug.LogWarning("interactionText is not assigned in the inspector!");
         }
 
         if (npc == null)
         {
-            Debug.LogWarning("npc (Transform) n'est pas assigné dans l'inspecteur !");
+            Debug.LogWarning("npc (Transform) is not assigned in the inspector!");
         }
 
         if (myConversation == null)
         {
-            Debug.LogWarning("myConversation n'est pas assigné dans l'inspecteur !");
+            Debug.LogWarning("myConversation is not assigned in the inspector!");
         }
     }
 
     public void Interact(PlayerInfo playerInfo)
     {
-        // Vérifier si le joueur est autorisé à interagir
+        // Check if the player is authorized to interact
         if (playerInfo.NetworkObjectId != authorizedPlayerNetworkId)
         {
-            Debug.Log($"Player {playerInfo.NetworkObjectId} n'est pas autorisé à interagir. Joueur autorisé: {authorizedPlayerNetworkId}");
+            Debug.Log($"Player {playerInfo.NetworkObjectId} is not authorized to interact. Authorized player: {authorizedPlayerNetworkId}");
             return;
         }
 
@@ -64,7 +64,7 @@ public class ConversationStarter : MonoBehaviour, IInteractable
 
         isInteracting = true;
         ConversationManager.Instance.StartConversation(myConversation);
-        Debug.Log($"Conversation démarrée avec le joueur : {playerInfo.name}");
+        Debug.Log($"Conversation started with player: {playerInfo.name}");
 
         dialogueCamera.StartDialogue(playerInfo.transform, npc);
 
@@ -78,19 +78,19 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     {
         if (myConversation == null)
         {
-            Debug.LogError("myConversation n'est pas assigné dans ConversationStarter.");
+            Debug.LogError("myConversation is not assigned in ConversationStarter.");
             return false;
         }
 
         if (dialogueCamera == null)
         {
-            Debug.LogError("dialogueCamera n'est pas assigné dans ConversationStarter.");
+            Debug.LogError("dialogueCamera is not assigned in ConversationStarter.");
             return false;
         }
 
         if (playerInfo == null)
         {
-            Debug.LogError("PlayerInfo est null lors de l'interaction.");
+            Debug.LogError("PlayerInfo is null during interaction.");
             return false;
         }
 
@@ -102,10 +102,10 @@ public class ConversationStarter : MonoBehaviour, IInteractable
         var playerInfo = other.GetComponent<PlayerInfo>();
         if (playerInfo != null && playerInfo.IsOwner)
         {
-            Debug.Log($"PlayerInfo trouvé pour {playerInfo.name}!");
+            Debug.Log($"PlayerInfo found for {playerInfo.name}!");
             isPlayerInRange = true;
             currentPlayerInfo = playerInfo;
-            authorizedPlayerNetworkId = playerInfo.NetworkObjectId; // Stocker l'ID du joueur autorisé
+            authorizedPlayerNetworkId = playerInfo.NetworkObjectId; // Store the authorized player's ID
 
             if (interactionText != null)
             {
@@ -125,11 +125,11 @@ public class ConversationStarter : MonoBehaviour, IInteractable
             if (playerInput != null)
             {
                 interactAction = playerInput.actions["Interact"];
-                Debug.Log($"Action 'Interact' assignée pour {other.name}");
+                Debug.Log($"'Interact' action assigned for {other.name}");
             }
             else
             {
-                Debug.LogError($"PlayerInput non trouvé sur {other.name}");
+                Debug.LogError($"PlayerInput not found on {other.name}");
             }
         }
     }
@@ -141,7 +141,7 @@ public class ConversationStarter : MonoBehaviour, IInteractable
         {
             if (playerInfo.NetworkObjectId == authorizedPlayerNetworkId)
             {
-                authorizedPlayerNetworkId = 0; // Réinitialiser l'ID du joueur autorisé
+                authorizedPlayerNetworkId = 0; // Reset the authorized player's ID
             }
             CleanupInteraction(playerInfo);
         }
@@ -170,14 +170,14 @@ public class ConversationStarter : MonoBehaviour, IInteractable
             interactAction.triggered && currentPlayerInfo != null &&
             currentPlayerInfo.IsOwner)
         {
-            // Vérifier si le joueur actuel est celui autorisé à interagir
+            // Check if the current player is the authorized one to interact
             if (currentPlayerInfo.NetworkObjectId == authorizedPlayerNetworkId)
             {
                 Interact(currentPlayerInfo);
             }
             else
             {
-                Debug.Log($"Player {currentPlayerInfo.NetworkObjectId} n'est pas autorisé à interagir. Joueur autorisé: {authorizedPlayerNetworkId}");
+                Debug.Log($"Player {currentPlayerInfo.NetworkObjectId} is not authorized to interact. Authorized player: {authorizedPlayerNetworkId}");
             }
         }
     }

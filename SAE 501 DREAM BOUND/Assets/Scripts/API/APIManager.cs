@@ -5,11 +5,11 @@ using UnityEngine.Networking;
 public class APIManager : MonoBehaviour
 {
     public string apiUpdateZoneUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/update-zone";
-    private string authToken; // Le token d'authentification du joueur
+    private string authToken; 
 
     void Start()
     {
-        // Récupérer le token sauvegardé (ou le passer à cette instance)
+        // Retrieve the saved token (or pass it to this instance)
         authToken = PlayerPrefs.GetString("authToken", "");
     }
 
@@ -17,53 +17,53 @@ public class APIManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(authToken))
         {
-            Debug.LogError("Token d'authentification introuvable !");
+            Debug.LogError("Authentication token not found!");
             return;
         }
 
-        // Lancer la requête API
+        // Launch the API request
         StartCoroutine(SendZoneRequest(zoneName));
     }
 
     IEnumerator SendZoneRequest(string zoneName)
     {
-        // Création des données JSON à envoyer (comme dans la requête curl)
+        // Creation of the JSON data to be sent (as in the curl request)
         ZoneData zoneData = new ZoneData(zoneName, authToken);
         string jsonData = JsonUtility.ToJson(zoneData);
 
-        // Création de la requête POST
+        // Creating a POST request
         UnityWebRequest request = new UnityWebRequest(apiUpdateZoneUrl, "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonData);
         request.uploadHandler = new UploadHandlerRaw(jsonToSend);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
 
-        // Envoyer la requête
+        // Send request
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("Zone mise à jour avec succès : " + request.downloadHandler.text);
+            Debug.Log("Area successfully updated : " + request.downloadHandler.text);
         }
         else
         {
-            Debug.Log("URL de la requête: " + apiUpdateZoneUrl);
-            Debug.Log("Données envoyées: " + jsonData);
+            Debug.Log("URL of the request: " + apiUpdateZoneUrl);
+            Debug.Log("Data sent: " + jsonData);
 
-            Debug.LogError("Erreur lors de la mise à jour de la zone : " + request.error);
+            Debug.LogError("Error updating zone : " + request.error);
         }
     }
 
-    // Classe pour les données de la requête
+    // Class for query data
     [System.Serializable]
     public class ZoneData
     {
         public string token;
-        public string zoneAtteinte;
+        public string zoneReached;
 
-        public ZoneData(string zoneAtteinte, string token)
+        public ZoneData(string zoneReached, string token)
         {
-            this.zoneAtteinte = zoneAtteinte;
+            this.zoneReached = zoneReached;
             this.token = token;
         }
     }
