@@ -1582,6 +1582,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map Niveau 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4478800909411580811, guid: 6867eea8b23efff4182c5924e5134143,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7280464684360382215, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -1598,7 +1603,8 @@ PrefabInstance:
       value: 2666068161
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7333297783948527409, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
