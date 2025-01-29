@@ -27,11 +27,6 @@
             <ui:Slider name="game-volume" low-value="0" high-value="1" value="1" style="width: 100%;" />
             <ui:Label name="volume-value" text="100%" style="color: white; margin-top: 5px;" />
         </ui:VisualElement>
-        <ui:VisualElement class="setting-row" style="width: 100%; margin-bottom: 15px; flex-direction: column; align-items: center;">
-            <ui:Label text="Volume du chat vocal" style="color: white; font-size: 18px; margin-bottom: 10px;" />
-            <ui:Slider name="vivox-volume" low-value="0" high-value="1" value="1" style="width: 100%;" />
-            <ui:Label name="vivox-volume-value" text="100%" style="color: white; margin-top: 5px;" />
-        </ui:VisualElement>
         <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%; margin-top: 20px;">
             <ui:Button name="close-settings" text="Fermer" class="PAUSEBUTTON" style="width: 200px;" />
         </ui:VisualElement>

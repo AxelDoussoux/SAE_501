@@ -19,7 +19,6 @@ namespace TomAg
         private Slider _volumeSlider;
         private Slider _vivoxVolumeSlider;
         private Label _volumeLabel;
-        private Label _vivoxVolumeLabel;
         private Button _closeButton;
 
         [SerializeField] private int targetFrameRate = 60;
@@ -51,7 +50,6 @@ namespace TomAg
             _volumeSlider = _root.Q<Slider>("game-volume");
             _vivoxVolumeSlider = _root.Q<Slider>("vivox-volume");
             _volumeLabel = _root.Q<Label>("volume-value");
-            _vivoxVolumeLabel = _root.Q<Label>("vivox-volume-value");
             _closeButton = _root.Q<Button>("close-settings");
         }
 
@@ -88,7 +86,6 @@ namespace TomAg
             _fullscreenToggle.value = Screen.fullScreen;
             _vsyncToggle.value = QualitySettings.vSyncCount > 0;
             _volumeSlider.value = AudioListener.volume;
-            _vivoxVolumeSlider.value = PlayerPrefs.GetFloat("VivoxVolume", 1.0f);
 
             string[] qualityLevels = QualitySettings.names;
             _qualityDropdown.value = qualityLevels[QualitySettings.GetQualityLevel()];
@@ -107,13 +104,6 @@ namespace TomAg
             _volumeSlider.RegisterValueChangedCallback(evt => {
                 AudioListener.volume = evt.newValue;
                 _volumeLabel.text = $"{(evt.newValue * 100):F0}%";
-            });
-
-            _vivoxVolumeSlider.RegisterValueChangedCallback(evt => {
-                float newValue = evt.newValue;
-                PlayerPrefs.SetFloat("VivoxVolume", newValue);
-                _vivoxVolumeLabel.text = $"{(newValue * 100):F0}%";
-                PlayerPrefs.Save();
             });
 
             _fpsDropdown.RegisterValueChangedCallback(evt => ApplyFPSLimit());
@@ -182,7 +172,6 @@ namespace TomAg
         private void UpdateLabels()
         {
             _volumeLabel.text = $"{(_volumeSlider.value * 100):F0}%";
-            _vivoxVolumeLabel.text = $"{(_vivoxVolumeSlider.value * 100):F0}%";
         }
 
         // Show the options menu and load current settings
