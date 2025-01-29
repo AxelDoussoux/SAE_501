@@ -8,32 +8,40 @@ public class EndingManager : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Vérifie si l'objet qui entre est bien un joueur
         if (other.TryGetComponent<NetworkObject>(out NetworkObject playerNetObj))
         {
-            // Demande au host de déclencher la fin du jeu
             NotifyHostCollisionServerRpc();
         }
     }
 
-    [ServerRpc(RequireOwnership = false)] // Permet à n'importe quel client d'appeler ce ServerRpc
+    [ServerRpc(RequireOwnership = false)]
     private void NotifyHostCollisionServerRpc()
     {
-        // Vérifie si on est le host avant de déclencher la fin
         if (IsHost)
         {
-            // Déclenche la séquence de fin pour tous les clients
-            TriggerEndingSequenceClientRpc();
+            // Notify all clients to prepare for disconnection
+            PrepareForEndingClientRpc();
         }
     }
 
     [ClientRpc]
-    private void TriggerEndingSequenceClientRpc()
+    private void PrepareForEndingClientRpc()
     {
-        // Arrête le NetworkManager
+        EndingSequence();
+    }
+
+    private void EndingSequence()
+    {
+        // First, notify all clients that we're about to end
+        if (IsHost)
+        {
+            Unity.Netcode.NetworkManager.Singleton.DisconnectClient(Unity.Netcode.NetworkManager.Singleton.LocalClientId);
+        }
+
+        // Now safely shutdown the network
         Unity.Netcode.NetworkManager.Singleton.Shutdown();
 
-        // Charge directement la scène de fin
+        // Finally load the ending scene
         SceneManager.LoadScene(endingSceneName);
     }
 }
