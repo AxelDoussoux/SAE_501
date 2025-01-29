@@ -1,14 +1,11 @@
 using Unity.Netcode;
 using UnityEngine;
-
 namespace TomAg
 {
     public class PlayerRespawn : NetworkBehaviour
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.CompareTag("Player")) return;
-
             if (other.TryGetComponent<NetworkObject>(out var networkObject))
             {
                 var playerInfo = other.GetComponent<PlayerInfo>();
@@ -24,6 +21,40 @@ namespace TomAg
             else
             {
                 Debug.LogWarning("NetworkObject component not found on the player object.");
+            }
+        }
+
+        public void ForceRespawnAllPlayers()
+        {
+            if (!IsServer)
+            {
+                ForceRespawnRequestServerRpc();
+                return;
+            }
+            ForceRespawnAllPlayersServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ForceRespawnRequestServerRpc()
+        {
+            ForceRespawnAllPlayersServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ForceRespawnAllPlayersServerRpc()
+        {
+            foreach (var spawnedObject in Unity.Netcode.NetworkManager.Singleton.SpawnManager.SpawnedObjects.Values)
+            {
+                var playerInfo = spawnedObject.GetComponent<PlayerInfo>();
+                if (playerInfo != null && playerInfo.SpawnPoint != null)
+                {
+                    Debug.Log($"Found player with NetworkObjectId: {spawnedObject.NetworkObjectId}");
+                    TeleportToSpawnPointServerRpc(
+                        spawnedObject.NetworkObjectId,
+                        playerInfo.SpawnPoint.position,
+                        playerInfo.SpawnPoint.rotation
+                    );
+                }
             }
         }
 
