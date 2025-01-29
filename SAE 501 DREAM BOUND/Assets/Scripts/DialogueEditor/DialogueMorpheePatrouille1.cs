@@ -6,9 +6,7 @@ public class DialogueMorpheePatrouille1 : MonoBehaviour
 {
     public void EnableCursor()
     {
-        Cursor.lockState = CursorLockMode.None; // Libère le curseur
-        Cursor.visible = true; // Rendre le curseur visible
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.visible = true; // Make the cursor visible
     }
-
-
 }
