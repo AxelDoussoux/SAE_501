@@ -1,49 +1,39 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 
-public class NetworkEndingManager : NetworkBehaviour
+public class EndingManager : NetworkBehaviour
 {
-    [SerializeField] private string endingSceneName = "EndingScene";
-    [SerializeField] private float transitionDelay = 1f;
+    [SerializeField] private string endingSceneName = "Ending";
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if this is running on the server
-        if (!IsServer) return;
-
-        // Check if the colliding object is a player
+        // Vérifie si l'objet qui entre est bien un joueur
         if (other.TryGetComponent<NetworkObject>(out NetworkObject playerNetObj))
         {
-            // Trigger the ending sequence for all clients
-            TriggerEndingSequenceServerRpc();
+            // Demande au host de déclencher la fin du jeu
+            NotifyHostCollisionServerRpc();
         }
     }
 
-    [ServerRpc]
-    private void TriggerEndingSequenceServerRpc()
+    [ServerRpc(RequireOwnership = false)] // Permet à n'importe quel client d'appeler ce ServerRpc
+    private void NotifyHostCollisionServerRpc()
     {
-        // Call the client RPC to handle the transition on all clients
-        TriggerEndingSequenceClientRpc();
+        // Vérifie si on est le host avant de déclencher la fin
+        if (IsHost)
+        {
+            // Déclenche la séquence de fin pour tous les clients
+            TriggerEndingSequenceClientRpc();
+        }
     }
 
     [ClientRpc]
     private void TriggerEndingSequenceClientRpc()
     {
-        // Start the transition coroutine
-        StartCoroutine(TransitionToEndingScene());
-    }
-
-    private System.Collections.IEnumerator TransitionToEndingScene()
-    {
-        // Wait for the specified delay
-        yield return new WaitForSeconds(transitionDelay);
-
-        // Shutdown the network manager
+        // Arrête le NetworkManager
         Unity.Netcode.NetworkManager.Singleton.Shutdown();
 
-        // Load the ending scene
+        // Charge directement la scène de fin
         SceneManager.LoadScene(endingSceneName);
     }
 }
