@@ -5,10 +5,10 @@ using UnityEngine.Networking;
 public class PaintingManager : MonoBehaviour
 {
     public string apiGetPaintingUrl = "https://scep.prox.dsi.uca.fr/vm-mmi03-web-31/api/public/api/get-painting";
-    public Material[] paintingMaterials; // Tableau des 3 matériaux
-    public float checkInterval = 5f; // Vérifier toutes les 5 secondes
+    public Material[] paintingMaterials; // Array of 3 materials
+    public float checkInterval = 5f; // Check every 5 seconds
 
-    private Renderer tableauRenderer; // Le renderer du quad
+    private Renderer tableauRenderer; // Renderer of the quad
     private int currentPaintingId = 0;
 
     void Start()
@@ -16,11 +16,11 @@ public class PaintingManager : MonoBehaviour
         tableauRenderer = GetComponent<Renderer>();
         if (paintingMaterials.Length != 3)
         {
-            Debug.LogError("Il faut exactement 3 matériaux !");
+            Debug.LogError("Exactly 3 materials are required!");
             return;
         }
 
-        // Démarrer la vérification périodique
+        // Start periodic checking
         StartCoroutine(CheckPaintingIdRoutine());
     }
 
@@ -41,14 +41,14 @@ public class PaintingManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(authToken))
         {
-            // Cas où le joueur n'est pas connecté
-            Debug.LogWarning("Pas de token d'authentification trouvé. Utilisation de l'image par défaut.");
-            currentPaintingId = 1; // Utilisation de l'image par défaut (par exemple, la première)
+            // Case where the player is not logged in
+            Debug.LogWarning("No authentication token found. Using default image.");
+            currentPaintingId = 1; // Use default image (e.g., the first one)
             UpdatePainting();
             yield break;
         }
 
-        // Cas où le joueur est connecté
+        // Case where the player is logged in
         PaintingData paintingData = new PaintingData(authToken);
         string jsonData = JsonUtility.ToJson(paintingData);
 
@@ -74,18 +74,18 @@ public class PaintingManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Erreur lors de la récupération du paintingid : {request.error}");
-            Debug.LogError("Réponse du serveur : " + request.downloadHandler.text);
+            Debug.LogError($"Error retrieving painting ID: {request.error}");
+            Debug.LogError("Server response: " + request.downloadHandler.text);
         }
     }
 
-
     void UpdatePainting()
     {
+        // Update the displayed painting based on the received ID
         if (currentPaintingId >= 1 && currentPaintingId <= 3)
         {
             tableauRenderer.material = paintingMaterials[currentPaintingId - 1];
-            Debug.Log("Tableau mis à jour avec l'image " + currentPaintingId);
+            Debug.Log("Painting updated with image " + currentPaintingId);
         }
     }
 
