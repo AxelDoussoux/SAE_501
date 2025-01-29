@@ -21,6 +21,7 @@ namespace TomAg
         private Vector3 _smoothVelocity = Vector3.zero;
         private float _currentDistance;
 
+        // Initializes player camera settings and subscribes to aim event
         private void Awake()
         {
             if (!TryGetComponent(out _controller))
@@ -33,11 +34,13 @@ namespace TomAg
             _camera.transform.LookAt(transform.position + cameraOffset);
         }
 
+        // Updates camera position each frame
         private void LateUpdate()
         {
             UpdateCameraPosition();
         }
 
+        // Handles aiming input
         private void OnAim(Vector2 axis)
         {
             _rotationX += axis.x * aimSpeed * Time.deltaTime;
@@ -45,6 +48,7 @@ namespace TomAg
             _rotationY = Mathf.Clamp(_rotationY, angleMin, angleMax);
         }
 
+        // Updates the camera position and rotation smoothly
         private void UpdateCameraPosition()
         {
             _currentRotation = new Vector3(_rotationY, _rotationX, 0f);

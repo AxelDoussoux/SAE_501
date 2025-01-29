@@ -11,6 +11,7 @@ namespace TomAg
         private PlayerInfo playerInfo1;
         private PlayerInfo playerInfo2;
 
+        // Assigns a player to the correct client and manages camera activation
         [ClientRpc]
         private void AssignPlayerClientRpc(ulong clientId, NetworkObjectReference playerRef)
         {
@@ -18,14 +19,10 @@ namespace TomAg
             {
                 if (playerRef.TryGet(out NetworkObject playerObject))
                 {
-                    // Activer la caméra du joueur local uniquement
                     Camera playerCamera = playerObject.GetComponentInChildren<Camera>();
                     if (playerCamera != null)
                     {
-                        // Désactiver la caméra principale si elle existe
                         Camera.main?.gameObject.SetActive(false);
-
-                        // Activer la caméra du joueur
                         playerCamera.gameObject.SetActive(true);
                     }
 
@@ -34,7 +31,6 @@ namespace TomAg
             }
             else
             {
-                // Désactiver la caméra des autres joueurs
                 if (playerRef.TryGet(out NetworkObject playerObject))
                 {
                     Camera playerCamera = playerObject.GetComponentInChildren<Camera>();
@@ -46,12 +42,14 @@ namespace TomAg
             }
         }
 
+        // Called when the object is spawned on the network
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
             Unity.Netcode.NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         }
 
+        // Handles player spawning when a client connects
         private void OnClientConnected(ulong clientId)
         {
             if (!IsServer) return;
@@ -68,11 +66,13 @@ namespace TomAg
             }
         }
 
+        // Returns the server's client ID
         private static ulong GetServerClientId()
         {
             return Unity.Netcode.NetworkManager.ServerClientId;
         }
 
+        // Spawns a player for a given client at the specified spawn point
         private void SpawnPlayerForClient(ulong clientId, GameObject playerPrefab, Transform spawnPoint)
         {
             GameObject playerInstance = Instantiate(
@@ -86,6 +86,7 @@ namespace TomAg
             Debug.Log($"Spawned player for client {clientId}");
         }
 
+        // Called when the object is despawned on the network
         public override void OnNetworkDespawn()
         {
             if (IsServer)

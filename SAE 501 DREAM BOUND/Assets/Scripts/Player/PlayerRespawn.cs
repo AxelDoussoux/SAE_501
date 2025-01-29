@@ -6,6 +6,7 @@ namespace TomAg
 {
     public class PlayerRespawn : NetworkBehaviour
     {
+        // Handles player respawn when entering a trigger zone
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<NetworkObject>(out var networkObject))
@@ -26,6 +27,7 @@ namespace TomAg
             }
         }
 
+        // Forces all players to respawn
         public void ForceRespawnAllPlayers()
         {
             if (!IsServer)
@@ -36,12 +38,14 @@ namespace TomAg
             ForceRespawnAllPlayersServerRpc();
         }
 
+        // Requests server to force respawn all players
         [ServerRpc(RequireOwnership = false)]
         private void ForceRespawnRequestServerRpc()
         {
             ForceRespawnAllPlayersServerRpc();
         }
 
+        // Respawns all players on the server
         [ServerRpc(RequireOwnership = false)]
         private void ForceRespawnAllPlayersServerRpc()
         {
@@ -60,15 +64,14 @@ namespace TomAg
             }
         }
 
+        // Teleports a player to their spawn point on the server
         [ServerRpc(RequireOwnership = false)]
         public void TeleportToSpawnPointServerRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
         {
             if (Unity.Netcode.NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out var networkObject))
             {
-                // Mise à jour de la position sur le serveur
                 if (networkObject.TryGetComponent<NetworkTransform>(out var networkTransform))
                 {
-                    // Force la position sur le NetworkTransform
                     networkTransform.transform.SetPositionAndRotation(position, rotation);
                 }
                 else
@@ -76,11 +79,10 @@ namespace TomAg
                     Debug.LogWarning("NetworkTransform not found on player");
                 }
             }
-
-            // Notifier tous les clients
             TeleportPlayerClientRpc(networkObjectId, position, rotation);
         }
 
+        // Teleports a player to their spawn point on all clients
         [ClientRpc]
         private void TeleportPlayerClientRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
         {
@@ -89,7 +91,6 @@ namespace TomAg
                 if (networkObject.TryGetComponent<NetworkTransform>(out var networkTransform))
                 {
                     Debug.Log($"Teleporting player to Position: {position}, Rotation: {rotation}");
-                    // Force la position sur le client aussi
                     networkTransform.transform.SetPositionAndRotation(position, rotation);
                 }
                 else
@@ -102,6 +103,5 @@ namespace TomAg
                 Debug.LogWarning($"Failed to find NetworkObject with ID {networkObjectId}");
             }
         }
-
     }
 }
