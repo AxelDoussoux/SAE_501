@@ -23631,7 +23631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1833150889
+  GlobalObjectIdHash: 316135108
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -32879,6 +32879,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2137568026605149596, guid: 43d3bc60bf32fd94aaaa49e72392129d,
         type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3956802
+      objectReference: {fileID: 0}
+    - target: {fileID: 2137568026605149596, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.57
       objectReference: {fileID: 0}
@@ -32886,6 +32891,81 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 14.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688151653401611306, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 264.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688151653401611306, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7.4785156
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688151653401611306, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 264.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688151653401611306, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068327316456784601, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.56185
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068327316456784601, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068327316456784601, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0947535
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068327316456784601, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068327316456784601, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818786642437815731, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: -1.4245402
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818786642437815731, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818786642437815731, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016923852507099480, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 55.702183
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016923852507099480, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.9982123
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016923852507099480, guid: 43d3bc60bf32fd94aaaa49e72392129d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 55.702183
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1947545202002030115, guid: 43d3bc60bf32fd94aaaa49e72392129d, type: 3}
@@ -38187,7 +38267,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6340762913534916420, guid: f0b9ab7a6521c8b4caa4a159c5868065, type: 3}
 --- !u!1001 &7033694188412312994
