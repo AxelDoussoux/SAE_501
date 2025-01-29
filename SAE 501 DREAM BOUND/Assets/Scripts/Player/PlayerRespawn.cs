@@ -1,5 +1,7 @@
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
+
 namespace TomAg
 {
     public class PlayerRespawn : NetworkBehaviour
@@ -61,6 +63,21 @@ namespace TomAg
         [ServerRpc(RequireOwnership = false)]
         public void TeleportToSpawnPointServerRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
         {
+            if (Unity.Netcode.NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out var networkObject))
+            {
+                // Mise à jour de la position sur le serveur
+                if (networkObject.TryGetComponent<NetworkTransform>(out var networkTransform))
+                {
+                    // Force la position sur le NetworkTransform
+                    networkTransform.transform.SetPositionAndRotation(position, rotation);
+                }
+                else
+                {
+                    Debug.LogWarning("NetworkTransform not found on player");
+                }
+            }
+
+            // Notifier tous les clients
             TeleportPlayerClientRpc(networkObjectId, position, rotation);
         }
 
@@ -69,11 +86,15 @@ namespace TomAg
         {
             if (Unity.Netcode.NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out var networkObject))
             {
-                if (networkObject.IsOwner)
+                if (networkObject.TryGetComponent<NetworkTransform>(out var networkTransform))
                 {
-                    Transform playerTransform = networkObject.transform;
                     Debug.Log($"Teleporting player to Position: {position}, Rotation: {rotation}");
-                    playerTransform.SetPositionAndRotation(position, rotation);
+                    // Force la position sur le client aussi
+                    networkTransform.transform.SetPositionAndRotation(position, rotation);
+                }
+                else
+                {
+                    Debug.LogWarning("NetworkTransform not found on player");
                 }
             }
             else
@@ -81,5 +102,6 @@ namespace TomAg
                 Debug.LogWarning($"Failed to find NetworkObject with ID {networkObjectId}");
             }
         }
+
     }
 }
