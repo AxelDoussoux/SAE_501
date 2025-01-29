@@ -21,7 +21,7 @@ public class EndingController : MonoBehaviour
         PlayVideo();
     }
 
-    // Plays the video
+    // Plays the videoq
     private void PlayVideo()
     {
         videoPlayer.Play();
