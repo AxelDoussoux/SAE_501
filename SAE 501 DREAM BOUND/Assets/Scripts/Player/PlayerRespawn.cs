@@ -59,7 +59,7 @@ namespace TomAg
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void TeleportToSpawnPointServerRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
+        public void TeleportToSpawnPointServerRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
         {
             TeleportPlayerClientRpc(networkObjectId, position, rotation);
         }
