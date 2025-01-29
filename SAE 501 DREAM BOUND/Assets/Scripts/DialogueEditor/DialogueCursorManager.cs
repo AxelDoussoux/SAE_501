@@ -57,10 +57,10 @@ public class DialogueCursorManager : MonoBehaviour
     public void SetActiveMorpheePatrouillePlayer1()
     {
         if (!morpheePatrouilleActivated && morpheePatrouillePlayer1 != null)
-            {
-                morpheePatrouillePlayer1.SetActive(true);
-                morpheePatrouilleActivated = true; // Met à jour le flag pour empêcher les appels futurs
-            }
+        {
+            morpheePatrouillePlayer1.SetActive(true);
+            morpheePatrouilleActivated = true; // Updates the flag to prevent future calls
+        }
     }
 
     public void SetActiveMorpheePatrouillePlayer2()
@@ -68,7 +68,7 @@ public class DialogueCursorManager : MonoBehaviour
         if (morpheePatrouillePlayer2 != null)
         {
             morpheePatrouillePlayer2.SetActive(true);
-            morpheePatrouilleActivated = true; // Met à jour le flag pour empêcher les appels futurs
+            morpheePatrouilleActivated = true; // Updates the flag to prevent future calls
         }
     }
 
@@ -76,7 +76,7 @@ public class DialogueCursorManager : MonoBehaviour
     {
         if (npc != null)
         {
-            // Instancie le prefab de particules à la position du NPC
+            // Instantiate the particle prefab at the NPC's position
             if (particlePrefab != null)
             {
                 Instantiate(particlePrefab, npc.transform.position, Quaternion.identity);
@@ -85,7 +85,7 @@ public class DialogueCursorManager : MonoBehaviour
             {
                 Debug.LogWarning("Particle Prefab is not assigned in DialogueCursorManager.");
             }
-            // Désactive le GameObject du NPC
+            // Disable the NPC GameObject
             npc.SetActive(false);
         }
         else
@@ -93,11 +93,12 @@ public class DialogueCursorManager : MonoBehaviour
             Debug.LogWarning("NPC GameObject is not assigned in DialogueCursorManager.");
         }
     }
+
     public void HideNPC2()
     {
         if (npc2 != null)
         {
-            // Instancie le prefab de particules à la position du NPC
+            // Instantiate the particle prefab at the NPC's position
             if (particlePrefab != null)
             {
                 Instantiate(particlePrefab, npc2.transform.position, Quaternion.identity);
@@ -106,7 +107,7 @@ public class DialogueCursorManager : MonoBehaviour
             {
                 Debug.LogWarning("Particle Prefab is not assigned in DialogueCursorManager.");
             }
-            // Désactive le GameObject du NPC
+            // Disable the NPC GameObject
             npc2.SetActive(false);
         }
         else
@@ -114,11 +115,12 @@ public class DialogueCursorManager : MonoBehaviour
             Debug.LogWarning("NPC GameObject is not assigned in DialogueCursorManager.");
         }
     }
+
     public void HideMorpheePatrouillePlayer1()
     {
         if (morpheePatrouillePlayer1 != null)
         {
-            // Instancie le prefab de particules à la position de Morphee Patrouille
+            // Instantiate the particle prefab at the Morphee Patrouille's position
             if (particlePrefab != null)
             {
                 Instantiate(particlePrefab, morpheePatrouillePlayer1.transform.position, Quaternion.identity);
@@ -127,7 +129,7 @@ public class DialogueCursorManager : MonoBehaviour
             {
                 Debug.LogWarning("Particle Prefab is not assigned for Morphee Patrouille in DialogueCursorManager.");
             }
-            // Désactive le GameObject de Morphee Patrouille
+            // Disable the Morphee Patrouille GameObject
             morpheePatrouillePlayer1.SetActive(false);
             Debug.Log("Morphee Patrouille has disappeared.");
         }
@@ -135,7 +137,7 @@ public class DialogueCursorManager : MonoBehaviour
         {
             Debug.LogWarning("Morphee Patrouille GameObject is not assigned in DialogueCursorManager.");
         }
-        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
+        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
         Cursor.visible = false;
     }
 
@@ -143,7 +145,7 @@ public class DialogueCursorManager : MonoBehaviour
     {
         if (morpheePatrouillePlayer1 != null)
         {
-            // Instancie le prefab de particules à la position de Morphee Patrouille
+            // Instantiate the particle prefab at the Morphee Patrouille's position
             if (particlePrefab != null)
             {
                 Instantiate(particlePrefab, morpheePatrouillePlayer1.transform.position, Quaternion.identity);
@@ -152,7 +154,7 @@ public class DialogueCursorManager : MonoBehaviour
             {
                 Debug.LogWarning("Particle Prefab is not assigned for Morphee Patrouille in DialogueCursorManager.");
             }
-            // Désactive le GameObject de Morphee Patrouille
+            // Disable the Morphee Patrouille GameObject
             morpheePatrouillePlayer2.SetActive(false);
             Debug.Log("Morphee Patrouille has disappeared.");
         }
@@ -160,7 +162,7 @@ public class DialogueCursorManager : MonoBehaviour
         {
             Debug.LogWarning("Morphee Patrouille GameObject is not assigned in DialogueCursorManager.");
         }
-        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur au centre de l'écran
+        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
         Cursor.visible = false;
     }
 }

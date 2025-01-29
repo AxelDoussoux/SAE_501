@@ -18,22 +18,22 @@ public class PlayerSFX : NetworkBehaviour
         OnAnimationEvent -= HandleAnimationEvent;
     }
 
-    // Cette méthode est appelée par l'event d'animation
+    // This method is called by the animation event
     public void Event(string arg)
     {
         if (string.IsNullOrEmpty(arg))
         {
-            Debug.LogWarning("L'argument de l'événement d'animation est null ou vide.");
+            Debug.LogWarning("The argument of the animation event is null or empty.");
             return;
         }
 
-        // On ne joue le son que si on est le propriétaire de ce personnage
+        // Play the sound only if we are the owner of this character
         if (!IsOwner)
         {
             return;
         }
 
-        Debug.Log($"Événement d'animation reçu avec l'argument : {arg}");
+        Debug.Log($"Animation event received with argument: {arg}");
         OnAnimationEvent?.Invoke(arg);
     }
 
@@ -45,7 +45,7 @@ public class PlayerSFX : NetworkBehaviour
         }
         else
         {
-            Debug.Log($"Aucun comportement défini pour l'argument : {arg}");
+            Debug.Log($"No behavior defined for argument: {arg}");
         }
     }
 
@@ -53,12 +53,12 @@ public class PlayerSFX : NetworkBehaviour
     {
         if (footstepClips.Length == 0 || audioSource == null)
         {
-            Debug.LogWarning("Aucun clip ou AudioSource configuré pour FootstepSound.");
+            Debug.LogWarning("No clip or AudioSource configured for FootstepSound.");
             return;
         }
 
         AudioClip clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
         audioSource.PlayOneShot(clip);
-        Debug.Log($"Bruit de pas joué par le joueur {OwnerClientId}");
+        Debug.Log($"Footstep sound played by player {OwnerClientId}");
     }
 }
