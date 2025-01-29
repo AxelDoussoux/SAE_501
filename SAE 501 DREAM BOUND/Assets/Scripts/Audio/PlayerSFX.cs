@@ -6,7 +6,6 @@ public class PlayerSFX : NetworkBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] footstepClips;
-
     public event Action<string> OnAnimationEvent;
 
     private void Start()
@@ -19,11 +18,18 @@ public class PlayerSFX : NetworkBehaviour
         OnAnimationEvent -= HandleAnimationEvent;
     }
 
+    // Cette méthode est appelée par l'event d'animation
     public void Event(string arg)
     {
         if (string.IsNullOrEmpty(arg))
         {
             Debug.LogWarning("L'argument de l'événement d'animation est null ou vide.");
+            return;
+        }
+
+        // On ne joue le son que si on est le propriétaire de ce personnage
+        if (!IsOwner)
+        {
             return;
         }
 
@@ -53,7 +59,6 @@ public class PlayerSFX : NetworkBehaviour
 
         AudioClip clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
         audioSource.PlayOneShot(clip);
-
-        Debug.Log("Bruit de pas joué.");
+        Debug.Log($"Bruit de pas joué par le joueur {OwnerClientId}");
     }
 }
