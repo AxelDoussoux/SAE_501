@@ -6,12 +6,18 @@ public class PlayerSFX : NetworkBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] footstepClips;
-
+    private Animator localAnimator; // Référence à l'Animator du joueur
     public event Action<string> OnAnimationEvent;
 
     private void Start()
     {
         OnAnimationEvent += HandleAnimationEvent;
+
+        // Si on ne trouve pas l'Animator, on le cherche automatiquement
+        if (localAnimator == null)
+        {
+            localAnimator = GetComponent<Animator>();
+        }
     }
 
     private void OnDestroy()
@@ -19,11 +25,18 @@ public class PlayerSFX : NetworkBehaviour
         OnAnimationEvent -= HandleAnimationEvent;
     }
 
-    public void Event(string arg)
+    // Cette méthode est appelée par l'event d'animation
+    public void Event(string arg, AnimationEvent animEvent)
     {
         if (string.IsNullOrEmpty(arg))
         {
             Debug.LogWarning("L'argument de l'événement d'animation est null ou vide.");
+            return;
+        }
+
+        // On vérifie si l'animator qui a envoyé l'event est celui de ce joueur
+        if (animEvent.animatorClipInfo.clip.name != localAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name)
+        {
             return;
         }
 
@@ -53,7 +66,6 @@ public class PlayerSFX : NetworkBehaviour
 
         AudioClip clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
         audioSource.PlayOneShot(clip);
-
         Debug.Log("Bruit de pas joué.");
     }
 }

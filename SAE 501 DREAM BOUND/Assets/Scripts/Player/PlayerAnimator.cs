@@ -21,6 +21,7 @@ namespace TomAg
         private const string IsBreakingParam = "IsBreaking";
 
         [SerializeField] private float velocityTransitionTime = 65f;
+
         public bool isBreaking = false;
 
         // NetworkVariables pour synchroniser les états
