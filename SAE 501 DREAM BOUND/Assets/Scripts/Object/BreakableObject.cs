@@ -1,18 +1,20 @@
 using TomAg;
 using UnityEngine;
 using Unity.Netcode;
-using System;
 using System.Collections;
 
 public class BreakableObject : NetworkBehaviour, IInteractable
 {
     private float _destroyAfterTime = 1.5f;
+
     [Header("Effects")]
     [SerializeField] private ParticleSystem breakParticles;
     [SerializeField] private GameObject decalPrefab;
 
     public void Interact(PlayerInfo playerInfo)
     {
+        if (!IsServer) return; // Seul le serveur gère l'interaction
+
         if (this == null || gameObject == null) return;
 
         if (playerInfo.HaveHammer)
@@ -31,21 +33,28 @@ public class BreakableObject : NetworkBehaviour, IInteractable
         }
     }
 
-    private void DestroyObject(PlayerAnimator playerAnimator)
-    {
-        Debug.Log($"{gameObject.name} a été détruit !");
-
-        // Spawn effects before destroying the object
-        SpawnEffectsClientRpc(transform.position);
-
-        Destroy(gameObject);
-    }
-
     private IEnumerator DestroyObjectCoroutine(PlayerAnimator playerAnimator)
     {
         yield return new WaitForSeconds(_destroyAfterTime);
-        DestroyObject(playerAnimator);
+        DestroyObjectServerRpc();
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyObjectServerRpc()
+    {
+        if (!IsServer) return;
+
+        Debug.Log($"{gameObject.name} a été détruit !");
+
+        Vector3 position = transform.position;
+
+        // Synchronisation sur tous les clients pour afficher les effets
+        SpawnEffectsClientRpc(position);
+
+        // Synchronisation pour supprimer l'objet
+        DestroyObjectClientRpc();
+    }
+
     [ClientRpc]
     private void SpawnEffectsClientRpc(Vector3 position)
     {
@@ -54,7 +63,14 @@ public class BreakableObject : NetworkBehaviour, IInteractable
             ParticleSystem particles = Instantiate(breakParticles, position, Quaternion.identity);
             particles.Play();
         }
+
         SpawnDecal(position);
+    }
+
+    [ClientRpc]
+    private void DestroyObjectClientRpc()
+    {
+        Destroy(gameObject);
     }
 
     private void SpawnDecal(Vector3 position)
@@ -71,5 +87,4 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     {
         StopAllCoroutines();
     }
-
 }

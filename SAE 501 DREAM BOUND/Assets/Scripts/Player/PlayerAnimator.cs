@@ -31,7 +31,6 @@ namespace TomAg
 
         private void OnEnable()
         {
-            // Initialisation des composants s'ils ne sont pas assignés via l'inspecteur
             animator ??= GetComponent<Animator>();
             rb ??= GetComponent<Rigidbody>();
             playerMotor ??= GetComponent<PlayerMotor>();
@@ -47,14 +46,10 @@ namespace TomAg
 
             if (IsOwner)
             {
-                // Calculer la vitesse normalisée du joueur
                 float velocity = Mathf.Clamp01(rb.velocity.magnitude / velocityTransitionTime);
-
-                // Récupérer les valeurs de `isJumping` et `isGrounded` depuis `PlayerMotor`
                 bool isJumping = playerMotor._isJumping;
                 bool isGrounded = playerMotor._isGrounded;
 
-                // Mettre à jour les NetworkVariables uniquement si nécessaire
                 if (networkVelocity.Value != velocity)
                     networkVelocity.Value = velocity;
 
@@ -67,19 +62,11 @@ namespace TomAg
                 if (networkIsBreaking.Value != isBreaking)
                     networkIsBreaking.Value = isBreaking;
 
-                if (isBreaking && playerMotor.GetComponent<PlayerInfo>().HaveHammer)
+                if (playerMotor.GetComponent<PlayerInfo>().HaveHammer)
                 {
-                    Hammer1.gameObject.SetActive(false);
-                    Hammer2.gameObject.SetActive(true);
+                    UpdateHammerStateServerRpc(isBreaking);
                 }
 
-                if (!isBreaking && playerMotor.GetComponent<PlayerInfo>().HaveHammer)
-                {
-                    Hammer1.gameObject.SetActive(true);
-                    Hammer2.gameObject.SetActive(false);
-                }
-
-                // Mettre à jour directement les paramètres pour le propriétaire
                 animator.SetFloat(VelocityParam, velocity);
                 animator.SetBool(IsGroundedParam, isGrounded);
                 animator.SetBool(IsJumpingParam, isJumping);
@@ -87,7 +74,6 @@ namespace TomAg
             }
             else
             {
-                // Les autres clients appliquent les états reçus via les NetworkVariables
                 animator.SetFloat(VelocityParam, networkVelocity.Value);
                 animator.SetBool(IsGroundedParam, networkIsGrounded.Value);
                 animator.SetBool(IsJumpingParam, networkIsJumping.Value);
@@ -95,16 +81,33 @@ namespace TomAg
             }
         }
 
-        public void HammerBreak() 
-        { 
+        public void HammerBreak()
+        {
             isBreaking = true;
             StartCoroutine(HideHammerCoroutine());
         }
 
         private IEnumerator HideHammerCoroutine()
         {
-            yield return new WaitForSeconds( 1.9f);
-            isBreaking = false; 
+            yield return new WaitForSeconds(1.9f);
+            isBreaking = false;
+            UpdateHammerStateServerRpc(isBreaking);
+        }
+
+        [ServerRpc]
+        private void UpdateHammerStateServerRpc(bool isBreaking)
+        {
+            UpdateHammerStateClientRpc(isBreaking);
+        }
+
+        [ClientRpc]
+        private void UpdateHammerStateClientRpc(bool isBreaking)
+        {
+            if (Hammer1 != null && Hammer2 != null)
+            {
+                Hammer1.SetActive(!isBreaking);
+                Hammer2.SetActive(isBreaking);
+            }
         }
     }
 }
