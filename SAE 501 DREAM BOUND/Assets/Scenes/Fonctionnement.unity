@@ -1785,7 +1785,7 @@ PrefabInstance:
     - target: {fileID: 4478800909411580811, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4612315239561420481, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
@@ -1880,7 +1880,7 @@ PrefabInstance:
     - target: {fileID: 6969233692918066201, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7280464684360382215, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
@@ -1914,12 +1914,22 @@ PrefabInstance:
       objectReference: {fileID: 1891031817}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2299746109402254169, guid: 6867eea8b23efff4182c5924e5134143,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 852054650}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
 --- !u!1 &317048469 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4478800909411580811, guid: 6867eea8b23efff4182c5924e5134143,
+    type: 3}
+  m_PrefabInstance: {fileID: 317048468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &317048470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2299746109402254169, guid: 6867eea8b23efff4182c5924e5134143,
     type: 3}
   m_PrefabInstance: {fileID: 317048468}
   m_PrefabAsset: {fileID: 0}
@@ -3179,6 +3189,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816843356}
   m_CullTransparentMesh: 1
+--- !u!1 &852054649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 852054650}
+  - component: {fileID: 852054653}
+  - component: {fileID: 852054652}
+  - component: {fileID: 852054651}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &852054650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852054649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 557.9, y: 119.25, z: 34.13}
+  m_LocalScale: {x: 1, y: 19.13, z: 48.9}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 317048470}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &852054651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852054649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7379857dde03694e9234fcbe01ff6d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneName: Zone Niveau 2
+--- !u!65 &852054652
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852054649}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &852054653
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852054649}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &889719842
 GameObject:
   m_ObjectHideFlags: 0
@@ -5733,6 +5819,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Map Niveau 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7145382196145473039, guid: 6fa74f6e3168ae04f8e9008bbb34b8fd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7184424308095220124, guid: 6fa74f6e3168ae04f8e9008bbb34b8fd,
         type: 3}
