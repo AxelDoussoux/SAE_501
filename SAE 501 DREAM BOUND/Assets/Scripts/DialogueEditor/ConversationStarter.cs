@@ -17,6 +17,7 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     private bool isPlayerInRange = false;
     private PlayerInfo currentPlayerInfo;
     private bool isInteracting = false;
+    private ulong authorizedPlayerNetworkId; // Pour stocker l'ID du joueur autorisé
 
     private void Start()
     {
@@ -52,6 +53,13 @@ public class ConversationStarter : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInfo playerInfo)
     {
+        // Vérifier si le joueur est autorisé à interagir
+        if (playerInfo.NetworkObjectId != authorizedPlayerNetworkId)
+        {
+            Debug.Log($"Player {playerInfo.NetworkObjectId} n'est pas autorisé à interagir. Joueur autorisé: {authorizedPlayerNetworkId}");
+            return;
+        }
+
         if (!ValidateInteraction(playerInfo)) return;
 
         isInteracting = true;
@@ -92,11 +100,12 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     private void OnTriggerEnter(Collider other)
     {
         var playerInfo = other.GetComponent<PlayerInfo>();
-        if (playerInfo != null && playerInfo.IsOwner)  // Vérifie si c'est le propriétaire local
+        if (playerInfo != null && playerInfo.IsOwner)
         {
             Debug.Log($"PlayerInfo trouvé pour {playerInfo.name}!");
             isPlayerInRange = true;
             currentPlayerInfo = playerInfo;
+            authorizedPlayerNetworkId = playerInfo.NetworkObjectId; // Stocker l'ID du joueur autorisé
 
             if (interactionText != null)
             {
@@ -130,6 +139,10 @@ public class ConversationStarter : MonoBehaviour, IInteractable
         var playerInfo = other.GetComponent<PlayerInfo>();
         if (playerInfo != null && playerInfo == currentPlayerInfo)
         {
+            if (playerInfo.NetworkObjectId == authorizedPlayerNetworkId)
+            {
+                authorizedPlayerNetworkId = 0; // Réinitialiser l'ID du joueur autorisé
+            }
             CleanupInteraction(playerInfo);
         }
     }
@@ -155,9 +168,17 @@ public class ConversationStarter : MonoBehaviour, IInteractable
     {
         if (isPlayerInRange && !isInteracting && interactAction != null &&
             interactAction.triggered && currentPlayerInfo != null &&
-            currentPlayerInfo.IsOwner)  // Vérifie si c'est le propriétaire local
+            currentPlayerInfo.IsOwner)
         {
-            Interact(currentPlayerInfo);
+            // Vérifier si le joueur actuel est celui autorisé à interagir
+            if (currentPlayerInfo.NetworkObjectId == authorizedPlayerNetworkId)
+            {
+                Interact(currentPlayerInfo);
+            }
+            else
+            {
+                Debug.Log($"Player {currentPlayerInfo.NetworkObjectId} n'est pas autorisé à interagir. Joueur autorisé: {authorizedPlayerNetworkId}");
+            }
         }
     }
 }
