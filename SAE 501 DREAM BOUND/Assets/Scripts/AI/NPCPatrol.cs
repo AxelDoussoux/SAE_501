@@ -5,7 +5,7 @@ public class NPCPatrol : MonoBehaviour
 {
     public Transform[] patrolPoints; 
     public float stoppingDistance = 1.0f; 
-    public bool isRandomPatrol = true; // If enabled, the NPC will patrol randomly
+    public bool isRandomPatrol = true;
 
     private NavMeshAgent agent;
     private int currentPatrolIndex = 0;
@@ -21,7 +21,7 @@ public class NPCPatrol : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Aucun point de patrouille défini !");
+            Debug.LogError("No patrol points defined!");
         }
     }
 
@@ -30,12 +30,11 @@ public class NPCPatrol : MonoBehaviour
         // Check if the NPC has reached its current destination
         if (!agent.pathPending && agent.remainingDistance <= stoppingDistance)
         {
-            // Move to the next patrol point
             NextPatrolPoint();
         }
     }
 
-    /// Sets the NPC's destination to a given position.
+    // Sets the NPC's destination to a given position.
     private void SetDestination(Vector3 destination)
     {
         if (agent != null && destination != null)
