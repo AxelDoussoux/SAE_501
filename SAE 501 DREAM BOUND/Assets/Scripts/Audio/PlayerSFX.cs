@@ -6,18 +6,11 @@ public class PlayerSFX : NetworkBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] footstepClips;
-    private Animator localAnimator; // Référence à l'Animator du joueur
     public event Action<string> OnAnimationEvent;
 
     private void Start()
     {
         OnAnimationEvent += HandleAnimationEvent;
-
-        // Si on ne trouve pas l'Animator, on le cherche automatiquement
-        if (localAnimator == null)
-        {
-            localAnimator = GetComponent<Animator>();
-        }
     }
 
     private void OnDestroy()
@@ -26,7 +19,7 @@ public class PlayerSFX : NetworkBehaviour
     }
 
     // Cette méthode est appelée par l'event d'animation
-    public void Event(string arg, AnimationEvent animEvent)
+    public void Event(string arg)
     {
         if (string.IsNullOrEmpty(arg))
         {
@@ -34,8 +27,8 @@ public class PlayerSFX : NetworkBehaviour
             return;
         }
 
-        // On vérifie si l'animator qui a envoyé l'event est celui de ce joueur
-        if (animEvent.animatorClipInfo.clip.name != localAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name)
+        // On ne joue le son que si on est le propriétaire de ce personnage
+        if (!IsOwner)
         {
             return;
         }
@@ -66,6 +59,6 @@ public class PlayerSFX : NetworkBehaviour
 
         AudioClip clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
         audioSource.PlayOneShot(clip);
-        Debug.Log("Bruit de pas joué.");
+        Debug.Log($"Bruit de pas joué par le joueur {OwnerClientId}");
     }
 }
