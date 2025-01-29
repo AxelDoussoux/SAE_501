@@ -24,12 +24,13 @@ public class MenuUI : MonoBehaviour
     private bool isHide = false;
     private bool stopUpdate = false;
 
+    // Update is called once per frame
     private void Update()
     {
-        // Vérifie si l'exécution de Update doit continuer
+        // Check if update execution should continue
         if (stopUpdate) return;
 
-        // Optionnel : S'assurer que le curseur reste visible
+        // Optionally ensure the cursor remains visible
         if (!UnityEngine.Cursor.visible)
         {
             UnityEngine.Cursor.visible = true;
@@ -37,10 +38,10 @@ public class MenuUI : MonoBehaviour
         }
     }
 
-
+    // Called when the object is enabled
     private void OnEnable()
     {
-        // Vérifie si le composant UIDocument est présent
+        // Check if the UIDocument component is present
         uiDocument = GetComponent<UIDocument>();
         if (uiDocument == null)
         {
@@ -50,7 +51,7 @@ public class MenuUI : MonoBehaviour
 
         root = uiDocument.rootVisualElement;
 
-        // Récupération des éléments de l'interface utilisateur
+        // Retrieve UI elements
         createHostButton = root.Q<Button>("createhost");
         joinSessionButton = root.Q<Button>("joinsession");
         quitButton = root.Q<Button>("quit");
@@ -59,7 +60,7 @@ public class MenuUI : MonoBehaviour
         menu = root.Q<VisualElement>("menu");
         wrapper = root.Q<VisualElement>("Wrapper");
 
-        // Vérifie si les éléments de l'UI sont trouvés
+        // Check if any UI element is missing
         if (createHostButton == null || joinSessionButton == null || quitButton == null ||
             codeLabel == null || inputField == null || menu == null || wrapper == null)
         {
@@ -67,21 +68,22 @@ public class MenuUI : MonoBehaviour
             return;
         }
 
-        // Événements des boutons
+        // Register button click events
         createHostButton.clicked += OnCreateHostClicked;
         joinSessionButton.clicked += OnJoinSessionClicked;
         quitButton.clicked += OnQuitButtonClicked;
-
     }
 
+    // Called when the object is disabled
     private void OnDisable()
     {
-        // Supprime les abonnements pour éviter des références persistantes
+        // Unsubscribe to prevent persistent references
         createHostButton.clicked -= OnCreateHostClicked;
         joinSessionButton.clicked -= OnJoinSessionClicked;
         quitButton.clicked -= OnQuitButtonClicked;
     }
 
+    // Called when the "Create Host" button is clicked
     private void OnCreateHostClicked()
     {
         if (multi != null)
@@ -97,6 +99,7 @@ public class MenuUI : MonoBehaviour
         UIVisibility();
     }
 
+    // Called when the "Join Session" button is clicked
     private void OnJoinSessionClicked()
     {
         if (multi != null && inputField != null)
@@ -108,16 +111,17 @@ public class MenuUI : MonoBehaviour
             Debug.LogError("NetworkManager or InputField is not assigned.");
         }
 
-
         stopUpdate = true;
         UIVisibility();
     }
 
+    // Called when the "Quit" button is clicked
     private void OnQuitButtonClicked()
     {
         Application.Quit();
     }
 
+    // Toggles the visibility of the menu and wrapper elements
     public void UIVisibility()
     {
         if (!isHide)
@@ -136,5 +140,3 @@ public class MenuUI : MonoBehaviour
         }
     }
 }
-
-

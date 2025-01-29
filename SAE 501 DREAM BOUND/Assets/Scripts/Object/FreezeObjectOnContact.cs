@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class FreezeObjectOnContact : MonoBehaviour
 {
-    public GameObject objectA; // Référence à l'objet A (doit être assigné dans l'inspecteur)
-    private Rigidbody rbB;     // Rigidbody de l'objet B
-    private Rigidbody rbA;     // Rigidbody de l'objet A
-    private bool isInContact = false; // Indique si les objets A et B sont en contact
+    public GameObject objectA; // Reference to object A (must be assigned in the inspector)
+    private Rigidbody rbB;     // Rigidbody of object B
+    private Rigidbody rbA;     // Rigidbody of object A
+    private bool isInContact = false; // Indicates whether objects A and B are in contact
 
-    public float movementThreshold = 0.1f; // Seuil pour considérer que l'objet A est en mouvement
+    public float movementThreshold = 0.1f; // Threshold to consider object A as moving
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class FreezeObjectOnContact : MonoBehaviour
 
         if (rbB == null)
         {
-            Debug.LogError("L'objet B doit avoir un Rigidbody attaché !");
+            Debug.LogError("Object B must have a Rigidbody attached!");
         }
 
         if (objectA != null)
@@ -23,18 +23,18 @@ public class FreezeObjectOnContact : MonoBehaviour
             rbA = objectA.GetComponent<Rigidbody>();
             if (rbA == null)
             {
-                Debug.LogError("L'objet A doit avoir un Rigidbody attaché !");
+                Debug.LogError("Object A must have a Rigidbody attached!");
             }
         }
         else
         {
-            Debug.LogError("L'objet A n'est pas assigné !");
+            Debug.LogError("Object A is not assigned!");
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Vérifie si l'objet A est entré en collision avec cet objet (B)
+        // Check if object A has collided with this object (B)
         if (collision.gameObject == objectA)
         {
             isInContact = true;
@@ -43,12 +43,12 @@ public class FreezeObjectOnContact : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        // Vérifie si l'objet A n'est plus en contact
+        // Check if object A is no longer in contact
         if (collision.gameObject == objectA)
         {
             isInContact = false;
 
-            // Libère toutes les contraintes si le contact est rompu
+            // Release all constraints when the contact is broken
             if (rbB != null)
             {
                 rbB.constraints = RigidbodyConstraints.None;
@@ -60,15 +60,15 @@ public class FreezeObjectOnContact : MonoBehaviour
     {
         if (isInContact && rbA != null && rbB != null)
         {
-            // Vérifie si l'objet A est en mouvement
+            // Check if object A is moving
             if (rbA.velocity.magnitude > movementThreshold)
             {
-                // Freeze toutes les positions sauf Y, et toutes les rotations
+                // Freeze all positions except Y, and all rotations
                 rbB.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             }
             else
             {
-                // Libère les contraintes si A est immobile
+                // Release the constraints if object A is stationary
                 rbB.constraints = RigidbodyConstraints.None;
             }
         }

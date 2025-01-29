@@ -12,7 +12,7 @@ namespace TomAg
         [SerializeField] private UIDocument _mainMenuDocument;
         [SerializeField] private JoinChannel echoChannel;
         [SerializeField] private OptionsMenuController _optionsMenuController;
-        
+
         private MenuUI _mainMenu;
         private VisualElement _pauseMenuRoot;
         private VisualElement _mainMenuRoot;
@@ -84,7 +84,7 @@ namespace TomAg
                 _pauseMenuRoot.style.display = DisplayStyle.None;
                 _isMenuVisible = false;
 
-                UnityEngine.Cursor.visible = false; // Assurez-vous que le curseur est invisible au démarrage
+                UnityEngine.Cursor.visible = false; // Ensure the cursor is hidden when starting
                 _isInitialized = true;
             });
         }
@@ -130,6 +130,7 @@ namespace TomAg
                 _localPlayer.SetPauseState(_isMenuVisible);
             }
         }
+
         public void ShowPauseMenu()
         {
             _isMenuVisible = true;
@@ -153,7 +154,7 @@ namespace TomAg
                 _localPlayer.SetPauseState(false);
                 _localPlayer.ResumeMovement();
 
-                // Masquer le curseur en reprenant le jeu
+                // Hide the cursor when resuming the game
                 UnityEngine.Cursor.visible = false;
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
@@ -169,7 +170,6 @@ namespace TomAg
                     UnityEngine.Cursor.visible = true;
                     _mainMenu.UIVisibility();
                 }
-
 
                 if (Unity.Netcode.NetworkManager.Singleton.IsHost)
                 {
@@ -189,16 +189,14 @@ namespace TomAg
                     Unity.Netcode.NetworkManager.Singleton.Shutdown();
                     Debug.Log("Client: Disconnecting from server");
                 }
-
             }
         }
+
         private void OnOptionsClicked()
         {
             _pauseMenuRoot.style.display = DisplayStyle.None;
             _optionsMenuController.Show();
         }
-
-        
 
         private new void OnDestroy()
         {

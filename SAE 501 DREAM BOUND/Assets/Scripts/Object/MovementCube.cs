@@ -9,14 +9,14 @@ public class MovementCube : NetworkBehaviour
     private NetworkVariable<bool> shouldMove = new NetworkVariable<bool>(false);
     private Rigidbody rb; // Rigidbody component
 
-    // Cette NetworkVariable sera utilisée pour synchroniser positionB entre tous les clients
+    // This NetworkVariable will be used to synchronize positionB across all clients
     private NetworkVariable<Vector3> networkPositionB = new NetworkVariable<Vector3>();
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        // Récupère le Rigidbody du cube
+        // Retrieve the Rigidbody of the cube
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -24,17 +24,17 @@ public class MovementCube : NetworkBehaviour
             return;
         }
 
-        // Sauvegarde la position initiale
+        // Save the initial position
         positionA = transform.position;
 
-        // Si c'est le serveur, définit la position B sur le serveur
+        // If it's the server, set the position B on the server
         if (IsServer)
         {
-            // Assurez-vous que la position B est en espace global, peu importe le parent
-            networkPositionB.Value = positionB; // Utilise la position globale définie dans l'inspecteur
+            // Ensure position B is in global space, regardless of parent
+            networkPositionB.Value = positionB; // Use the global position defined in the inspector
         }
 
-        // Ne pas utiliser la physique (on manipule la position manuellement)
+        // Do not use physics (we manually manipulate the position)
         rb.isKinematic = true;
 
         Debug.Log($"[MovementCube] Initialized - Position A: {positionA}, Position B: {networkPositionB.Value}");
@@ -44,10 +44,10 @@ public class MovementCube : NetworkBehaviour
     {
         if (rb == null) return;
 
-        // On utilise networkPositionB pour le mouvement
+        // Use networkPositionB for movement
         Vector3 targetPosition = shouldMove.Value ? networkPositionB.Value : positionA;
 
-        // Si la position est encore distante, déplacer le cube
+        // If the position is still distant, move the cube
         if (Vector3.Distance(rb.position, targetPosition) > 0.01f)
         {
             Vector3 newPosition = Vector3.MoveTowards(rb.position, targetPosition, speed * Time.deltaTime);
@@ -58,28 +58,28 @@ public class MovementCube : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SetMoveStateServerRpc(bool move, ServerRpcParams serverRpcParams = default)
     {
-        // Mise à jour de l'état de mouvement
+        // Update the movement state
         shouldMove.Value = move;
         Debug.Log($"[CubeMovement] SetMoveStateServerRpc called with value: {move}");
     }
 
-    // ServerRpc pour changer la position B, et synchroniser entre tous les clients
+    // ServerRpc to change position B, and synchronize it with all clients
     [ServerRpc(RequireOwnership = false)]
     public void SetPositionBServerRpc(Vector3 newPositionB, ServerRpcParams serverRpcParams = default)
     {
-        // Si c'est le serveur, on met à jour la position B et synchronise avec les clients
+        // If it's the server, update position B and synchronize with clients
         if (IsServer)
         {
-            // Assurez-vous que la position est en espace global, même si le cube est un enfant
+            // Ensure the position is in global space, even if the cube is a child
             Vector3 globalPositionB = newPositionB;
 
-            // Met à jour la position B sur le serveur
+            // Update position B on the server
             networkPositionB.Value = globalPositionB;
             Debug.Log($"[CubeMovement] New positionB set to: {globalPositionB}");
         }
     }
 
-    // Méthode pour lier la position B, appelée par les clients si nécessaire
+    // Method to bind position B, called by clients if necessary
     public void SetPositionB(Vector3 newPositionB)
     {
         if (IsServer)
@@ -88,7 +88,7 @@ public class MovementCube : NetworkBehaviour
         }
         else
         {
-            // Si ce n'est pas le serveur, demande la mise à jour de la position B
+            // If not the server, request the update of position B
             SetPositionBServerRpc(newPositionB);
         }
     }

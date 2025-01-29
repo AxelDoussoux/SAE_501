@@ -8,13 +8,13 @@ public class PlayerAudioListener : NetworkBehaviour
 
     private void Awake()
     {
-        // Obtenir la caméra du joueur
+        // Get the player's camera
         playerCamera = GetComponentInChildren<Camera>();
         if (playerCamera != null)
         {
             audioListener = playerCamera.GetComponent<AudioListener>();
 
-            // Si pas d'AudioListener sur la caméra, on l'ajoute
+            // If there's no AudioListener on the camera, add one
             if (audioListener == null)
             {
                 audioListener = playerCamera.gameObject.AddComponent<AudioListener>();
@@ -24,11 +24,12 @@ public class PlayerAudioListener : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        // Called when the network object is spawned
         base.OnNetworkSpawn();
 
         if (audioListener != null)
         {
-            // Activer l'AudioListener uniquement pour le joueur local
+            // Enable the AudioListener only for the local player
             audioListener.enabled = IsOwner;
 
             if (IsOwner)

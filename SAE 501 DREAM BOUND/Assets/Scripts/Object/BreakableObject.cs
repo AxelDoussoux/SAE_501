@@ -13,7 +13,7 @@ public class BreakableObject : NetworkBehaviour, IInteractable
 
     public void Interact(PlayerInfo playerInfo)
     {
-        if (!IsServer) return; // Seul le serveur gère l'interaction
+        if (!IsServer) return; // Only the server handles the interaction
 
         if (this == null || gameObject == null) return;
 
@@ -25,11 +25,11 @@ public class BreakableObject : NetworkBehaviour, IInteractable
                 StartCoroutine(DestroyObjectCoroutine(playerAnimator));
             }
 
-            Debug.Log($"{gameObject.name} commence à se briser !");
+            Debug.Log($"{gameObject.name} is starting to break!");
         }
         else
         {
-            Debug.Log($"{gameObject.name} n'a pas été détruit ! Il vous manque le marteau...");
+            Debug.Log($"{gameObject.name} was not destroyed! You're missing the hammer...");
         }
     }
 
@@ -44,14 +44,14 @@ public class BreakableObject : NetworkBehaviour, IInteractable
     {
         if (!IsServer) return;
 
-        Debug.Log($"{gameObject.name} a été détruit !");
+        Debug.Log($"{gameObject.name} has been destroyed!");
 
         Vector3 position = transform.position;
 
-        // Synchronisation sur tous les clients pour afficher les effets
+        // Synchronize on all clients to display effects
         SpawnEffectsClientRpc(position);
 
-        // Synchronisation pour supprimer l'objet
+        // Synchronize to destroy the object
         DestroyObjectClientRpc();
     }
 

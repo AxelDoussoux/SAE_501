@@ -25,6 +25,7 @@ namespace TomAg
         [SerializeField] private int targetFrameRate = 60;
         private Resolution[] _resolutions;
 
+        // Initialize the options menu, UI elements, and settings
         public void Initialize()
         {
             if (_optionsDocument == null) return;
@@ -39,6 +40,7 @@ namespace TomAg
             RegisterCallbacks();
         }
 
+        // Initialize all the UI elements in the options menu
         private void InitializeUIElements()
         {
             _resolutionDropdown = _root.Q<DropdownField>("resolution-dropdown");
@@ -53,24 +55,23 @@ namespace TomAg
             _closeButton = _root.Q<Button>("close-settings");
         }
 
+        // Set up the quality options dropdown
         private void SetupQualityOptions()
         {
-            // Get all available quality levels
             string[] qualityLevels = QualitySettings.names;
             _qualityDropdown.choices = qualityLevels.ToList();
 
-            // Set current quality level
             int currentQuality = QualitySettings.GetQualityLevel();
             _qualityDropdown.value = qualityLevels[currentQuality];
         }
+
+        // Set up the resolution and FPS options dropdowns
         private void SetupResolutionOptions()
         {
-            // Setup FPS options
             var fpsOptions = new List<string> { "30", "60", "120", "Unlimited" };
             _fpsDropdown.choices = fpsOptions;
             _fpsDropdown.value = "60"; // Default to 60 FPS
 
-            // Setup resolutions
             _resolutions = Screen.resolutions;
             var options = _resolutions.Select(res =>
                 $"{res.width}x{res.height}").ToList();
@@ -81,6 +82,7 @@ namespace TomAg
             _resolutionDropdown.value = currentRes;
         }
 
+        // Load the current settings for quality, volume, and fullscreen
         private void LoadCurrentSettings()
         {
             _fullscreenToggle.value = Screen.fullScreen;
@@ -88,13 +90,13 @@ namespace TomAg
             _volumeSlider.value = AudioListener.volume;
             _vivoxVolumeSlider.value = PlayerPrefs.GetFloat("VivoxVolume", 1.0f);
 
-            // Load current quality setting
             string[] qualityLevels = QualitySettings.names;
             _qualityDropdown.value = qualityLevels[QualitySettings.GetQualityLevel()];
 
             UpdateLabels();
         }
 
+        // Register callback methods for UI elements (dropdowns, sliders, buttons)
         private void RegisterCallbacks()
         {
             _resolutionDropdown.RegisterValueChangedCallback(evt => ApplyResolution());
@@ -118,6 +120,7 @@ namespace TomAg
             _closeButton.clicked += OnCloseClicked;
         }
 
+        // Apply the selected quality settings
         private void ApplyQualitySettings()
         {
             string[] qualityLevels = QualitySettings.names;
@@ -128,6 +131,7 @@ namespace TomAg
             }
         }
 
+        // Apply the selected resolution and fullscreen setting
         private void ApplyResolution()
         {
             string[] resParts = _resolutionDropdown.value.Split(new[] { 'x', '@' });
@@ -139,11 +143,13 @@ namespace TomAg
             }
         }
 
+        // Apply the fullscreen setting
         private void ApplyFullscreen()
         {
             Screen.fullScreen = _fullscreenToggle.value;
         }
 
+        // Apply the VSync setting
         private void ApplyVSync()
         {
             if (_vsyncToggle.value)
@@ -158,6 +164,7 @@ namespace TomAg
             }
         }
 
+        // Apply the selected FPS limit
         private void ApplyFPSLimit()
         {
             string selectedValue = _fpsDropdown.value;
@@ -171,36 +178,42 @@ namespace TomAg
             }
         }
 
+        // Update the volume labels for the game and Vivox volume sliders
         private void UpdateLabels()
         {
             _volumeLabel.text = $"{(_volumeSlider.value * 100):F0}%";
             _vivoxVolumeLabel.text = $"{(_vivoxVolumeSlider.value * 100):F0}%";
         }
 
+        // Show the options menu and load current settings
         public void Show()
         {
             _root.style.display = DisplayStyle.Flex;
             LoadCurrentSettings();
         }
 
+        // Handle the close button click to hide the options menu and show the pause menu
         private void OnCloseClicked()
         {
             Hide();
             pauseMenuController.ShowPauseMenu();
         }
 
+        // Hide the options menu and lock the cursor
         public void Hide()
-{
-    _root.style.display = DisplayStyle.None;
-    UnityEngine.Cursor.visible = false;
-    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-}
+        {
+            _root.style.display = DisplayStyle.None;
+            UnityEngine.Cursor.visible = false;
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        }
 
+        // Check if the options menu is currently visible
         public bool IsVisible()
         {
             return _root.style.display == DisplayStyle.Flex;
         }
 
+        // Cleanup event listeners when the object is destroyed
         private void OnDestroy()
         {
             if (_closeButton != null) _closeButton.clicked -= OnCloseClicked;

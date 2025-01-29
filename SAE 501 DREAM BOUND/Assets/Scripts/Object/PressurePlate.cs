@@ -8,25 +8,25 @@ public class PressurePlate : NetworkBehaviour
     public List<MovementCube> linkedCubes = new List<MovementCube>();
     private int objectsOnPlate = 0;
 
-    // Paramètres pour l'animation
+    // Animation settings
     [Header("Animation Settings")]
-    [SerializeField] private float moveDownDistance = 0.1f; // Distance de descente en unités
-    [SerializeField] private float animationDuration = 0.3f; // Durée de l'animation
+    [SerializeField] private float moveDownDistance = 0.1f; // Distance to move down in units
+    [SerializeField] private float animationDuration = 0.3f; // Duration of the animation
     private Vector3 originalPosition;
 
-    // Paramètres pour le son
+    // Sound settings
     [Header("Sound Settings")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip pressureSound;
 
-    // NetworkVariable pour synchroniser l'état d'animation
+    // NetworkVariable to synchronize the animation state
     private NetworkVariable<bool> isPressed = new NetworkVariable<bool>(false);
 
     private void Start()
     {
         originalPosition = transform.position;
 
-        // Vérification des composants nécessaires
+        // Check if necessary components are present
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -45,7 +45,7 @@ public class PressurePlate : NetworkBehaviour
             Debug.Log($"[PressurePlate] Initialized with {linkedCubes.Count} linked objects.");
         }
 
-        // S'abonner au changement d'état
+        // Subscribe to state changes
         isPressed.OnValueChanged += OnPressedStateChanged;
     }
 
@@ -58,11 +58,11 @@ public class PressurePlate : NetworkBehaviour
         {
             isPressed.Value = true;
 
-            // Récupérer le NetworkObject du joueur
+            // Get the NetworkObject of the player
             var playerObject = other.GetComponent<NetworkObject>();
             if (playerObject != null)
             {
-                // Créer les paramètres RPC pour cibler spécifiquement le client
+                // Create RPC parameters to target the specific client
                 ClientRpcParams clientRpcParams = new ClientRpcParams
                 {
                     Send = new ClientRpcSendParams
@@ -71,7 +71,7 @@ public class PressurePlate : NetworkBehaviour
                     }
                 };
 
-                // Appeler le PlaySoundClientRpc avec les paramètres
+                // Call PlaySoundClientRpc with parameters
                 PlaySoundClientRpc(clientRpcParams);
             }
 
@@ -91,23 +91,24 @@ public class PressurePlate : NetworkBehaviour
         }
     }
 
-    // Gérer les changements d'état sur tous les clients
+    // Handle state changes across all clients
     private void OnPressedStateChanged(bool previousValue, bool newValue)
     {
         if (newValue)
         {
-            // Animation de descente
+            // Move the plate down with animation
             transform.DOMove(originalPosition + Vector3.down * moveDownDistance, animationDuration)
                 .SetEase(Ease.OutQuad);
         }
         else
         {
-            // Animation de remontée
+            // Move the plate back up with animation
             transform.DOMove(originalPosition, animationDuration)
                 .SetEase(Ease.OutQuad);
         }
     }
 
+    // Activate linked cubes' movement
     private void ActivateCubes()
     {
         foreach (var cube in linkedCubes)
@@ -120,6 +121,7 @@ public class PressurePlate : NetworkBehaviour
         }
     }
 
+    // Deactivate linked cubes' movement
     private void DeactivateCubes()
     {
         foreach (var cube in linkedCubes)
@@ -132,6 +134,7 @@ public class PressurePlate : NetworkBehaviour
         }
     }
 
+    // ClientRpc to play sound
     [ClientRpc]
     private void PlaySoundClientRpc(ClientRpcParams clientRpcParams = default)
     {
@@ -144,7 +147,7 @@ public class PressurePlate : NetworkBehaviour
     public override void OnDestroy()
     {
         base.OnDestroy();
-        // Nettoyer les tweens à la destruction
+        // Clean up tweens on destroy
         DOTween.Kill(transform);
     }
 }

@@ -14,7 +14,6 @@ using Unity.Services.Vivox.AudioTaps;
 
 public class NetworkManager : NetworkBehaviour
 {
-
     private NetworkManager Instance;
     public UnityTransport transport;
     private string joinCode;
@@ -40,7 +39,7 @@ public class NetworkManager : NetworkBehaviour
 
         await Authenticate();
 
-        // Abonner les fonctions pour gérer les déconnexions et l'arrêt du serveur
+        // Subscribe to events for managing disconnections and stopping the server
         Unity.Netcode.NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         Unity.Netcode.NetworkManager.Singleton.OnServerStopped += OnServerStopped;
     }
@@ -51,6 +50,7 @@ public class NetworkManager : NetworkBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
+    // Creates a multiplayer relay and generates a join code
     public async void CreateMultiplayerRelay(Label codeLabel)
     {
         try
@@ -77,8 +77,7 @@ public class NetworkManager : NetworkBehaviour
 
             if (echoChannel != null) echoChannel.SetChannelCode(joinCode);
 
-            // Exemple d'utilisation dans un autre script
-
+            // Example usage in another script
             Unity.Netcode.NetworkManager.Singleton.StartHost();
         }
         catch (System.Exception e)
@@ -87,6 +86,7 @@ public class NetworkManager : NetworkBehaviour
         }
     }
 
+    // Joins an existing session using the given join code
     public async void JoinSession(string joinCode)
     {
         try
@@ -110,16 +110,17 @@ public class NetworkManager : NetworkBehaviour
         }
     }
 
+    // Handles client disconnection
     private void OnClientDisconnected(ulong clientId)
     {
-        // Vérifier si le client local est déconnecté
+        // Check if the local client is disconnected
         if (Unity.Netcode.NetworkManager.Singleton.IsClient && clientId == Unity.Netcode.NetworkManager.Singleton.LocalClientId)
         {
             Debug.Log("Client disconnected from the host. Displaying main menu.");
 
             if (mainMenuUI != null)
             {
-                mainMenuUI.UIVisibility(); // Afficher le menu principal
+                mainMenuUI.UIVisibility(); // Show the main menu
             }
             else
             {
@@ -128,14 +129,15 @@ public class NetworkManager : NetworkBehaviour
         }
     }
 
+    // Handles server stop event
     private void OnServerStopped(bool obj)
     {
-        // Si le serveur est arrêté, afficher le menu principal
+        // If the server is stopped, show the main menu
         Debug.Log("Server has stopped. Redirecting to the main menu.");
 
         if (mainMenuUI != null)
         {
-            mainMenuUI.UIVisibility(); // Afficher le menu principal
+            mainMenuUI.UIVisibility(); // Show the main menu
         }
         else
         {
@@ -145,7 +147,7 @@ public class NetworkManager : NetworkBehaviour
 
     private void OnDestroy()
     {
-        // Désabonner les événements pour éviter les erreurs
+        // Unsubscribe from events to avoid errors
         if (Unity.Netcode.NetworkManager.Singleton != null)
         {
             Unity.Netcode.NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
@@ -153,55 +155,3 @@ public class NetworkManager : NetworkBehaviour
         }
     }
 }
-
-
-
-
-
-
-/*Code du dessus modifié avec ChatGPT car non fonctionnel ci dessous le code initial
- * 
- * 
- * public class NetworkManager : MonoBehaviour
-{
-    public UnityTransport transport;
-    public TMPro.TMP_InputField joinCodeInputField;
-
-    async void Awake()
-    {
-        await Authenticate();
-    }
-
-    private static async Task Authenticate()
-    {
-        await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-    }
-
-    void Start()
-    {
-        transport = FindObjectOfType<UnityTransport>();
-    }
-
-
-
-    public async void CreateMultiplayerRelay()
-    {
-        Allocation a = await RelayService.Instance.CreateAllocationAsync(2);
-        joinCodeInputField.text = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
-
-        transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
-
-        Unity.Netcode.NetworkManager.Singleton.StartHost();
-    }
-
-    public void StartHost()
-    {
-        Unity.Netcode.NetworkManager.Singleton.StartHost();
-    }
-
-    public void JoinSession()
-    {
-
-    }
-}*/

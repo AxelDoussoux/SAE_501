@@ -14,6 +14,7 @@ namespace TomAg
 
         private void Awake()
         {
+            // Initialize components and check for missing components
             _playerController = GetComponent<PlayerController>();
             _playerInfo = GetComponent<PlayerInfo>();
 
@@ -30,6 +31,7 @@ namespace TomAg
 
         private void OnEnable()
         {
+            // Subscribe to the interact event when enabled
             if (_playerController != null)
             {
                 _playerController.onInteract -= HandleInteract;
@@ -39,6 +41,7 @@ namespace TomAg
 
         private void OnDisable()
         {
+            // Unsubscribe from the interact event when disabled
             if (_playerController != null)
             {
                 _playerController.onInteract -= HandleInteract;
@@ -47,6 +50,7 @@ namespace TomAg
 
         private void OnTriggerEnter(Collider other)
         {
+            // Handle entering an interaction trigger area
             Debug.Log($"Player {OwnerClientId}: Trigger Enter with {other.gameObject.name} on layer {other.gameObject.layer}");
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Interactable") &&
@@ -59,6 +63,7 @@ namespace TomAg
 
         private void OnTriggerExit(Collider other)
         {
+            // Handle exiting an interaction trigger area
             Debug.Log($"Player {OwnerClientId}: Trigger Exit with {other.gameObject.name}");
 
             if (_currentInteractable != null && other.TryGetComponent<IInteractable>(out IInteractable interactable))
@@ -73,6 +78,7 @@ namespace TomAg
 
         private void HandleInteract()
         {
+            // Handle the interaction logic when triggered
             Debug.Log($"Player {OwnerClientId}: HandleInteract called");
 
             if (_currentInteractable != null)

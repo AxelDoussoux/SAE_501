@@ -5,11 +5,13 @@ namespace TomAg
 {
     public class TakeSpeedShoes : NetworkBehaviour, IInteractable
     {
+        // Handles the interaction of a player with the speed shoes item
         public void Interact(PlayerInfo playerInfo)
         {
+            // If the player cannot take the speed shoes, log and return
             if (!playerInfo.canTakeSpeedShoes)
             {
-                Debug.Log("Vous ne pouvez pas ramasser cet item !");
+                Debug.Log("You cannot take this item!");
                 return;
             }
             if (playerInfo == null)
@@ -18,24 +20,26 @@ namespace TomAg
                 return;
             }
 
-            // Active les chaussures de vitesse localement pour le joueur
+            // Enable the speed shoes locally for the player
             playerInfo.EnabledSpeedShoes();
 
-            // Active les chaussures de vitesse pour tous les joueurs
+            // Enable the speed shoes for all players on the network
             EnableSpeedShoesOnAllClientsServerRpc(playerInfo.OwnerClientId);
 
             Debug.Log("Player has taken the speed shoes.");
             DestroySpeedShoesOnAllClientsServerRpc();
         }
 
+        // ServerRpc to destroy the speed shoes for all clients
         [ServerRpc(RequireOwnership = false)]
         private void DestroySpeedShoesOnAllClientsServerRpc()
         {
-            // Détruit les chaussures sur tous les clients
+            // Destroy the speed shoes object on all clients
             Destroy(gameObject);
             NotifyDestructionOnAllClientsClientRpc();
         }
 
+        // ClientRpc to notify all clients about the destruction of the speed shoes
         [ClientRpc]
         private void NotifyDestructionOnAllClientsClientRpc()
         {
@@ -43,17 +47,18 @@ namespace TomAg
             Destroy(gameObject);
         }
 
-        // Active les chaussures de vitesse pour tous les joueurs via une ClientRpc
+        // ServerRpc to enable speed shoes on all clients
         [ServerRpc(RequireOwnership = false)]
         private void EnableSpeedShoesOnAllClientsServerRpc(ulong playerId)
         {
             EnableSpeedShoesOnAllClientsClientRpc(playerId);
         }
 
+        // ClientRpc to enable speed shoes for the specified player on all clients
         [ClientRpc]
         private void EnableSpeedShoesOnAllClientsClientRpc(ulong playerId)
         {
-            // Trouve le joueur correspondant à l'ID
+            // Find the player by their network ID and enable speed shoes
             foreach (var networkObject in FindObjectsOfType<PlayerInfo>())
             {
                 if (networkObject.OwnerClientId == playerId)

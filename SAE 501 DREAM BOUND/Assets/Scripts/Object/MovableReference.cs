@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class MovableReference
 {
-    [SerializeField] private CubeMovement movableObject;
-    public IMovable Movable => movableObject;
+    [SerializeField] private CubeMovement movableObject; // Reference to the movable object
+    public IMovable Movable => movableObject; // Property to get the IMovable interface from the object
 }

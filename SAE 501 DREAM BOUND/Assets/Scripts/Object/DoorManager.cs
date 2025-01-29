@@ -4,13 +4,13 @@ using DG.Tweening;
 
 public class DoorManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject[] doors;
-    [SerializeField] private ButtonScript button1;
-    [SerializeField] private ButtonScript button2;
-    [SerializeField] private AudioClip doorOpenSound;
-    [SerializeField] private float doorMoveDistance = 15f;
-    [SerializeField] private float doorMoveTime = 9f;
-    [SerializeField] private float soundVolume = 10f;
+    [SerializeField] private GameObject[] doors; // Array of door objects
+    [SerializeField] private ButtonScript button1; // Reference to the first button
+    [SerializeField] private ButtonScript button2; // Reference to the second button
+    [SerializeField] private AudioClip doorOpenSound; // Sound when the door opens
+    [SerializeField] private float doorMoveDistance = 15f; // Distance the door moves
+    [SerializeField] private float doorMoveTime = 9f; // Duration of the door movement
+    [SerializeField] private float soundVolume = 10f; // Volume of the door open sound
 
     private NetworkVariable<bool> areDoorsOpen = new NetworkVariable<bool>(
         false,
@@ -22,6 +22,7 @@ public class DoorManager : NetworkBehaviour
 
     private void Awake()
     {
+        // Ensure only one instance of DoorManager exists
         if (Instance == null)
         {
             Instance = this;
@@ -34,16 +35,17 @@ public class DoorManager : NetworkBehaviour
 
     private void Start()
     {
-        areDoorsOpen.OnValueChanged += OnDoorsStateChanged;
+        areDoorsOpen.OnValueChanged += OnDoorsStateChanged; // Subscribe to state changes of doors
     }
 
+    // Check if both buttons are pressed and open the doors
     public void CheckButtonsState()
     {
         if (areDoorsOpen.Value) return;
 
         if (button1.IsPressed() && button2.IsPressed())
         {
-            SetDoorsStateServerRpc();
+            SetDoorsStateServerRpc(); // Open doors on server if both buttons are pressed
         }
     }
 
@@ -52,7 +54,7 @@ public class DoorManager : NetworkBehaviour
     {
         if (!areDoorsOpen.Value)
         {
-            areDoorsOpen.Value = true;
+            areDoorsOpen.Value = true; // Open doors on the server
         }
     }
 
@@ -60,7 +62,7 @@ public class DoorManager : NetworkBehaviour
     {
         if (newState)
         {
-            OpenDoors();
+            OpenDoors(); // Open doors when the state changes to true
         }
     }
 
@@ -68,11 +70,13 @@ public class DoorManager : NetworkBehaviour
     {
         if (doors != null && doors.Length > 0)
         {
+            // Play sound when doors open
             if (doorOpenSound != null)
             {
                 AudioSource.PlayClipAtPoint(doorOpenSound, Vector3.zero, soundVolume);
             }
 
+            // Move doors up
             foreach (GameObject door in doors)
             {
                 if (door != null)
@@ -96,6 +100,6 @@ public class DoorManager : NetworkBehaviour
 
     private void OnDestroy()
     {
-        areDoorsOpen.OnValueChanged -= OnDoorsStateChanged;
+        areDoorsOpen.OnValueChanged -= OnDoorsStateChanged; // Unsubscribe from state changes
     }
 }

@@ -19,6 +19,7 @@ public class PlayerAgile : NetworkBehaviour
     private float shrinkSpeed = 5f;
     private float cooldownTime = 2f;
 
+    // Called when the NetworkBehaviour spawns on the client/host
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -28,17 +29,19 @@ public class PlayerAgile : NetworkBehaviour
             playerController = GetComponent<PlayerController>();
             if (playerController != null)
             {
+                // Registering event listeners for interaction start and stop
                 playerController.onAgileInteractStart += OnAgileInteractStart;
                 playerController.onAgileInteractStop += OnAgileInteractStop;
             }
 
+            // Finding the progress bar in the scene
             Canvas canvas = FindObjectOfType<Canvas>();
             if (canvas != null)
             {
                 progressBar = canvas.transform.Find("ChargeBar")?.GetComponent<Image>();
                 if (progressBar != null)
                 {
-                    progressBar.gameObject.SetActive(false);
+                    progressBar.gameObject.SetActive(false); // Hide the progress bar initially
                 }
                 else
                 {
@@ -52,15 +55,18 @@ public class PlayerAgile : NetworkBehaviour
         }
     }
 
+    // Called when the component is disabled
     private void OnDisable()
     {
         if (IsOwner && playerController != null)
         {
+            // Unregistering event listeners to prevent memory leaks
             playerController.onAgileInteractStart -= OnAgileInteractStart;
             playerController.onAgileInteractStop -= OnAgileInteractStop;
         }
     }
 
+    // Called when the player starts interacting with the "PlayerStrong" object
     private void OnAgileInteractStart()
     {
         if (!canCharge || strongPlayerInRange == null) return;
@@ -70,12 +76,13 @@ public class PlayerAgile : NetworkBehaviour
             isHolding = true;
             if (progressBar != null)
             {
-                progressBar.gameObject.SetActive(true);
+                progressBar.gameObject.SetActive(true); // Show the progress bar
                 currentFillAmount = 0f;
             }
         }
     }
 
+    // Called when the player stops interacting with the "PlayerStrong" object
     private void OnAgileInteractStop()
     {
         if (isHolding)
@@ -85,6 +92,7 @@ public class PlayerAgile : NetworkBehaviour
         }
     }
 
+    // Called every frame to update the hold time and the progress bar
     private void Update()
     {
         if (!IsOwner || !canCharge) return;
@@ -102,34 +110,34 @@ public class PlayerAgile : NetworkBehaviour
                 if (currentFillAmount > 0.95f)
                 {
                     float pulse = Mathf.PingPong(Time.time * 3f, 0.1f);
-                    progressBar.transform.localScale = Vector3.one * (1f + pulse);
+                    progressBar.transform.localScale = Vector3.one * (1f + pulse); // Add a pulsing effect to the progress bar
                 }
             }
 
             if (holdTime >= REQUIRED_HOLD_TIME)
             {
                 Debug.Log("Délai atteint, lancement !");
-                strongPlayerInRange.LaunchPlayer();
+                strongPlayerInRange.LaunchPlayer(); // Launch the strong player
                 StartCooldown();
                 ResetHoldState();
             }
         }
     }
 
-    // Le reste du code reste inchangé...
-
-
-private void StartCooldown()
+    // Starts a cooldown period before the next charge can occur
+    private void StartCooldown()
     {
         canCharge = false;
         Invoke(nameof(ResetCanCharge), cooldownTime);
     }
 
+    // Resets the charge flag after the cooldown
     private void ResetCanCharge()
     {
         canCharge = true;
     }
 
+    // Starts the shrinking effect of the progress bar when the interaction stops
     private void StartShrinking()
     {
         if (progressBar != null && progressBar.gameObject.activeSelf)
@@ -141,6 +149,7 @@ private void StartCooldown()
         }
     }
 
+    // Shrinks the progress bar over time when the interaction is interrupted
     private System.Collections.IEnumerator ShrinkProgressBar()
     {
         while (currentFillAmount > 0)
@@ -151,13 +160,14 @@ private void StartCooldown()
 
             if (currentFillAmount < 0.01f)
             {
-                progressBar.gameObject.SetActive(false);
+                progressBar.gameObject.SetActive(false); // Hide the progress bar when it's empty
                 break;
             }
             yield return null;
         }
     }
 
+    // Resets the state of the interaction
     private void ResetHoldState()
     {
         holdTime = 0f;
@@ -168,10 +178,11 @@ private void StartCooldown()
         if (progressBar != null && IsOwner)
         {
             progressBar.transform.localScale = Vector3.one;
-            progressBar.gameObject.SetActive(false);
+            progressBar.gameObject.SetActive(false); // Hide the progress bar
         }
     }
 
+    // Called when the player enters the trigger area of the "PlayerStrong" object
     private void OnTriggerEnter(Collider other)
     {
         PlayerStrong strongPlayer = other.GetComponent<PlayerStrong>();
@@ -182,6 +193,7 @@ private void StartCooldown()
         }
     }
 
+    // Called when the player exits the trigger area of the "PlayerStrong" object
     private void OnTriggerExit(Collider other)
     {
         PlayerStrong strongPlayer = other.GetComponent<PlayerStrong>();

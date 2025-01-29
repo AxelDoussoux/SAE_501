@@ -5,11 +5,13 @@ namespace TomAg
 {
     public class TakeHammer : NetworkBehaviour, IInteractable
     {
+        // Handles the interaction of a player with the hammer item
         public void Interact(PlayerInfo playerInfo)
         {
+            // If the player cannot take the hammer, log and return
             if (!playerInfo.canTakeHammer)
             {
-                Debug.Log("Vous ne pouvez pas ramasser cet item !");
+                Debug.Log("You cannot take this item!");
                 return;
             }
             if (playerInfo == null)
@@ -18,24 +20,26 @@ namespace TomAg
                 return;
             }
 
-            // Active le marteau localement pour le joueur
+            // Enable the hammer locally for the player
             playerInfo.EnabledHammer();
 
-            // Active le marteau pour tous les joueurs
+            // Enable the hammer for all players on the network
             EnableHammerOnAllClientsServerRpc(playerInfo.OwnerClientId);
 
             Debug.Log("Player has taken the hammer.");
             DestroyHammerOnAllClientsServerRpc();
         }
 
+        // ServerRpc to destroy the hammer for all clients
         [ServerRpc(RequireOwnership = false)]
         private void DestroyHammerOnAllClientsServerRpc()
         {
-            // Détruit l'objet sur tous les clients
+            // Destroy the hammer object on all clients
             Destroy(gameObject);
             NotifyDestructionOnAllClientsClientRpc();
         }
 
+        // ClientRpc to notify all clients about the destruction of the hammer
         [ClientRpc]
         private void NotifyDestructionOnAllClientsClientRpc()
         {
@@ -43,17 +47,18 @@ namespace TomAg
             Destroy(gameObject);
         }
 
-        // Active le marteau pour tous les joueurs via une ClientRpc
+        // ServerRpc to enable hammer on all clients
         [ServerRpc(RequireOwnership = false)]
         private void EnableHammerOnAllClientsServerRpc(ulong playerId)
         {
             EnableHammerOnAllClientsClientRpc(playerId);
         }
 
+        // ClientRpc to enable hammer for the specified player on all clients
         [ClientRpc]
         private void EnableHammerOnAllClientsClientRpc(ulong playerId)
         {
-            // Trouve le joueur correspondant à l'ID
+            // Find the player by their network ID and enable the hammer
             foreach (var networkObject in FindObjectsOfType<PlayerInfo>())
             {
                 if (networkObject.OwnerClientId == playerId)

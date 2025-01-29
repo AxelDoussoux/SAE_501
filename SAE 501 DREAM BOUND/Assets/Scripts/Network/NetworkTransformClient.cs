@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NetworkTransformClient : NetworkTransform
 {
+    // Overrides the method to specify that this object is not authoritative on the server
     protected override bool OnIsServerAuthoritative()
     {
         return false;

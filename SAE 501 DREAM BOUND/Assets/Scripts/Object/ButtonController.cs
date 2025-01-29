@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour
 {
-    public MoveUpAndDown targetPlate; // Référence vers le script de la plaque
+    public MoveUpAndDown targetPlate; // Reference to the plate's movement script
 
-    private bool playerNearby = false; // Indique si le joueur est proche
+    private bool playerNearby = false; // Indicates if the player is nearby
 
     private void Update()
     {
         if (playerNearby && Input.GetKeyDown(KeyCode.E))
         {
-            targetPlate.ToggleMovement(); // Active/désactive le mouvement de la plaque
-            Debug.Log("Mouvement de la plaque : " + (targetPlate.isMoving ? "Activé" : "Désactivé"));
+            targetPlate.ToggleMovement(); // Toggle the movement of the plate
+            Debug.Log("Plate movement: " + (targetPlate.isMoving ? "Enabled" : "Disabled"));
         }
     }
 
@@ -19,8 +19,8 @@ public class ButtonController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerNearby = true; // Le joueur est proche du bouton
-            Debug.Log("Appuyez sur E pour activer/désactiver la plaque.");
+            playerNearby = true; // Player is close to the button
+            Debug.Log("Press E to toggle the plate's movement.");
         }
     }
 
@@ -28,7 +28,7 @@ public class ButtonController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerNearby = false; // Le joueur s'éloigne
+            playerNearby = false; // Player has moved away
         }
     }
 }

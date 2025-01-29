@@ -22,9 +22,8 @@ namespace TomAg
 
         [Header("Jumping")]
         [SerializeField] private float jumpForce = 20f;
-        [SerializeField] private float jumpHorizontalDrag = 2f; // Drag horizontal pendant le saut
-        [SerializeField] private float jumpVerticalDrag = 0f; // Drag vertical pendant le saut
-        
+        [SerializeField] private float jumpHorizontalDrag = 2f; // Horizontal drag during jump
+        [SerializeField] private float jumpVerticalDrag = 0f; // Vertical drag during jump
 
         [Header("Ground Check")]
         [SerializeField] private LayerMask groundMask;
@@ -60,6 +59,7 @@ namespace TomAg
 
         private void Awake()
         {
+            // Initialize necessary components and settings
             if (!TryGetComponent(out _controller))
                 Debug.LogError("Missing PlayerController", this);
 
@@ -82,21 +82,22 @@ namespace TomAg
             defaultWalkForce = walkForce;
             defaultStrafeForce = strafeForce;
             defaultMaxVelocity = maxVelocity;
-
         }
 
         private void InitializeRigidbody()
         {
+            // Set up Rigidbody settings (drag, gravity, constraints)
             _rb.drag = 8f;
             _rb.angularDrag = 0.05f;
             _rb.useGravity = true;
 
-            // Contraindre les rotations physiques sur tous les axes
+            // Constrain physical rotations on all axes
             _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
         }
 
         private void FixedUpdate()
         {
+            // Update various movement-related actions
             UpdateGrounded();
             UpdateMove();
             ApplyGravity();
@@ -106,6 +107,7 @@ namespace TomAg
 
         private void UpdateMove()
         {
+            // Handle movement based on camera direction and player input
             Vector3 cameraForward = cameraTransform.forward;
             Vector3 cameraRight = cameraTransform.right;
 
@@ -122,17 +124,17 @@ namespace TomAg
                 moveDirection *= airControlFactor;
             }
 
-            // Appliquer la force pour le mouvement
+            // Apply force for movement
             _rb.AddForce(moveDirection * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
-            // Contrôle manuel de la rotation (basé uniquement sur l'entrée utilisateur)
+            // Manual rotation control (based only on user input)
             if (_moveInput != Vector3.zero)
             {
                 Vector3 direction = moveDirection.normalized;
                 if (direction.magnitude >= 0.1f)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
-                    // Appliquer uniquement la rotation sur l'axe Y
+                    // Apply rotation only on the Y axis
                     targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
                     _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * 10f));
                 }
@@ -141,6 +143,7 @@ namespace TomAg
 
         private void HandleSlopeMovement()
         {
+            // Handle movement on slopes
             if (_isGrounded && !exitingSlope)
             {
                 if (OnSlope())
@@ -158,6 +161,7 @@ namespace TomAg
 
         private bool OnSlope()
         {
+            // Check if the player is on a slope
             if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, groundCheckDistance, groundMask))
             {
                 float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
@@ -169,11 +173,13 @@ namespace TomAg
 
         private Vector3 GetSlopeMoveDirection()
         {
+            // Get the direction to move on a slope
             return Vector3.ProjectOnPlane(new Vector3(_moveInput.x, 0, _moveInput.z), slopeHit.normal).normalized;
         }
 
         private void UpdateGrounded()
         {
+            // Check if the player is grounded
             Vector3 origin = transform.position + Vector3.up * 0.1f;
             bool wasGrounded = _isGrounded;
 
@@ -188,25 +194,27 @@ namespace TomAg
 
         private void ApplyGravity()
         {
+            // Apply gravity and drag when in the air
             if (!_isGrounded)
             {
-                // Appliquer le drag horizontal
+                // Apply horizontal drag
                 Vector3 horizontalVelocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
                 Vector3 horizontalDrag = -horizontalVelocity.normalized * horizontalVelocity.magnitude * jumpHorizontalDrag * Time.fixedDeltaTime;
                 _rb.AddForce(horizontalDrag, ForceMode.VelocityChange);
 
-                // Appliquer le drag vertical
+                // Apply vertical drag
                 float verticalVelocity = _rb.velocity.y;
                 float verticalDrag = -Mathf.Sign(verticalVelocity) * Mathf.Abs(verticalVelocity) * jumpVerticalDrag * Time.fixedDeltaTime;
                 _rb.AddForce(Vector3.up * verticalDrag, ForceMode.VelocityChange);
 
-                // Appliquer une gravité supplémentaire
+                // Apply additional gravity
                 _rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
             }
         }
 
         private void LimitVelocity()
         {
+            // Limit the player's velocity to prevent exceeding max speed
             Vector3 horizontalVelocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
             if (horizontalVelocity.magnitude > maxVelocity)
             {
@@ -222,11 +230,13 @@ namespace TomAg
 
         private void OnMove(Vector2 axis)
         {
+            // Handle player movement input
             _moveInput = new Vector3(axis.x, 0, axis.y);
         }
 
         private void OnSprintStart()
         {
+            // Increase speed when sprinting
             if (_playerInfo.HaveSpeedShoes == true)
             {
                 walkForce *= sprintForceMultiplier;
@@ -237,6 +247,7 @@ namespace TomAg
 
         private void OnSprintStop()
         {
+            // Reset speed when sprinting stops
             if (_playerInfo.HaveSpeedShoes == true)
             {
                 walkForce = defaultWalkForce;
@@ -247,6 +258,7 @@ namespace TomAg
 
         private void OnJumpStart()
         {
+            // Start jump
             if (!_isGrounded) return;
 
             _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
@@ -258,14 +270,16 @@ namespace TomAg
 
         private void OnJumpStop()
         {
+            // Stop jump
             _isJumping = false;
         }
 
         private IEnumerator WaitJumpStop()
         {
+            // Wait for a short time before stopping the jump
             yield return new WaitForSeconds(0.05f);
             _isJumping = false;
         }
-
     }
 }
+

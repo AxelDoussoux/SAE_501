@@ -30,6 +30,7 @@ namespace TomAg
 
         private void Start()
         {
+            // Initialize player input and game controls
             Debug.Log($"PlayerController - Start called for {gameObject.name}, IsOwner: {IsOwner}");
 
             if (IsOwner)
@@ -61,6 +62,7 @@ namespace TomAg
 
         public override void OnNetworkSpawn()
         {
+            // When the network object is spawned
             base.OnNetworkSpawn();
             if (IsOwner)
             {
@@ -71,6 +73,7 @@ namespace TomAg
 
         private void OnEnable()
         {
+            // Enable input actions when the script is enabled
             if (_gameInputs != null && IsOwner)
             {
                 _gameInputs.Player.Enable();
@@ -80,6 +83,7 @@ namespace TomAg
 
         private void OnDisable()
         {
+            // Disable input actions when the script is disabled
             if (_gameInputs != null)
             {
                 _gameInputs.Player.Disable();
@@ -89,12 +93,14 @@ namespace TomAg
 
         public void ResumeMovement()
         {
+            // Resume movement after being paused
             _isPaused = false;
             Debug.Log("PlayerController - Movement resumed.");
         }
 
         public void SetMovementEnabled(bool enabled)
         {
+            // Enable or disable movement for the player
             if (IsOwner)
             {
                 _canMove = enabled;
@@ -104,6 +110,7 @@ namespace TomAg
 
         public void OnMove(InputAction.CallbackContext ctx)
         {
+            // Handle player movement input
             if (!_canMove || _isPaused)
             {
                 onMove?.Invoke(Vector2.zero);
@@ -116,6 +123,7 @@ namespace TomAg
 
         public void OnAim(InputAction.CallbackContext ctx)
         {
+            // Handle player aiming input
             if (_isPaused)
             {
                 return;
@@ -127,6 +135,7 @@ namespace TomAg
 
         public void OnJump(InputAction.CallbackContext ctx)
         {
+            // Handle player jump input
             if (_isPaused)
             {
                 return;
@@ -140,6 +149,7 @@ namespace TomAg
 
         public void OnCrouch(InputAction.CallbackContext ctx)
         {
+            // Handle player crouch input
             if (_isPaused)
             {
                 return;
@@ -153,6 +163,7 @@ namespace TomAg
 
         public void OnInteract(InputAction.CallbackContext ctx)
         {
+            // Handle player interact input
             if (_isPaused)
             {
                 return;
@@ -164,6 +175,7 @@ namespace TomAg
 
         public void OnSprint(InputAction.CallbackContext ctx)
         {
+            // Handle player sprint input
             if (_isPaused)
             {
                 return;
@@ -177,6 +189,7 @@ namespace TomAg
 
         public void OnPause(InputAction.CallbackContext ctx)
         {
+            // Handle pause toggle input
             if (ctx.started)
             {
                 _isPaused = !_isPaused;
@@ -187,6 +200,7 @@ namespace TomAg
 
         public void OnAgileInteract(InputAction.CallbackContext ctx)
         {
+            // Handle agile interact input
             if (_isPaused)
             {
                 return;
@@ -200,33 +214,34 @@ namespace TomAg
 
         public void SetPauseState(bool state)
         {
+            // Set the pause state directly
             _isPaused = state;
             Debug.Log($"_isPaused = {state}");
         }
 
         public void OnBack(InputAction.CallbackContext context)
         {
-            // Empty
+            // Empty method (for unimplemented back action)
         }
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            // Empty
+            // Empty method (for unimplemented click action)
         }
 
         public void OnNaviguate(InputAction.CallbackContext context)
         {
-            // Empty
+            // Empty method (for unimplemented navigate action)
         }
 
         public void OnSubmit(InputAction.CallbackContext context)
         {
-            // Empty
+            // Empty method (for unimplemented submit action)
         }
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            // Empty
+            // Empty method (for unimplemented point action)
         }
     }
 }

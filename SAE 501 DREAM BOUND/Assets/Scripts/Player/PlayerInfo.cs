@@ -18,17 +18,20 @@ namespace TomAg
         [SerializeField] private GameObject _speedShoes1;
         [SerializeField] private GameObject _speedShoes2;
 
-        public Transform SpawnPoint=> spawnPoints[0].transform;
+        public Transform SpawnPoint => spawnPoints[0].transform;
         public bool HaveHammer => havehammer;
         public bool HaveSpeedShoes => haveSpeedShoes;
 
         public void EnabledHammer()
         {
+            // Enable the hammer and set it to active
             havehammer = true;
             _hammer.SetActive(true);
         }
+
         public void EnabledSpeedShoes()
         {
+            // Enable speed shoes and set them to active
             haveSpeedShoes = true;
             _speedShoes1.SetActive(true);
             _speedShoes2.SetActive(true);
