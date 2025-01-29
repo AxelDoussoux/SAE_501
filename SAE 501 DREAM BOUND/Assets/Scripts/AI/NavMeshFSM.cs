@@ -17,7 +17,7 @@ public class NavMeshFSM : NetworkBehaviour
     private NetworkVariable<ulong> targetPlayerClientId = new NetworkVariable<ulong>();
 
     [SerializeField]
-    private FSMState debugState; // Pour afficher l'état dans l'inspecteur
+    private FSMState debugState; 
 
     public float chaseRadius = 20.0f;
     public float chaseFastRadius = 10.0f;
@@ -39,7 +39,7 @@ public class NavMeshFSM : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // Mettre à jour la variable pour la visualisation dans l'Inspecteur
+        
         debugState = curState.Value;
 
         if (targetPlayerClientId.Value == 0)
@@ -62,6 +62,7 @@ public class NavMeshFSM : NetworkBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, targetPlayer.transform.position);
 
+        // Handle AI behavior based on the current state
         switch (curState.Value)
         {
             case FSMState.Patrol:
@@ -80,6 +81,7 @@ public class NavMeshFSM : NetworkBehaviour
     }
 
     [ServerRpc]
+    // Finds the nearest player and assigns them as the target.
     private void FindNearestPlayerServerRpc()
     {
         float closestDistance = float.MaxValue;
@@ -99,6 +101,7 @@ public class NavMeshFSM : NetworkBehaviour
         targetPlayerClientId.Value = closestPlayerId;
     }
 
+    // Updates the patrol state behavior. If a player enters the chase radius, switch to chase mode.
     private void UpdatePatrolState(float distanceToPlayer)
     {
         if (distanceToPlayer <= chaseRadius)
@@ -113,6 +116,7 @@ public class NavMeshFSM : NetworkBehaviour
         }
     }
 
+    // Updates the chase state. The AI follows the player and switches to a faster chase if needed.
     private void UpdateChaseState(float distanceToPlayer, Transform playerTransform)
     {
         navAgent.speed = 3.5f;
@@ -127,6 +131,7 @@ public class NavMeshFSM : NetworkBehaviour
         }
     }
 
+    // Updates the fast chase state. If the player is close enough, switch to attack mode.
     private void UpdateChaseFastState(float distanceToPlayer, Transform playerTransform)
     {
         navAgent.speed = 6.0f;
@@ -141,6 +146,7 @@ public class NavMeshFSM : NetworkBehaviour
         }
     }
 
+    // Updates the attack state. The AI stops moving and attacks the target player.
     private void UpdateAttackState(float distanceToPlayer, NetworkBehaviour targetPlayer)
     {
         navAgent.isStopped = true;
@@ -165,18 +171,21 @@ public class NavMeshFSM : NetworkBehaviour
         }
     }
 
+    // Server-side logic for handling the attack on a player.
     [ServerRpc]
     private void ServerAttackPlayerServerRpc(ulong targetClientId)
     {
         Debug.Log($"Attacking player with ClientId: {targetClientId}");
     }
 
+    // Teleports the player back to their spawn point on the server.
     [ServerRpc(RequireOwnership = false)]
     private void TeleportToSpawnPointServerRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
     {
         TeleportPlayerClientRpc(networkObjectId, position, rotation);
     }
 
+    // Teleports the player to the specified position and rotation on the client.
     [ClientRpc]
     private void TeleportPlayerClientRpc(ulong networkObjectId, Vector3 position, Quaternion rotation)
     {

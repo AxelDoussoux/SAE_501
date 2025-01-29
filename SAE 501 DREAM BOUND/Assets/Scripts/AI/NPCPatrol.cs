@@ -5,7 +5,7 @@ public class NPCPatrol : MonoBehaviour
 {
     public Transform[] patrolPoints; 
     public float stoppingDistance = 1.0f; 
-    public bool isRandomPatrol = true; // Si activé, le NPC patrouillera de manière aléatoire
+    public bool isRandomPatrol = true; // If enabled, the NPC will patrol randomly
 
     private NavMeshAgent agent;
     private int currentPatrolIndex = 0;
@@ -16,7 +16,7 @@ public class NPCPatrol : MonoBehaviour
 
         if (patrolPoints.Length > 0)
         {
-            // Définir le premier point de destination
+            // Set the first patrol destination
             SetDestination(patrolPoints[currentPatrolIndex].position);
         }
         else
@@ -27,14 +27,15 @@ public class NPCPatrol : MonoBehaviour
 
     void Update()
     {
-        // Vérifie si le NPC a atteint sa destination
+        // Check if the NPC has reached its current destination
         if (!agent.pathPending && agent.remainingDistance <= stoppingDistance)
         {
-            // Passer au prochain point
+            // Move to the next patrol point
             NextPatrolPoint();
         }
     }
 
+    /// Sets the NPC's destination to a given position.
     private void SetDestination(Vector3 destination)
     {
         if (agent != null && destination != null)
@@ -43,6 +44,7 @@ public class NPCPatrol : MonoBehaviour
         }
     }
 
+    // Selects the next patrol point, either sequentially or randomly.
     private void NextPatrolPoint()
     {
         if (patrolPoints.Length == 0)
@@ -50,13 +52,13 @@ public class NPCPatrol : MonoBehaviour
 
         if (isRandomPatrol)
         {
-            // Choisir un point de manière aléatoire
+            // Choose a random patrol point
             int randomIndex = Random.Range(0, patrolPoints.Length);
             currentPatrolIndex = randomIndex;
         }
         else
         {
-            // Passer au point suivant (boucle si on est au dernier point)
+            // Move to the next patrol point in order (loops back at the end)
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         }
 
