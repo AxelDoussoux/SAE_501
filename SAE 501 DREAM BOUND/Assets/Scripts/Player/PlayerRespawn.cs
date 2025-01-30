@@ -1,11 +1,14 @@
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace TomAg
 {
     public class PlayerRespawn : NetworkBehaviour
     {
+        private Dictionary<ulong, (Vector3 position, Quaternion rotation)> spawnPoints = new Dictionary<ulong, (Vector3, Quaternion)>();
+
         // Handles player respawn when entering a trigger zone
         private void OnTriggerEnter(Collider other)
         {
@@ -24,6 +27,24 @@ namespace TomAg
             else
             {
                 Debug.LogWarning("NetworkObject component not found on the player object.");
+            }
+        }
+
+        // Stocke les points de spawn pour chaque joueur
+        private void StoreSpawnPoints()
+        {
+            spawnPoints.Clear();
+            foreach (var spawnedObject in Unity.Netcode.NetworkManager.Singleton.SpawnManager.SpawnedObjects.Values)
+            {
+                var playerInfo = spawnedObject.GetComponent<PlayerInfo>();
+                if (playerInfo != null && playerInfo.SpawnPoint != null)
+                {
+                    spawnPoints[spawnedObject.NetworkObjectId] = (
+                        playerInfo.SpawnPoint.position,
+                        playerInfo.SpawnPoint.rotation
+                    );
+                    Debug.Log($"Stored spawn point for player {spawnedObject.NetworkObjectId}: Position {playerInfo.SpawnPoint.position}");
+                }
             }
         }
 
@@ -49,17 +70,26 @@ namespace TomAg
         [ServerRpc(RequireOwnership = false)]
         private void ForceRespawnAllPlayersServerRpc()
         {
+            // Stocke d'abord les points de spawn
+            StoreSpawnPoints();
+
+            // Vérifie que nous avons bien les points de spawn pour tous les joueurs
+            Debug.Log($"Number of stored spawn points: {spawnPoints.Count}");
+
             foreach (var spawnedObject in Unity.Netcode.NetworkManager.Singleton.SpawnManager.SpawnedObjects.Values)
             {
-                var playerInfo = spawnedObject.GetComponent<PlayerInfo>();
-                if (playerInfo != null && playerInfo.SpawnPoint != null)
+                if (spawnPoints.TryGetValue(spawnedObject.NetworkObjectId, out var spawnPoint))
                 {
-                    Debug.Log($"Found player with NetworkObjectId: {spawnedObject.NetworkObjectId}");
+                    Debug.Log($"Respawning player {spawnedObject.NetworkObjectId} at stored position: {spawnPoint.position}");
                     TeleportToSpawnPointServerRpc(
                         spawnedObject.NetworkObjectId,
-                        playerInfo.SpawnPoint.position,
-                        playerInfo.SpawnPoint.rotation
+                        spawnPoint.position,
+                        spawnPoint.rotation
                     );
+                }
+                else
+                {
+                    Debug.LogWarning($"No stored spawn point found for player {spawnedObject.NetworkObjectId}");
                 }
             }
         }
