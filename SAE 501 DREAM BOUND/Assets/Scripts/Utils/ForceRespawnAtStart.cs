@@ -8,7 +8,7 @@ namespace TomAg
         private PlayerRespawn playerRespawn;
         private bool isPlayer2Connected = false;
         
-        [SerializeField] private float respawnDelay = 1f; // Délai pour s'assurer que les deux joueurs sont bien spawn
+        [SerializeField] private float respawnDelay = 5f; // Délai pour s'assurer que les deux joueurs sont bien spawn
 
         public override void OnNetworkSpawn()
         {
