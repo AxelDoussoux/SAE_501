@@ -1651,6 +1651,11 @@ PrefabInstance:
       propertyPath: Event.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1891031817}
+    - target: {fileID: 2149150896784814913, guid: 6867eea8b23efff4182c5924e5134143,
+        type: 3}
+      propertyPath: linkedCubes.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2208621631769585013, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -1720,6 +1725,11 @@ PrefabInstance:
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1677963706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583538354780529382, guid: 6867eea8b23efff4182c5924e5134143,
+        type: 3}
+      propertyPath: InLocalSpace
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2787262338236001510, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
@@ -1836,6 +1846,11 @@ PrefabInstance:
       propertyPath: interactionText
       value: 
       objectReference: {fileID: 816843358}
+    - target: {fileID: 5958253833332277924, guid: 6867eea8b23efff4182c5924e5134143,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 113.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6220512746056409595, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
       propertyPath: Event.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1846,6 +1861,11 @@ PrefabInstance:
       propertyPath: Event.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1891031817}
+    - target: {fileID: 6356245917687654026, guid: 6867eea8b23efff4182c5924e5134143,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.72
+      objectReference: {fileID: 0}
     - target: {fileID: 6580321551358399914, guid: 6867eea8b23efff4182c5924e5134143,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -1906,8 +1926,12 @@ PrefabInstance:
       propertyPath: Event.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1891031817}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 6580321551358399914, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
+    - {fileID: 3843929073090450673, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 8516470698673407787, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
+    - {fileID: 8329953270525943874, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6867eea8b23efff4182c5924e5134143, type: 3}
@@ -5263,6 +5287,11 @@ PrefabInstance:
         type: 3}
       propertyPath: doors.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828808166177985018, guid: 6fa74f6e3168ae04f8e9008bbb34b8fd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 486.6
       objectReference: {fileID: 0}
     - target: {fileID: 2296945544345600248, guid: 6fa74f6e3168ae04f8e9008bbb34b8fd,
         type: 3}
