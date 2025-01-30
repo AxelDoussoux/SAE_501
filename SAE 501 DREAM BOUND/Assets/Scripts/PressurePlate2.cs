@@ -3,53 +3,53 @@ using Unity.Netcode;
 
 public class PressurePlate2 : NetworkBehaviour
 {
-    public Transform pressurePlate;  // La plaque de pression
-    public Transform plateToMove;    // La plaque à faire monter
-    public float moveAmount = 1f;    // La distance que la plaque monte (modifiable dans l'inspecteur)
-    public float moveSpeed = 2f;     // Vitesse de montée de la plaque
+    public Transform pressurePlate;  
+    public Transform plateToMove;   
+    public float moveAmount = 1f;    
+    public float moveSpeed = 2f;     
 
-    private Vector3 initialPosition; // Position initiale de la plaque
+    private Vector3 initialPosition;
 
-    // Initialisation pour sauvegarder la position initiale de la plaque
+   
     private void Start()
     {
-        initialPosition = plateToMove.localPosition; // Sauvegarde de la position initiale de la plaque
+        initialPosition = plateToMove.localPosition;
     }
 
-    // Appelé à chaque fois qu'un collider entre dans la zone de la plaque de pression
+   
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && IsServer)  // Se déclenche si le joueur entre en contact
+        if (other.CompareTag("Player") && IsServer) 
         {
-            MovePlateServerRpc(true);  // Appelle la fonction de serveur pour monter la plaque
+            MovePlateServerRpc(true); 
         }
     }
 
-    // Appelé à chaque fois qu'un collider quitte la zone de la plaque de pression
+    
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && IsServer)  // Se déclenche si le joueur quitte la plaque
+        if (other.CompareTag("Player") && IsServer)  
         {
-            MovePlateServerRpc(false);  // Appelle la fonction de serveur pour abaisser la plaque à la position initiale
+            MovePlateServerRpc(false);  
         }
     }
 
-    // Fonction RPC pour le serveur qui gère le mouvement de la plaque
+ 
     [ServerRpc(RequireOwnership = false)]
     void MovePlateServerRpc(bool playerOnPlate, ServerRpcParams rpcParams = default)
     {
-        // Monte ou descend la plaque selon l'état de la plaque de pression
+       
         if (playerOnPlate)
         {
-            StartCoroutine(MovePlate(Vector3.up * moveAmount)); // Monte la plaque
+            StartCoroutine(MovePlate(Vector3.up * moveAmount));
         }
         else
         {
-            StartCoroutine(MovePlate(Vector3.zero)); // Retourne à la position initiale
+            StartCoroutine(MovePlate(Vector3.zero));
         }
     }
 
-    // Coroutine pour déplacer la plaque de manière lisse
+   
     private System.Collections.IEnumerator MovePlate(Vector3 targetPosition)
     {
         Vector3 startPos = plateToMove.localPosition;
@@ -64,6 +64,6 @@ public class PressurePlate2 : NetworkBehaviour
             yield return null;
         }
 
-        plateToMove.localPosition = endPos;  // S'assure que la plaque est positionnée à la fin
+        plateToMove.localPosition = endPos;  
     }
 }
